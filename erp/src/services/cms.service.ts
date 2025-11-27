@@ -22,6 +22,12 @@ export interface NewsArticle {
   published_at: string | null
   created_at: string
   updated_at: string
+  gallery?: Array<{
+    id?: string
+    image_url: string
+    caption?: string
+    display_order?: number
+  }>
 }
 
 export interface Event {
@@ -39,6 +45,12 @@ export interface Event {
   status: 'upcoming' | 'ongoing' | 'completed' | 'cancelled'
   created_at: string
   updated_at: string
+  gallery?: Array<{
+    id?: string
+    image_url: string
+    caption?: string
+    display_order?: number
+  }>
 }
 
 export interface PaginatedResponse<T> {

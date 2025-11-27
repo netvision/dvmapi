@@ -303,7 +303,7 @@ const loadEvents = async () => {
       status: statusFilter.value || undefined,
       search: searchQuery.value || undefined
     })
-    events.value = response.data
+    events.value = response.data as any
     pagination.value = response.pagination
   } catch (error) {
     console.error('Failed to load events:', error)
@@ -391,7 +391,7 @@ const openEditModal = async (event: Event) => {
       start_date: formatDateTimeLocal(event.start_date),
       end_date: formatDateTimeLocal(event.end_date),
       featured_image_url: event.featured_image_url || '',
-      capacity: event.capacity,
+      capacity: event.capacity ?? null,
       status: event.status as 'upcoming' | 'ongoing' | 'completed' | 'cancelled',
       gallery: []
     }

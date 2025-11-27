@@ -15,7 +15,7 @@ const runIncrementalMigration = async () => {
     const migrationSQL = `
       -- Create news_categories table if not exists
       CREATE TABLE IF NOT EXISTS news_categories (
-        id SERIAL PRIMARY KEY,
+        id VARCHAR(255) PRIMARY KEY DEFAULT gen_random_uuid()::TEXT,
         name VARCHAR(100) NOT NULL UNIQUE,
         slug VARCHAR(100) NOT NULL UNIQUE,
         description TEXT,

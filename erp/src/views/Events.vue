@@ -308,12 +308,13 @@ const handleSubmit = async () => {
   try {
     const submitData = {
       ...formData.value,
+      capacity: formData.value.capacity ?? undefined,
       start_date: new Date(formData.value.start_date).toISOString(),
       end_date: new Date(formData.value.end_date).toISOString()
     }
     
     if (editingEvent.value) {
-      await cmsService.updateEvent(editingEvent.value.id, submitData)
+      await cmsService.updateEvent(editingEvent.value.id as any, submitData)
     } else {
       await cmsService.createEvent(submitData)
     }

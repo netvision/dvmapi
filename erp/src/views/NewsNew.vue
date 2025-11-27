@@ -313,10 +313,9 @@ const loadNews = async () => {
       page: pagination.value.page,
       limit: pagination.value.limit,
       status: statusFilter.value || undefined,
-      category: categoryFilter.value || undefined,
       search: searchQuery.value || undefined
     })
-    news.value = response.data
+    news.value = response.data as any
     pagination.value = response.pagination
   } catch (error) {
     console.error('Failed to load news:', error)
@@ -403,12 +402,12 @@ const handleSubmit = async () => {
       content: formData.value.content,
       featured_image_url: formData.value.featured_image_url,
       category_id: formData.value.category_id,
-      status: formData.value.status,
+      status: formData.value.status as 'draft' | 'published' | 'archived',
       gallery: formData.value.gallery
     }
 
     if (editingNews.value) {
-      await cmsService.updateNews(editingNews.value.id, data)
+      await cmsService.updateNews(editingNews.value.id as any, data)
     } else {
       await cmsService.createNews(data)
     }

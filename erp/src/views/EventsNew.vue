@@ -287,7 +287,7 @@ const formData = ref({
   end_date: '',
   featured_image_url: '',
   capacity: null as number | null,
-  status: 'upcoming',
+  status: 'upcoming' as 'upcoming' | 'ongoing' | 'completed' | 'cancelled',
   gallery: [] as Array<{ url: string; caption: string }>
 })
 
@@ -392,7 +392,7 @@ const openEditModal = async (event: Event) => {
       end_date: formatDateTimeLocal(event.end_date),
       featured_image_url: event.featured_image_url || '',
       capacity: event.capacity,
-      status: event.status,
+      status: event.status as 'upcoming' | 'ongoing' | 'completed' | 'cancelled',
       gallery: []
     }
   }
@@ -414,13 +414,13 @@ const handleSubmit = async () => {
       start_date: new Date(formData.value.start_date).toISOString(),
       end_date: new Date(formData.value.end_date).toISOString(),
       featured_image_url: formData.value.featured_image_url,
-      capacity: formData.value.capacity,
+      capacity: formData.value.capacity ?? undefined,
       status: formData.value.status,
       gallery: formData.value.gallery
     }
 
     if (editingEvent.value) {
-      await cmsService.updateEvent(editingEvent.value.id, data)
+      await cmsService.updateEvent(editingEvent.value.id as any, data)
     } else {
       await cmsService.createEvent(data)
     }

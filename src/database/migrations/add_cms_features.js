@@ -1,8 +1,8 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-import { getPool } from './connection.js';
-import logger from '../shared/utils/logger.js';
+import { getPool } from '../connection.js';
+import logger from '../../shared/utils/logger.js';
 
 const runIncrementalMigration = async () => {
   try {

@@ -1,27 +1,13 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { cmsService } from '../../services/cms.service'
+import { ref } from 'vue'
 
-interface NewsArticle {
-  id: number
-  title: string
-  slug: string
-  excerpt: string
-  content: string
-  cover_image: string
-  category_id: number
-  category_name?: string
-  author_id: number
-  published_date: string
-  is_featured: boolean
-  status: string
-  created_at: string
-}
+const erpDashboardUrl = 'http://localhost:4000' // Change to your ERP dashboard URL
 
 interface Category {
   id: number
   name: string
   slug: string
+  description?: string
 }
 
 const news = ref<NewsArticle[]>([])
@@ -53,7 +39,7 @@ const loadNews = async () => {
   loading.value = true
   try {
     const response = await cmsService.getNews({ limit: 100 })
-    news.value = response.data.articles
+    news.value = response.data
   } catch (error) {
     console.error('Failed to load news:', error)
     alert('Failed to load news articles')
@@ -64,7 +50,7 @@ const loadNews = async () => {
 
 const loadCategories = async () => {
   try {
-    const response = await cmsService.getCategories()
+    const response = await cmsService.getNewsCategories()
     categories.value = response.data
   } catch (error) {
     console.error('Failed to load categories:', error)

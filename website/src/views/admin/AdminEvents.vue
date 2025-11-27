@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { cmsService } from '../../services/cms.service'
+import cmsService from '../../services/cms.service'
 
 interface Event {
   id: number
@@ -129,7 +129,7 @@ const generateSlug = () => {
   }
 }
 
-const handleCoverImageSelect = (event: Event) => {
+const handleCoverImageSelect = (event: InputEvent) => {
   const target = event.target as HTMLInputElement
   if (target.files && target.files[0]) {
     coverImageFile.value = target.files[0]

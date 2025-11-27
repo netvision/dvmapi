@@ -1,11 +1,12 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-import { getPool } from '../connection.js';
+import { connectDatabase, getPool } from '../connection.js';
 import logger from '../../shared/utils/logger.js';
 
 const runIncrementalMigration = async () => {
   try {
+    await connectDatabase();
     const pool = getPool();
     
     logger.info('Running incremental migrations for CMS updates...');

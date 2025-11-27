@@ -102,7 +102,8 @@ const handleFileSelect = async (event: Event) => {
         return
       }
 
-      const response = await fetch('http://localhost:5000/api/v1/core/upload/single?type=news', {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api/v1'
+      const response = await fetch(`${apiUrl.replace('/api/v1', '')}/api/v1/core/upload/single?type=news`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`

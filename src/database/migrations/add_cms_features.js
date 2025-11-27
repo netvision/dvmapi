@@ -25,8 +25,8 @@ const runIncrementalMigration = async () => {
 
       -- Create news_gallery table if not exists
       CREATE TABLE IF NOT EXISTS news_gallery (
-        id SERIAL PRIMARY KEY,
-        news_id INTEGER NOT NULL REFERENCES news(id) ON DELETE CASCADE,
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        news_id UUID NOT NULL REFERENCES news(id) ON DELETE CASCADE,
         image_url TEXT NOT NULL,
         caption TEXT,
         display_order INTEGER DEFAULT 0,
@@ -35,8 +35,8 @@ const runIncrementalMigration = async () => {
 
       -- Create events_gallery table if not exists
       CREATE TABLE IF NOT EXISTS events_gallery (
-        id SERIAL PRIMARY KEY,
-        event_id INTEGER NOT NULL REFERENCES events(id) ON DELETE CASCADE,
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        event_id UUID NOT NULL REFERENCES events(id) ON DELETE CASCADE,
         image_url TEXT NOT NULL,
         caption TEXT,
         display_order INTEGER DEFAULT 0,
@@ -50,7 +50,7 @@ const runIncrementalMigration = async () => {
           SELECT 1 FROM information_schema.columns 
           WHERE table_name='news' AND column_name='category_id'
         ) THEN
-          ALTER TABLE news ADD COLUMN category_id INTEGER REFERENCES news_categories(id);
+          ALTER TABLE news ADD COLUMN category_id VARCHAR(255);
         END IF;
       END $$;
 
@@ -61,7 +61,7 @@ const runIncrementalMigration = async () => {
           SELECT 1 FROM information_schema.columns 
           WHERE table_name='events' AND column_name='category_id'
         ) THEN
-          ALTER TABLE events ADD COLUMN category_id INTEGER REFERENCES news_categories(id);
+          ALTER TABLE events ADD COLUMN category_id VARCHAR(255);
         END IF;
       END $$;
 

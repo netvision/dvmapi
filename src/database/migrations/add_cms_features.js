@@ -11,10 +11,15 @@ const runIncrementalMigration = async () => {
     
     logger.info('Running incremental migrations for CMS updates...');
     
-    // Migration SQL - only new tables/columns
+    // Migration SQL - drop existing tables if they have wrong schema and recreate
     const migrationSQL = `
-      -- Create news_categories table if not exists
-      CREATE TABLE IF NOT EXISTS news_categories (
+      -- Drop and recreate tables to ensure correct schema
+      DROP TABLE IF EXISTS news_gallery CASCADE;
+      DROP TABLE IF EXISTS events_gallery CASCADE;
+      DROP TABLE IF EXISTS news_categories CASCADE;
+
+      -- Create news_categories table
+      CREATE TABLE news_categories (
         id VARCHAR(255) PRIMARY KEY DEFAULT gen_random_uuid()::TEXT,
         name VARCHAR(100) NOT NULL UNIQUE,
         slug VARCHAR(100) NOT NULL UNIQUE,
@@ -23,8 +28,8 @@ const runIncrementalMigration = async () => {
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
 
-      -- Create news_gallery table if not exists
-      CREATE TABLE IF NOT EXISTS news_gallery (
+      -- Create news_gallery table
+      CREATE TABLE news_gallery (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         news_id UUID NOT NULL REFERENCES news(id) ON DELETE CASCADE,
         image_url TEXT NOT NULL,
@@ -33,8 +38,8 @@ const runIncrementalMigration = async () => {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
 
-      -- Create events_gallery table if not exists
-      CREATE TABLE IF NOT EXISTS events_gallery (
+      -- Create events_gallery table
+      CREATE TABLE events_gallery (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         event_id UUID NOT NULL REFERENCES events(id) ON DELETE CASCADE,
         image_url TEXT NOT NULL,

@@ -433,7 +433,7 @@ const handleSubmit = async () => {
   }
 }
 
-const handleDelete = async (id: string) => {
+const handleDelete = async (id: any) => {
   if (!confirm('Are you sure you want to delete this event?')) return
   
   try {

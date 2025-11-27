@@ -2,7 +2,7 @@
 
 [build]
   base = "erp/"
-  publish = "erp/dist"
+  publish = "dist"
   command = "npm install && npm run build"
 
 [build.environment]

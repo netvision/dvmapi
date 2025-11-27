@@ -159,14 +159,22 @@ pm2 logs institute-api
 POST   /api/v1/core/auth/register
 POST   /api/v1/core/auth/login
 POST   /api/v1/core/auth/refresh
-GET    /api/v1/core/auth/profile           [Auth]
-PUT    /api/v1/core/auth/profile           [Auth]
-POST   /api/v1/core/auth/change-password   [Auth]
-GET    /api/v1/core/users                  [Auth, Admin]
-GET    /api/v1/core/users/:id              [Auth, Admin]
-PUT    /api/v1/core/users/:id              [Auth, Admin]
-DELETE /api/v1/core/users/:id              [Auth, Admin]
+GET    /api/v1/core/auth/profile                    [Auth]
+PUT    /api/v1/core/auth/profile                    [Auth]
+POST   /api/v1/core/auth/change-password            [Auth]
+GET    /api/v1/core/users                           [Auth, Admin]
+GET    /api/v1/core/users/:id                       [Auth, Admin]
+PUT    /api/v1/core/users/:id                       [Auth, Admin]
+DELETE /api/v1/core/users/:id                       [Auth, Admin]
+POST   /api/v1/core/users/:id/reset-password        [Auth, Admin]
+PATCH  /api/v1/core/users/:id/toggle-status         [Auth, Admin]
 ```
+
+### Admin User Management Features
+- **Reset Password**: Admins can reset any user's password without knowing the current password
+- **Suspend/Activate**: Toggle user status to suspend or activate accounts
+- **Full CRUD**: Create, read, update, and delete users with proper safeguards
+- **Self-Protection**: Admins cannot delete themselves or change their own status
 
 ## Environment Variables Cheat Sheet
 

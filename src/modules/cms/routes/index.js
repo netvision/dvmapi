@@ -1,5 +1,10 @@
 import express from 'express';
 import { authenticate, authorize, optionalAuth } from '../../../middleware/auth.js';
+import { validate } from '../../../middleware/validator.js';
+import { newsController } from '../controllers/newsController.js';
+import { eventsController } from '../controllers/eventsController.js';
+import { categoryController } from '../controllers/categoryController.js';
+import { newsSchemas, eventsSchemas } from '../validators/cmsValidators.js';
 
 const router = express.Router();
 
@@ -10,36 +15,136 @@ const router = express.Router();
  *   description: Content Management System endpoints
  */
 
+// ============================================================================
+// NEWS ROUTES
+// ============================================================================
+
 /**
  * @swagger
  * /cms/news:
  *   get:
- *     summary: Get all news
+ *     summary: Get all news articles
  *     tags: [CMS]
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: status
+ *         schema:
+ *           type: string
+ *           enum: [draft, published, archived]
+ *       - in: query
+ *         name: search
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: List of news articles
  */
-router.get('/news', optionalAuth, (req, res) => {
-  res.json({
-    success: true,
-    message: 'CMS module - Get all news (to be implemented)',
-    data: [],
-  });
-});
+router.get('/news', optionalAuth, newsController.getAllNews);
+
+/**
+ * @swagger
+ * /cms/news/{slug}:
+ *   get:
+ *     summary: Get news article by slug
+ *     tags: [CMS]
+ *     parameters:
+ *       - in: path
+ *         name: slug
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: News article details
+ */
+router.get('/news/:slug', optionalAuth, newsController.getNewsBySlug);
 
 /**
  * @swagger
  * /cms/news:
  *   post:
- *     summary: Create news
+ *     summary: Create news article
  *     tags: [CMS]
  *     security:
  *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - title
+ *               - content
+ *             properties:
+ *               title:
+ *                 type: string
+ *               excerpt:
+ *                 type: string
+ *               content:
+ *                 type: string
+ *               featured_image_url:
+ *                 type: string
+ *               status:
+ *                 type: string
+ *                 enum: [draft, published, archived]
+ *     responses:
+ *       201:
+ *         description: News article created
  */
-router.post('/news', authenticate, authorize('admin'), (req, res) => {
-  res.json({
-    success: true,
-    message: 'CMS module - Create news (to be implemented)',
-  });
-});
+router.post('/news', authenticate, authorize('admin'), validate(newsSchemas.createNews), newsController.createNews);
+
+/**
+ * @swagger
+ * /cms/news/{id}:
+ *   put:
+ *     summary: Update news article
+ *     tags: [CMS]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: News article updated
+ */
+router.put('/news/:id', authenticate, authorize('admin'), validate(newsSchemas.updateNews), newsController.updateNews);
+
+/**
+ * @swagger
+ * /cms/news/{id}:
+ *   delete:
+ *     summary: Delete news article
+ *     tags: [CMS]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: News article deleted
+ */
+router.delete('/news/:id', authenticate, authorize('admin'), newsController.deleteNews);
+
+// ============================================================================
+// EVENTS ROUTES
+// ============================================================================
 
 /**
  * @swagger
@@ -47,14 +152,51 @@ router.post('/news', authenticate, authorize('admin'), (req, res) => {
  *   get:
  *     summary: Get all events
  *     tags: [CMS]
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *       - in: query
+ *         name: status
+ *         schema:
+ *           type: string
+ *           enum: [upcoming, ongoing, completed, cancelled]
+ *       - in: query
+ *         name: upcoming
+ *         schema:
+ *           type: boolean
+ *       - in: query
+ *         name: search
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: List of events
  */
-router.get('/events', optionalAuth, (req, res) => {
-  res.json({
-    success: true,
-    message: 'CMS module - Get all events (to be implemented)',
-    data: [],
-  });
-});
+router.get('/events', optionalAuth, eventsController.getAllEvents);
+
+/**
+ * @swagger
+ * /cms/events/{slug}:
+ *   get:
+ *     summary: Get event by slug
+ *     tags: [CMS]
+ *     parameters:
+ *       - in: path
+ *         name: slug
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Event details
+ */
+router.get('/events/:slug', optionalAuth, eventsController.getEventBySlug);
 
 /**
  * @swagger
@@ -64,12 +206,98 @@ router.get('/events', optionalAuth, (req, res) => {
  *     tags: [CMS]
  *     security:
  *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - title
+ *               - start_date
+ *               - end_date
+ *             properties:
+ *               title:
+ *                 type: string
+ *               description:
+ *                 type: string
+ *               location:
+ *                 type: string
+ *               start_date:
+ *                 type: string
+ *                 format: date-time
+ *               end_date:
+ *                 type: string
+ *                 format: date-time
+ *               featured_image_url:
+ *                 type: string
+ *               capacity:
+ *                 type: integer
+ *               status:
+ *                 type: string
+ *                 enum: [upcoming, ongoing, completed, cancelled]
+ *     responses:
+ *       201:
+ *         description: Event created
  */
-router.post('/events', authenticate, authorize('admin'), (req, res) => {
-  res.json({
-    success: true,
-    message: 'CMS module - Create event (to be implemented)',
-  });
-});
+router.post('/events', authenticate, authorize('admin'), validate(eventsSchemas.createEvent), eventsController.createEvent);
+
+/**
+ * @swagger
+ * /cms/events/{id}:
+ *   put:
+ *     summary: Update event
+ *     tags: [CMS]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Event updated
+ */
+router.put('/events/:id', authenticate, authorize('admin'), validate(eventsSchemas.updateEvent), eventsController.updateEvent);
+
+/**
+ * @swagger
+ * /cms/events/{id}:
+ *   delete:
+ *     summary: Delete event
+ *     tags: [CMS]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Event deleted
+ */
+router.delete('/events/:id', authenticate, authorize('admin'), eventsController.deleteEvent);
+
+// ============================================================================
+// CATEGORY ROUTES
+// ============================================================================
+
+/**
+ * @route   GET /api/v1/cms/categories
+ * @desc    Get all news categories
+ * @access  Public
+ */
+router.get('/categories', categoryController.getAllCategories);
+
+/**
+ * @route   POST /api/v1/cms/categories
+ * @desc    Create a new category
+ * @access  Admin
+ */
+router.post('/categories', authenticate, authorize('admin'), categoryController.createCategory);
 
 export default router;

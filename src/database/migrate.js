@@ -1,12 +1,12 @@
+import dotenv from 'dotenv';
+// Load environment variables FIRST before any other imports
+dotenv.config();
+
 import { getPool } from './connection.js';
 import logger from '../shared/utils/logger.js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import dotenv from 'dotenv';
-
-// Explicitly load .env file
-dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -30,14 +30,20 @@ export const runMigrations = async () => {
 };
 
 // Run if called directly
-if (import.meta.url === `file://${process.argv[1]}`) {
+const isMainModule = import.meta.url === `file:///${process.argv[1].replace(/\\/g, '/')}`;
+if (isMainModule || process.argv[1]?.includes('migrate.js')) {
+  console.log('Starting migration...');
   (async () => {
     try {
       const { connectDatabase } = await import('./connection.js');
+      console.log('Connecting to database...');
       await connectDatabase();
+      console.log('Running migrations...');
       await runMigrations();
+      console.log('Migration completed!');
       process.exit(0);
     } catch (error) {
+      console.error('Migration script failed:', error);
       logger.error('Migration script failed:', error);
       process.exit(1);
     }

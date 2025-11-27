@@ -1,6 +1,7 @@
 import express from 'express';
 import { authController } from '../controllers/authController.js';
 import { userController } from '../controllers/userController.js';
+import { uploadController } from '../controllers/uploadController.js';
 import { authenticate, authorize } from '../../../middleware/auth.js';
 import { validate } from '../../../middleware/validator.js';
 import { authSchemas, userSchemas } from '../validators/authValidators.js';
@@ -153,5 +154,48 @@ router.put('/users/:id', authenticate, authorize('admin'), validate(userSchemas.
  *       - bearerAuth: []
  */
 router.delete('/users/:id', authenticate, authorize('admin'), userController.deleteUser);
+
+/**
+ * @route   POST /api/v1/users/:id/reset-password
+ * @desc    Reset user password (admin only)
+ * @access  Admin
+ * @openapi
+ * /api/v1/users/{id}/reset-password:
+ *   post:
+ *     summary: Reset user password (admin only)
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ */
+router.post('/users/:id/reset-password', authenticate, authorize('admin'), userController.resetUserPassword);
+
+/**
+ * @route   PATCH /api/v1/users/:id/toggle-status
+ * @desc    Toggle user active status (admin only)
+ * @access  Admin
+ * @openapi
+ * /api/v1/users/{id}/toggle-status:
+ *   patch:
+ *     summary: Toggle user active/suspended status (admin only)
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ */
+router.patch('/users/:id/toggle-status', authenticate, authorize('admin'), userController.toggleUserStatus);
+
+// Upload routes (authenticated users only)
+/**
+ * @route   POST /api/v1/core/upload/single
+ * @desc    Upload single file
+ * @access  Authenticated
+ */
+router.post('/upload/single', authenticate, ...uploadController.uploadSingle);
+
+/**
+ * @route   POST /api/v1/core/upload/multiple
+ * @desc    Upload multiple files
+ * @access  Authenticated
+ */
+router.post('/upload/multiple', authenticate, ...uploadController.uploadMultiple);
 
 export default router;

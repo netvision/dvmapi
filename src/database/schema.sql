@@ -143,6 +143,16 @@ CREATE INDEX idx_chat_history_user_id ON chat_history(user_id);
 -- CMS MODULE - News, Events, Content
 -- ============================================================================
 
+-- News Categories
+CREATE TABLE IF NOT EXISTS news_categories (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    name VARCHAR(100) NOT NULL UNIQUE,
+    slug VARCHAR(100) NOT NULL UNIQUE,
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- News
 CREATE TABLE IF NOT EXISTS news (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -151,6 +161,7 @@ CREATE TABLE IF NOT EXISTS news (
     excerpt TEXT,
     content TEXT NOT NULL,
     featured_image_url TEXT,
+    category_id UUID REFERENCES news_categories(id) ON DELETE SET NULL,
     author_id UUID REFERENCES users(id) ON DELETE SET NULL,
     status VARCHAR(50) DEFAULT 'draft' CHECK (status IN ('draft', 'published', 'archived')),
     published_at TIMESTAMP,
@@ -161,6 +172,19 @@ CREATE TABLE IF NOT EXISTS news (
 
 CREATE INDEX idx_news_slug ON news(slug);
 CREATE INDEX idx_news_status ON news(status);
+CREATE INDEX idx_news_category ON news(category_id);
+
+-- News Gallery (multiple images per news)
+CREATE TABLE IF NOT EXISTS news_gallery (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    news_id UUID REFERENCES news(id) ON DELETE CASCADE,
+    image_url TEXT NOT NULL,
+    caption TEXT,
+    display_order INTEGER DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX idx_news_gallery_news ON news_gallery(news_id);
 
 -- Events
 CREATE TABLE IF NOT EXISTS events (
@@ -182,6 +206,18 @@ CREATE TABLE IF NOT EXISTS events (
 CREATE INDEX idx_events_slug ON events(slug);
 CREATE INDEX idx_events_status ON events(status);
 CREATE INDEX idx_events_start_date ON events(start_date);
+
+-- Events Gallery (multiple images per event)
+CREATE TABLE IF NOT EXISTS events_gallery (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    event_id UUID REFERENCES events(id) ON DELETE CASCADE,
+    image_url TEXT NOT NULL,
+    caption TEXT,
+    display_order INTEGER DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX idx_events_gallery_event ON events_gallery(event_id);
 
 -- ============================================================================
 -- SHARED - File Uploads
@@ -206,18 +242,6 @@ CREATE INDEX idx_file_uploads_entity ON file_uploads(entity_type, entity_id);
 -- ============================================================================
 -- INITIAL DATA
 -- ============================================================================
-
--- Create default admin user (password: admin123)
-INSERT INTO users (email, password, first_name, last_name, role, is_active)
-VALUES (
-    'admin@institute.com',
-    '$2a$10$YourHashedPasswordHere',
-    'Admin',
-    'User',
-    'admin',
-    true
-)
-ON CONFLICT (email) DO NOTHING;
 
 -- ============================================================================
 -- TRIGGERS

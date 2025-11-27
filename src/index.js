@@ -6,6 +6,8 @@ import compression from 'compression';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
 import { rateLimit } from 'express-rate-limit';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 // Middleware
 import { errorHandler } from './middleware/errorHandler.js';
@@ -23,6 +25,9 @@ import { connectDatabase } from './database/connection.js';
 
 // Load environment variables
 dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -66,11 +71,15 @@ const swaggerOptions = {
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
 // Global Middleware
-app.use(helmet()); // Security headers
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: "cross-origin" },
+  crossOriginEmbedderPolicy: false,
+})); // Security headers with CORS-friendly settings
 app.use(compression()); // Compress responses
 app.use(cors({
-  origin: process.env.CORS_ORIGIN?.split(',') || '*',
+  origin: process.env.CORS_ORIGIN?.split(',') || ['http://localhost:3000', 'http://localhost:4000', 'http://localhost:5000'],
   credentials: true,
+  exposedHeaders: ['Content-Length', 'Content-Type'],
 }));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
@@ -83,6 +92,9 @@ const limiter = rateLimit({
   message: 'Too many requests from this IP, please try again later.',
 });
 app.use(`/api/${API_VERSION}`, limiter);
+
+// Serve static files from uploads directory
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // API Documentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));

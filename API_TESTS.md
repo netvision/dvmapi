@@ -114,6 +114,26 @@ curl -X DELETE http://localhost:5000/api/v1/core/users/USER_ID \
   -H "Authorization: Bearer YOUR_ADMIN_TOKEN"
 ```
 
+### Reset User Password (Admin Only)
+```bash
+curl -X POST http://localhost:5000/api/v1/core/users/USER_ID/reset-password \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_ADMIN_TOKEN" \
+  -d '{
+    "newPassword": "newpassword123"
+  }'
+```
+
+**Note:** This endpoint allows admins to reset any user's password without knowing the current password.
+
+### Toggle User Status (Admin Only)
+```bash
+curl -X PATCH http://localhost:5000/api/v1/core/users/USER_ID/toggle-status \
+  -H "Authorization: Bearer YOUR_ADMIN_TOKEN"
+```
+
+**Note:** This endpoint toggles the user's active status. If the user is currently active, it will suspend them, and vice versa.
+
 ## Library Module (Placeholder)
 
 ### Get All Books

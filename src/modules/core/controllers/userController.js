@@ -1,6 +1,7 @@
 import { query } from '../../../database/connection.js';
 import { AppError } from '../../../middleware/errorHandler.js';
 import logger from '../../../shared/utils/logger.js';
+import bcrypt from 'bcrypt';
 
 export const userController = {
   /**
@@ -156,6 +157,89 @@ export const userController = {
       res.json({
         success: true,
         message: 'User deleted successfully',
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  /**
+   * Reset user password (admin only)
+   */
+  async resetUserPassword(req, res, next) {
+    try {
+      const { id } = req.params;
+      const { newPassword } = req.body;
+
+      if (!newPassword || newPassword.length < 6) {
+        throw new AppError('New password must be at least 6 characters long', 400);
+      }
+
+      // Check if user exists
+      const userCheck = await query('SELECT id, email FROM users WHERE id = $1', [id]);
+      if (userCheck.rows.length === 0) {
+        throw new AppError('User not found', 404);
+      }
+
+      // Hash new password
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+      // Update password
+      await query(
+        'UPDATE users SET password = $1, updated_at = NOW() WHERE id = $2',
+        [hashedPassword, id]
+      );
+
+      logger.info('Password reset by admin', { 
+        adminId: req.user.id, 
+        userId: id, 
+        targetEmail: userCheck.rows[0].email 
+      });
+
+      res.json({
+        success: true,
+        message: 'Password reset successfully',
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  /**
+   * Toggle user active status (admin only)
+   */
+  async toggleUserStatus(req, res, next) {
+    try {
+      const { id } = req.params;
+
+      // Prevent self-suspension
+      if (id === req.user.id) {
+        throw new AppError('Cannot change your own status', 400);
+      }
+
+      const result = await query(
+        `UPDATE users
+         SET is_active = NOT is_active,
+             updated_at = NOW()
+         WHERE id = $1
+         RETURNING id, email, first_name, last_name, is_active`,
+        [id]
+      );
+
+      if (result.rows.length === 0) {
+        throw new AppError('User not found', 404);
+      }
+
+      logger.info('User status toggled', { 
+        adminId: req.user.id, 
+        userId: id, 
+        newStatus: result.rows[0].is_active 
+      });
+
+      res.json({
+        success: true,
+        message: `User ${result.rows[0].is_active ? 'activated' : 'suspended'} successfully`,
+        data: result.rows[0],
       });
     } catch (error) {
       next(error);

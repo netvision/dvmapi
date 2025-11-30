@@ -30,6 +30,19 @@ export interface NewsArticle {
   }>
 }
 
+export interface Achiever {
+  id: string
+  name: string
+  photo_url: string | null
+  achievement: string
+  category: string
+  year: number
+  display_order: number
+  is_active: boolean
+  created_at: string
+  updated_at: string
+}
+
 export interface Event {
   id: number
   title: string
@@ -172,6 +185,54 @@ class CMSService {
   // Category endpoints
   async getNewsCategories(): Promise<SingleResponse<NewsCategory[]>> {
     const response = await apiClient.get('/cms/categories')
+    return response.data
+  }
+
+  // Achievers endpoints
+  async getAchievers(params?: {
+    page?: number
+    limit?: number
+    category?: string
+    year?: number
+    is_active?: boolean | 'all'
+  }): Promise<PaginatedResponse<Achiever>> {
+    const response = await apiClient.get('/cms/achievers', { params })
+    return response.data
+  }
+
+  async getAchiever(id: string): Promise<SingleResponse<Achiever>> {
+    const response = await apiClient.get(`/cms/achievers/${id}`)
+    return response.data
+  }
+
+  async createAchiever(data: {
+    name: string
+    photo_url?: string
+    achievement: string
+    category: string
+    year: number
+    display_order?: number
+    is_active?: boolean
+  }): Promise<SingleResponse<Achiever>> {
+    const response = await apiClient.post('/cms/achievers', data)
+    return response.data
+  }
+
+  async updateAchiever(id: string, data: Partial<{
+    name: string
+    photo_url: string
+    achievement: string
+    category: string
+    year: number
+    display_order: number
+    is_active: boolean
+  }>): Promise<SingleResponse<Achiever>> {
+    const response = await apiClient.put(`/cms/achievers/${id}`, data)
+    return response.data
+  }
+
+  async deleteAchiever(id: string): Promise<{ success: boolean; message: string }> {
+    const response = await apiClient.delete(`/cms/achievers/${id}`)
     return response.data
   }
 

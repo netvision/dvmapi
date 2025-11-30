@@ -4,7 +4,9 @@ import { validate } from '../../../middleware/validator.js';
 import { newsController } from '../controllers/newsController.js';
 import { eventsController } from '../controllers/eventsController.js';
 import { categoryController } from '../controllers/categoryController.js';
+import { achieversController } from '../controllers/achieversController.js';
 import { newsSchemas, eventsSchemas } from '../validators/cmsValidators.js';
+import { achieversSchemas } from '../validators/achieversValidators.js';
 
 const router = express.Router();
 
@@ -299,5 +301,44 @@ router.get('/categories', categoryController.getAllCategories);
  * @access  Admin
  */
 router.post('/categories', authenticate, authorize('admin'), categoryController.createCategory);
+
+// ============================================================================
+// ACHIEVERS ROUTES
+// ============================================================================
+
+/**
+ * @route   GET /api/v1/cms/achievers
+ * @desc    Get all achievers
+ * @access  Public
+ */
+router.get('/achievers', achieversController.getAchievers);
+
+/**
+ * @route   GET /api/v1/cms/achievers/:id
+ * @desc    Get single achiever
+ * @access  Public
+ */
+router.get('/achievers/:id', achieversController.getAchiever);
+
+/**
+ * @route   POST /api/v1/cms/achievers
+ * @desc    Create a new achiever
+ * @access  Admin
+ */
+router.post('/achievers', authenticate, authorize('admin'), validate(achieversSchemas.createAchiever), achieversController.createAchiever);
+
+/**
+ * @route   PUT /api/v1/cms/achievers/:id
+ * @desc    Update an achiever
+ * @access  Admin
+ */
+router.put('/achievers/:id', authenticate, authorize('admin'), validate(achieversSchemas.updateAchiever), achieversController.updateAchiever);
+
+/**
+ * @route   DELETE /api/v1/cms/achievers/:id
+ * @desc    Delete an achiever
+ * @access  Admin
+ */
+router.delete('/achievers/:id', authenticate, authorize('admin'), achieversController.deleteAchiever);
 
 export default router;

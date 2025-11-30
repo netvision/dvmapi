@@ -26,6 +26,7 @@
                 <p class="text-gray-600 text-xs">Stay informed with our latest news and upcoming events</p>
               </div>
               
+              <AchieversSlider />
               <NewsSidebar />
               <EventsSidebar />
             </div>
@@ -40,6 +41,7 @@
 import Hero from '../components/Hero.vue'
 import Vision from '../components/Vision.vue'
 import Features from '../components/Features.vue'
+import AchieversSlider from '../components/AchieversSlider.vue'
 import NewsSidebar from '../components/NewsSidebar.vue'
 import EventsSidebar from '../components/EventsSidebar.vue'
 </script>

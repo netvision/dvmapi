@@ -55,7 +55,7 @@ sudo -u postgres psql
 
 # Inside PostgreSQL prompt:
 CREATE DATABASE institute_db;
-CREATE USER institute_user WITH PASSWORD 'your-secure-password';
+CREATE USER institute_user WITH PASSWORD 'Divine56';
 GRANT ALL PRIVILEGES ON DATABASE institute_db TO institute_user;
 \q
 ```

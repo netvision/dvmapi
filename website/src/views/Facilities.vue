@@ -1,275 +1,377 @@
 <template>
-  <div class="facilities-page">
+  <div class="facilities-page bg-gray-50">
     <!-- Hero Section -->
-    <div class="relative h-80 bg-gradient-to-r from-green-600 to-teal-600">
-      <div class="absolute inset-0 bg-black opacity-30"></div>
-      <div class="container mx-auto px-4 h-full flex items-center relative z-10">
-        <div class="text-white">
-          <h1 class="text-5xl font-bold mb-4">Facilities</h1>
-          <p class="text-xl">World-Class Infrastructure for Holistic Development</p>
+    <div class="relative h-96 bg-gradient-to-br from-blue-600 via-indigo-700 to-purple-800 overflow-hidden">
+      <div class="absolute inset-0 bg-black opacity-40"></div>
+      <div class="absolute inset-0" style="background-image: url('https://images.unsplash.com/photo-1562774053-701939374585?w=1600&h=400&fit=crop'); background-size: cover; background-position: center; opacity: 0.3;"></div>
+      <div class="container mx-auto px-4 h-full flex items-center justify-center relative z-10">
+        <div class="text-white text-center">
+          <h1 class="text-6xl font-bold mb-4 animate-fade-in">Our Facilities</h1>
+          <p class="text-2xl font-light mb-6">World-Class Infrastructure for Excellence in Education</p>
+          <div class="h-1 w-32 bg-yellow-400 mx-auto rounded-full"></div>
         </div>
       </div>
     </div>
 
     <!-- Main Content -->
     <div class="container mx-auto px-4 py-16">
-      <!-- Campus Overview -->
-      <div class="mb-16 text-center">
-        <h2 class="text-3xl font-bold text-blue-900 mb-6">Modern Campus Infrastructure</h2>
-        <p class="text-lg text-gray-700 leading-relaxed max-w-4xl mx-auto mb-8">
-          Our state-of-the-art campus spans across 15 acres, providing a conducive environment for learning, 
-          sports, and overall personality development. Every facility is designed with student safety and 
-          comfort in mind.
+      <!-- Introduction -->
+      <div class="max-w-4xl mx-auto text-center mb-20">
+        <h2 class="text-4xl font-bold text-gray-900 mb-6">Empowering Learning Through Modern Infrastructure</h2>
+        <p class="text-lg text-gray-700 leading-relaxed">
+          At our institution, we believe that a conducive learning environment is essential for holistic development. 
+          Our state-of-the-art facilities are designed to nurture creativity, enhance learning experiences, 
+          and ensure the safety and well-being of every student.
         </p>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-          <div class="text-center">
-            <div class="text-3xl font-bold text-blue-900">15</div>
-            <div class="text-sm text-gray-600">Acres Campus</div>
-          </div>
-          <div class="text-center">
-            <div class="text-3xl font-bold text-blue-900">60</div>
-            <div class="text-sm text-gray-600">Classrooms</div>
-          </div>
-          <div class="text-center">
-            <div class="text-3xl font-bold text-blue-900">25</div>
-            <div class="text-sm text-gray-600">Laboratories</div>
-          </div>
-          <div class="text-center">
-            <div class="text-3xl font-bold text-blue-900">100%</div>
-            <div class="text-sm text-gray-600">Wi-Fi Coverage</div>
-          </div>
-        </div>
       </div>
 
-      <!-- Academic Facilities -->
-      <div class="mb-16">
-        <h2 class="text-3xl font-bold text-blue-900 mb-8 text-center">Academic Infrastructure</h2>
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          <div class="space-y-6">
-            <div class="bg-blue-50 p-6 rounded-lg">
-              <h3 class="text-xl font-semibold text-blue-900 mb-4">📚 Smart Classrooms</h3>
-              <ul class="text-gray-700 space-y-2">
-                <li>• Interactive whiteboards in every classroom</li>
-                <li>• Audio-visual learning systems</li>
-                <li>• Air-conditioned environment</li>
-                <li>• Ergonomic furniture for comfort</li>
-                <li>• Digital content library access</li>
-              </ul>
-            </div>
-            <div class="bg-green-50 p-6 rounded-lg">
-              <h3 class="text-xl font-semibold text-blue-900 mb-4">🔬 Science Laboratories</h3>
-              <ul class="text-gray-700 space-y-2">
-                <li>• Separate labs for Physics, Chemistry, Biology</li>
-                <li>• Modern equipment and instruments</li>
-                <li>• Safety measures and protocols</li>
-                <li>• Research project facilities</li>
-                <li>• Digital microscopy setup</li>
-              </ul>
-            </div>
-            <div class="bg-purple-50 p-6 rounded-lg">
-              <h3 class="text-xl font-semibold text-blue-900 mb-4">💻 Computer Center</h3>
-              <ul class="text-gray-700 space-y-2">
-                <li>• 100+ latest computers</li>
-                <li>• High-speed internet connectivity</li>
-                <li>• Programming and robotics lab</li>
-                <li>• Multimedia editing suites</li>
-              </ul>
+      <!-- Facilities Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        
+        <!-- SmartBoards -->
+        <div class="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+          <div class="relative h-64 overflow-hidden">
+            <img 
+              src="https://images.unsplash.com/photo-1577896851905-5be4c0977857?w=600&h=400&fit=crop" 
+              alt="SmartBoards in Classroom" 
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            <div class="absolute bottom-4 left-4">
+              <span class="inline-block bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">Technology</span>
             </div>
           </div>
-          <div>
-            <img 
-              src="/images/building.jpg" 
-              alt="Smart Classroom" 
-              class="w-full h-64 object-cover rounded-lg shadow-lg mb-6"
-            />
-            <img 
-              src="/images/labs.jpg" 
-              alt="Science Laboratory" 
-              class="w-full h-64 object-cover rounded-lg shadow-lg"
-            />
-            <img 
-              src="/images/computer.jpg" 
-              alt="Science Laboratory" 
-              class="w-full h-64 object-cover rounded-lg shadow-lg"
-            />
-          </div>
-        </div>
-      </div>
-
-      <!-- Library & Resources -->
-      <div class="mb-16">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          <div>
-            <img 
-              src="/images/slide2.jpg" 
-              alt="School Library" 
-              class="w-full h-80 object-cover rounded-lg shadow-lg"
-            />
-          </div>
-          <div>
-            <h2 class="text-3xl font-bold text-blue-900 mb-6">📖 Central Library</h2>
-            <p class="text-gray-700 leading-relaxed mb-6">
-              Our expansive library houses over 25,000 books, magazines, journals, and digital resources. 
-              It serves as the knowledge hub of our institution, promoting reading culture and research skills.
+          <div class="p-6">
+            <h3 class="text-2xl font-bold text-gray-900 mb-3 flex items-center">
+              <span class="text-3xl mr-3">📱</span>
+              SmartBoards in Every Classroom
+            </h3>
+            <p class="text-gray-600 leading-relaxed">
+              Interactive digital boards in all classrooms enable engaging, multimedia-rich lessons that bring subjects to life 
+              and make learning more interactive and enjoyable for students.
             </p>
-            <div class="grid grid-cols-2 gap-4 mb-6">
-              <div class="bg-blue-100 p-4 rounded-lg text-center">
-                <div class="text-2xl font-bold text-blue-900">25,000+</div>
-                <div class="text-sm text-gray-600">Books & Journals</div>
-              </div>
-              <div class="bg-green-100 p-4 rounded-lg text-center">
-                <div class="text-2xl font-bold text-green-900">500+</div>
-                <div class="text-sm text-gray-600">Digital Resources</div>
-              </div>
-            </div>
-            <div class="space-y-3">
-              <div class="flex items-center">
-                <span class="text-green-600 mr-2">✓</span>
-                <span>Separate reading areas for different age groups</span>
-              </div>
-              <div class="flex items-center">
-                <span class="text-green-600 mr-2">✓</span>
-                <span>Digital catalog and online book search</span>
-              </div>
-              <div class="flex items-center">
-                <span class="text-green-600 mr-2">✓</span>
-                <span>Reference section and research assistance</span>
-              </div>
-              <div class="flex items-center">
-                <span class="text-green-600 mr-2">✓</span>
-                <span>Quiet study zones and group discussion areas</span>
-              </div>
+          </div>
+        </div>
+
+        <!-- Audio-Visual Hall -->
+        <div class="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+          <div class="relative h-64 overflow-hidden">
+            <img 
+              src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&h=400&fit=crop" 
+              alt="Audio-Visual Hall" 
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            <div class="absolute bottom-4 left-4">
+              <span class="inline-block bg-purple-600 text-white px-3 py-1 rounded-full text-sm font-semibold">Learning</span>
             </div>
           </div>
+          <div class="p-6">
+            <h3 class="text-2xl font-bold text-gray-900 mb-3 flex items-center">
+              <span class="text-3xl mr-3">🎥</span>
+              Audio-Visual Hall
+            </h3>
+            <p class="text-gray-600 leading-relaxed">
+              A dedicated AV hall equipped with advanced technology for online interactive learning sessions, 
+              virtual guest lectures, and multimedia presentations that connect students with global knowledge.
+            </p>
+          </div>
         </div>
-      </div>
 
-      <!-- Sports Facilities -->
-      <div class="mb-16">
-        <h2 class="text-3xl font-bold text-blue-900 mb-8 text-center">🏃‍♂️ Sports & Recreation</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div class="bg-red-50 p-6 rounded-lg text-center">
+        <!-- Music, Art & Dance Studios -->
+        <div class="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+          <div class="relative h-64 overflow-hidden">
             <img 
-              src="/images/sports.jpg" 
-              alt="Playground" 
-              class="w-full h-48 object-cover rounded-lg mb-4"
+              src="https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=600&h=400&fit=crop" 
+              alt="Music and Art Studio" 
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
-            <h3 class="text-xl font-semibold text-blue-900 mb-3">Outdoor Sports</h3>
-            <ul class="text-gray-700 text-sm space-y-1">
-              <li>• Football & Cricket Ground</li>
-              <li>• Basketball & Volleyball Courts</li>
-              <li>• Athletics Track (400m)</li>
-              <li>• Badminton Courts</li>
-            </ul>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            <div class="absolute bottom-4 left-4">
+              <span class="inline-block bg-pink-600 text-white px-3 py-1 rounded-full text-sm font-semibold">Arts</span>
+            </div>
           </div>
-          <div class="bg-blue-50 p-6 rounded-lg text-center">
+          <div class="p-6">
+            <h3 class="text-2xl font-bold text-gray-900 mb-3 flex items-center">
+              <span class="text-3xl mr-3">🎨</span>
+              Advanced Studios
+            </h3>
+            <p class="text-gray-600 leading-relaxed">
+              Dedicated studios for Music, Art, and Dance equipped with professional-grade instruments, 
+              art supplies, and sound systems to nurture and develop creative talents.
+            </p>
+          </div>
+        </div>
+
+        <!-- Laboratories -->
+        <div class="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+          <div class="relative h-64 overflow-hidden">
             <img 
-              src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=300&fit=crop" 
-              alt="Gymnasium" 
-              class="w-full h-48 object-cover rounded-lg mb-4"
+              src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=600&h=400&fit=crop" 
+              alt="Science Laboratory" 
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
-            <h3 class="text-xl font-semibold text-blue-900 mb-3">Indoor Sports</h3>
-            <ul class="text-gray-700 text-sm space-y-1">
-              <li>• Multi-purpose Gymnasium</li>
-              <li>• Table Tennis Room</li>
-              <li>• Chess & Carrom Hall</li>
-              <li>• Yoga & Meditation Center</li>
-              <li>• Martial Arts Dojo</li>
-            </ul>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            <div class="absolute bottom-4 left-4">
+              <span class="inline-block bg-green-600 text-white px-3 py-1 rounded-full text-sm font-semibold">Science</span>
+            </div>
           </div>
-          <div class="bg-green-50 p-6 rounded-lg text-center">
+          <div class="p-6">
+            <h3 class="text-2xl font-bold text-gray-900 mb-3 flex items-center">
+              <span class="text-3xl mr-3">🔬</span>
+              Well Equipped Laboratories
+            </h3>
+            <p class="text-gray-600 leading-relaxed">
+              Modern Physics, Chemistry, Biology, and Computer labs with latest equipment and safety measures, 
+              enabling hands-on learning and scientific exploration.
+            </p>
+          </div>
+        </div>
+
+        <!-- CCTV Surveillance -->
+        <div class="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+          <div class="relative h-64 overflow-hidden">
             <img 
-              src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=600&h=300&fit=crop" 
-              alt="AV Room Auditorium" 
-              class="w-full h-48 object-cover rounded-lg mb-4"
+              src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=600&h=400&fit=crop" 
+              alt="CCTV Security" 
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
-            <h3 class="text-xl font-semibold text-blue-900 mb-3">Audio Visual & Remote Learning</h3>
-            <ul class="text-gray-700 text-sm space-y-1">
-              <li>• AV Room - Interactive Remote Teaching (New)</li>
-              <li>• Guest expert faculty sessions</li>
-              <li>• Live interactive classes with remote teachers</li>
-              <li>• Audio visual programmes & events</li>
-              <li>• Cultural activities & performances</li>
-            </ul>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            <div class="absolute bottom-4 left-4">
+              <span class="inline-block bg-red-600 text-white px-3 py-1 rounded-full text-sm font-semibold">Security</span>
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-2xl font-bold text-gray-900 mb-3 flex items-center">
+              <span class="text-3xl mr-3">📹</span>
+              CCTV Surveillance
+            </h3>
+            <p class="text-gray-600 leading-relaxed">
+              Comprehensive 24/7 CCTV monitoring across the entire campus ensures enhanced safety and security 
+              for all students, staff, and visitors.
+            </p>
+          </div>
+        </div>
+
+        <!-- Fire Safety -->
+        <div class="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+          <div class="relative h-64 overflow-hidden">
+            <img 
+              src="https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=600&h=400&fit=crop" 
+              alt="Fire Safety Equipment" 
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            <div class="absolute bottom-4 left-4">
+              <span class="inline-block bg-orange-600 text-white px-3 py-1 rounded-full text-sm font-semibold">Safety</span>
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-2xl font-bold text-gray-900 mb-3 flex items-center">
+              <span class="text-3xl mr-3">🔥</span>
+              Fire Safety Measures
+            </h3>
+            <p class="text-gray-600 leading-relaxed">
+              State-of-the-art fire detection and suppression systems, fire extinguishers, emergency exits, 
+              and regular fire safety drills ensure preparedness for any emergency.
+            </p>
+          </div>
+        </div>
+
+        <!-- Sports Camps -->
+        <div class="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+          <div class="relative h-64 overflow-hidden">
+            <img 
+              src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=600&h=400&fit=crop" 
+              alt="Sports Training" 
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            <div class="absolute bottom-4 left-4">
+              <span class="inline-block bg-yellow-600 text-white px-3 py-1 rounded-full text-sm font-semibold">Sports</span>
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-2xl font-bold text-gray-900 mb-3 flex items-center">
+              <span class="text-3xl mr-3">⚽</span>
+              Sports Camps by Expert Coaches
+            </h3>
+            <p class="text-gray-600 leading-relaxed">
+              Regular sports camps and training sessions conducted by certified professional coaches 
+              help students excel in various sports and develop athletic skills.
+            </p>
+          </div>
+        </div>
+
+        <!-- Amphitheater -->
+        <div class="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+          <div class="relative h-64 overflow-hidden">
+            <img 
+              src="https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=600&h=400&fit=crop" 
+              alt="Amphitheater" 
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            <div class="absolute bottom-4 left-4">
+              <span class="inline-block bg-indigo-600 text-white px-3 py-1 rounded-full text-sm font-semibold">Events</span>
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-2xl font-bold text-gray-900 mb-3 flex items-center">
+              <span class="text-3xl mr-3">🎭</span>
+              Amphitheater
+            </h3>
+            <p class="text-gray-600 leading-relaxed">
+              An outdoor amphitheater provides an inspiring venue for cultural programs, assemblies, 
+              performances, and various school events in a natural setting.
+            </p>
+          </div>
+        </div>
+
+        <!-- Abacus & Debate Classes -->
+        <div class="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+          <div class="relative h-64 overflow-hidden">
+            <img 
+              src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=600&h=400&fit=crop" 
+              alt="Abacus and Debate Classes" 
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            <div class="absolute bottom-4 left-4">
+              <span class="inline-block bg-teal-600 text-white px-3 py-1 rounded-full text-sm font-semibold">Skills</span>
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-2xl font-bold text-gray-900 mb-3 flex items-center">
+              <span class="text-3xl mr-3">🧮</span>
+              Abacus and Debate Classes
+            </h3>
+            <p class="text-gray-600 leading-relaxed">
+              Specialized classes in Abacus for mental math development and Debate to enhance critical thinking, 
+              public speaking, and communication skills.
+            </p>
+          </div>
+        </div>
+
+        <!-- Transportation -->
+        <div class="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+          <div class="relative h-64 overflow-hidden">
+            <img 
+              src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=600&h=400&fit=crop" 
+              alt="School Transportation" 
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            <div class="absolute bottom-4 left-4">
+              <span class="inline-block bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">Transport</span>
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-2xl font-bold text-gray-900 mb-3 flex items-center">
+              <span class="text-3xl mr-3">🚌</span>
+              Transportation Service
+            </h3>
+            <p class="text-gray-600 leading-relaxed">
+              Safe and reliable transportation services with GPS-tracked buses covering extensive routes, 
+              ensuring convenient and secure commute for students.
+            </p>
+          </div>
+        </div>
+
+        <!-- Wi-Fi Campus -->
+        <div class="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+          <div class="relative h-64 overflow-hidden">
+            <img 
+              src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&h=400&fit=crop" 
+              alt="Wi-Fi Enabled Campus" 
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            <div class="absolute bottom-4 left-4">
+              <span class="inline-block bg-cyan-600 text-white px-3 py-1 rounded-full text-sm font-semibold">Connectivity</span>
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-2xl font-bold text-gray-900 mb-3 flex items-center">
+              <span class="text-3xl mr-3">📡</span>
+              Wi-Fi Enabled Campus
+            </h3>
+            <p class="text-gray-600 leading-relaxed">
+              High-speed Wi-Fi connectivity throughout the campus enables seamless access to digital learning resources, 
+              online research, and modern educational tools.
+            </p>
+          </div>
+        </div>
+
+        <!-- RO Water -->
+        <div class="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+          <div class="relative h-64 overflow-hidden">
+            <img 
+              src="https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=600&h=400&fit=crop" 
+              alt="RO Water Facility" 
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            <div class="absolute bottom-4 left-4">
+              <span class="inline-block bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-semibold">Health</span>
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="text-2xl font-bold text-gray-900 mb-3 flex items-center">
+              <span class="text-3xl mr-3">💧</span>
+              RO Water Facility
+            </h3>
+            <p class="text-gray-600 leading-relaxed">
+              Purified drinking water through RO systems installed at multiple locations across campus 
+              ensures clean, safe, and healthy hydration for all students and staff.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Stats Section -->
+      <div class="bg-gradient-to-r from-blue-900 to-indigo-900 rounded-2xl shadow-2xl p-12 mb-16">
+        <h2 class="text-3xl font-bold text-white text-center mb-12">Our Infrastructure at a Glance</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div class="text-center">
+            <div class="text-5xl font-bold text-yellow-400 mb-2">100%</div>
+            <div class="text-white text-lg">SmartBoard Coverage</div>
+          </div>
+          <div class="text-center">
+            <div class="text-5xl font-bold text-yellow-400 mb-2">24/7</div>
+            <div class="text-white text-lg">CCTV Surveillance</div>
+          </div>
+          <div class="text-center">
+            <div class="text-5xl font-bold text-yellow-400 mb-2">100%</div>
+            <div class="text-white text-lg">Wi-Fi Coverage</div>
+          </div>
+          <div class="text-center">
+            <div class="text-5xl font-bold text-yellow-400 mb-2">100%</div>
+            <div class="text-white text-lg">Safe & Secure</div>
           </div>
         </div>
       </div>
 
-      <!-- Student Amenities -->
-      <div class="mb-16">
-        <h2 class="text-3xl font-bold text-blue-900 mb-8 text-center">Student Amenities</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div class="bg-blue-50 p-6 rounded-lg text-center">
-            <div class="text-4xl mb-3">🏫</div>
-            <h4 class="text-lg font-semibold text-blue-900 mb-2">Clean Infrastructure</h4>
-            <p class="text-sm text-gray-600">Well-maintained classrooms and campus with regular cleaning</p>
-          </div>
-          <div class="bg-purple-50 p-6 rounded-lg text-center">
-            <div class="text-4xl mb-3">📹</div>
-            <h4 class="text-lg font-semibold text-blue-900 mb-2">CCTV Surveillance</h4>
-            <p class="text-sm text-gray-600">Complete campus monitoring with 24/7 security coverage</p>
-          </div>
-          <div class="bg-green-50 p-6 rounded-lg text-center">
-            <div class="text-4xl mb-3">🔒</div>
-            <h4 class="text-lg font-semibold text-blue-900 mb-2">Campus Security</h4>
-            <p class="text-sm text-gray-600">Trained security personnel and controlled access points</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Special Facilities -->
-      <div class="mb-16">
-        <h2 class="text-3xl font-bold text-blue-900 mb-8 text-center">Special Facilities</h2>
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div class="bg-gradient-to-br from-blue-500 to-purple-600 text-white p-6 rounded-lg">
-            <h3 class="text-xl font-semibold mb-4">🌱 Eco-Friendly Campus</h3>
-            <ul class="text-sm space-y-2">
-              <li>• Solar power generation</li>
-              <li>• Rainwater harvesting system</li>
-              <li>• Waste segregation & recycling</li>
-              <li>• Organic garden & greenhouse</li>
-              <li>• Energy-efficient LED lighting</li>
-            </ul>
-          </div>
-          <div class="bg-gradient-to-br from-green-500 to-teal-600 text-white p-6 rounded-lg">
-            <h3 class="text-xl font-semibold mb-4">🔬 Future Innovation Labs (Planned)</h3>
-            <ul class="text-sm space-y-2">
-              <li>• Computer programming lab (expansion planned)</li>
-              <li>• Science project workstations</li>
-              <li>• Student innovation corner</li>
-              <li>• Technology integration spaces</li>
-              <li>• Digital learning resources center</li>
-            </ul>
-          </div>
-          <div class="bg-gradient-to-br from-orange-500 to-red-600 text-white p-6 rounded-lg">
-            <h3 class="text-xl font-semibold mb-4">🎨 Creative Spaces</h3>
-            <ul class="text-sm space-y-2">
-              <li>• Art studios with natural lighting</li>
-              <li>• Photography darkroom</li>
-              <li>• Pottery & ceramics workshop</li>
-              <li>• Music recording studio</li>
-              <li>• Fashion design lab</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- Virtual Tour CTA -->
-      <div class="bg-gradient-to-r from-blue-900 to-purple-900 text-white p-8 rounded-lg text-center">
-        <h2 class="text-3xl font-bold mb-4">Experience Our Campus</h2>
-        <p class="text-xl mb-6">Take a virtual tour or schedule a personal visit to see our facilities firsthand!</p>
+      <!-- CTA Section -->
+      <div class="text-center bg-white rounded-2xl shadow-xl p-12">
+        <h2 class="text-4xl font-bold text-gray-900 mb-4">Experience Our Facilities</h2>
+        <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+          We invite you to visit our campus and witness firsthand how our world-class facilities 
+          create an exceptional learning environment for your child.
+        </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
           <a 
-            href="#" 
-            class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-3 px-8 rounded-lg transition-colors"
+            href="/contact" 
+            class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-10 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
           >
-            Virtual Campus Tour
+            Schedule a Visit
           </a>
           <a 
-            href="#" 
-            class="bg-white hover:bg-gray-100 text-blue-900 font-semibold py-3 px-8 rounded-lg transition-colors"
+            href="/contact" 
+            class="bg-white hover:bg-gray-50 text-blue-600 border-2 border-blue-600 font-semibold py-4 px-10 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
           >
-            Schedule Visit
+            Contact Us
           </a>
         </div>
       </div>
@@ -278,5 +380,22 @@
 </template>
 
 <script setup lang="ts">
-// Facilities page component
+// Facilities page component - Complete revamp with modern design
 </script>
+
+<style scoped>
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 1s ease-out;
+}
+</style>

@@ -47,7 +47,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 
 const props = defineProps<{
   label: string
@@ -60,10 +60,18 @@ const emit = defineEmits<{
 }>()
 
 const fileInput = ref<HTMLInputElement>()
-const previewUrl = ref(props.modelValue)
+const internalUrl = ref(props.modelValue)
+
+const previewUrl = computed(() => {
+  const url = internalUrl.value
+  if (!url) return ''
+  if (url.startsWith('http') || url.startsWith('data:')) return url
+  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api/v1'
+  return `${apiUrl.replace('/api/v1', '')}${url}`
+})
 
 watch(() => props.modelValue, (newValue) => {
-  previewUrl.value = newValue
+  internalUrl.value = newValue
 })
 
 const handleFileSelect = async (event: Event) => {
@@ -86,7 +94,7 @@ const handleFileSelect = async (event: Event) => {
     // Create preview immediately
     const reader = new FileReader()
     reader.onload = (e) => {
-      previewUrl.value = e.target?.result as string
+      internalUrl.value = e.target?.result as string
     }
     reader.readAsDataURL(file)
 
@@ -127,7 +135,7 @@ const handleFileSelect = async (event: Event) => {
 }
 
 const removeImage = () => {
-  previewUrl.value = ''
+  internalUrl.value = ''
   emit('update:modelValue', '')
   if (fileInput.value) {
     fileInput.value.value = ''

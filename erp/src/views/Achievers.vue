@@ -68,7 +68,8 @@
         No achievers found
       </div>
 
-      <table v-else class="min-w-full divide-y divide-gray-200">
+      <div v-else class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-gray-50">
           <tr>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Photo</th>
@@ -86,9 +87,10 @@
             <td class="px-6 py-4 whitespace-nowrap">
               <img
                 v-if="achiever.photo_url"
-                :src="achiever.photo_url"
+                :src="getImageUrl(achiever.photo_url)"
                 :alt="achiever.name"
                 class="w-12 h-12 rounded-full object-cover"
+                @error="(e) => (e.target as HTMLImageElement).style.display = 'none'"
               />
               <div v-else class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center">
                 <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
@@ -146,6 +148,7 @@
           </tr>
         </tbody>
       </table>
+      </div>
 
       <!-- Pagination -->
       <div v-if="pagination.totalPages > 1" class="bg-gray-50 px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
@@ -313,7 +316,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import * as cmsService from '../services/cms.service'
+import cmsService from '../services/cms.service'
 import ImageUpload from '../components/ImageUpload.vue'
 import type { Achiever } from '../services/cms.service'
 
@@ -346,6 +349,13 @@ const formData = ref({
   display_order: 0,
   is_active: true
 })
+
+const getImageUrl = (url: string | null) => {
+  if (!url) return ''
+  if (url.startsWith('http')) return url
+  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api/v1'
+  return `${apiUrl.replace('/api/v1', '')}${url}`
+}
 
 const visiblePages = computed(() => {
   const pages: number[] = []

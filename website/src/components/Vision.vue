@@ -25,28 +25,6 @@
             with clarity, resilience, and purpose—transforming them into <strong class="text-purple-600">active creators of meaning</strong>.
           </p>
 
-          <!-- Three Core Values in One Row -->
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <div class="flex flex-col items-center p-1">
-              <div class="w-14 h-14 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center mb-2 transform transition-transform hover:scale-105">
-                <GraduationCap :size="20" class="text-white" />
-              </div>
-              <h4 class="font-bold text-gray-800 text-xs">Academic Excellence</h4>
-            </div>
-            <div class="flex flex-col items-center p-1">
-              <div class="w-14 h-14 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mb-2 transform transition-transform hover:scale-105">
-                <Music :size="20" class="text-white" />
-              </div>
-              <h4 class="font-bold text-gray-800 text-xs">Artistic Expression</h4>
-            </div>
-            <div class="flex flex-col items-center p-1">
-              <div class="w-14 h-14 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center mb-2 transform transition-transform hover:scale-105">
-                <Zap :size="20" class="text-white" />
-              </div>
-              <h4 class="font-bold text-gray-800 text-xs">Athletic Achievement</h4>
-            </div>
-          </div>
-
           <router-link 
             to="/vision"
             class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full font-semibold hover:shadow-lg transition-all duration-300 transform hover:scale-105 no-underline"
@@ -66,7 +44,7 @@
           </div>
           
           <blockquote class="text-xl md:text-2xl font-medium italic text-orange-100 mb-6">
-            "सत्त्वसंशुद्धिर्ज्ञानयोगव्यवस्थितिः"
+            "अभयं सत्त्वसंशुद्धिर्ज्ञानयोगव्यवस्थितिः"
           </blockquote>
           
           <p class="text-lg mb-8 leading-relaxed">
@@ -207,9 +185,6 @@
 
 <script setup lang="ts">
 import { 
-  GraduationCap, 
-  Music, 
-  Zap,
   TrendingUp,
   ArrowRight,
   Lightbulb,

@@ -5,7 +5,7 @@
       <div class="absolute inset-0 bg-black opacity-30"></div>
       <div class="container mx-auto px-4 h-full flex items-center relative z-10">
         <div class="text-white">
-          <h1 class="text-5xl font-bold mb-4">Admissions 2025-26</h1>
+          <h1 class="text-5xl font-bold mb-4">Admissions 2026-27</h1>
           <p class="text-xl">Join the DVM Family - Applications Now Open!</p>
         </div>
       </div>
@@ -74,16 +74,6 @@
               alt="Students in Classroom" 
               class="w-full h-96 object-cover rounded-lg shadow-lg mb-6"
             />
-            <div class="bg-yellow-100 p-6 rounded-lg">
-              <h4 class="text-xl font-semibold text-blue-900 mb-3">📅 Important Dates</h4>
-              <ul class="space-y-2 text-gray-700">
-                <li><strong>Application Start:</strong> January 15, 2025</li>
-                <li><strong>Application Deadline:</strong> March 31, 2025</li>
-                <li><strong>Entrance Test:</strong> April 10-15, 2025</li>
-                <li><strong>Results Declaration:</strong> April 25, 2025</li>
-                <li><strong>Admission Confirmation:</strong> May 15, 2025</li>
-              </ul>
-            </div>
           </div>
         </div>
       </div>

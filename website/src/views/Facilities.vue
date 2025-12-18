@@ -3,7 +3,7 @@
     <!-- Hero Section -->
     <div class="relative h-96 bg-gradient-to-br from-blue-600 via-indigo-700 to-purple-800 overflow-hidden">
       <div class="absolute inset-0 bg-black opacity-40"></div>
-      <div class="absolute inset-0" style="background-image: url('https://images.unsplash.com/photo-1562774053-701939374585?w=1600&h=400&fit=crop'); background-size: cover; background-position: center; opacity: 0.3;"></div>
+      <div class="absolute inset-0" style="background-image: url('/images/building.jpg'); background-size: cover; background-position: center; opacity: 0.3;"></div>
       <div class="container mx-auto px-4 h-full flex items-center justify-center relative z-10">
         <div class="text-white text-center">
           <h1 class="text-6xl font-bold mb-4 animate-fade-in">Our Facilities</h1>
@@ -31,11 +31,9 @@
         <!-- SmartBoards -->
         <div class="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
           <div class="relative h-64 overflow-hidden">
-            <img 
-              src="https://images.unsplash.com/photo-1577896851905-5be4c0977857?w=600&h=400&fit=crop" 
-              alt="SmartBoards in Classroom" 
-              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-            />
+            <div class="w-full h-full bg-gradient-to-br from-blue-400 to-cyan-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+              <span class="text-7xl">📱</span>
+            </div>
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
             <div class="absolute bottom-4 left-4">
               <span class="inline-block bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">Technology</span>
@@ -57,7 +55,7 @@
         <div class="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
           <div class="relative h-64 overflow-hidden">
             <img 
-              src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&h=400&fit=crop" 
+              src="/images/avroom.jpg" 
               alt="Audio-Visual Hall" 
               class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
@@ -81,11 +79,9 @@
         <!-- Music, Art & Dance Studios -->
         <div class="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
           <div class="relative h-64 overflow-hidden">
-            <img 
-              src="https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=600&h=400&fit=crop" 
-              alt="Music and Art Studio" 
-              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-            />
+            <div class="w-full h-full bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+              <span class="text-7xl">🎨</span>
+            </div>
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
             <div class="absolute bottom-4 left-4">
               <span class="inline-block bg-pink-600 text-white px-3 py-1 rounded-full text-sm font-semibold">Arts</span>
@@ -107,7 +103,7 @@
         <div class="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
           <div class="relative h-64 overflow-hidden">
             <img 
-              src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=600&h=400&fit=crop" 
+              src="/images/labs.jpg" 
               alt="Science Laboratory" 
               class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
@@ -131,11 +127,9 @@
         <!-- CCTV Surveillance -->
         <div class="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
           <div class="relative h-64 overflow-hidden">
-            <img 
-              src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=600&h=400&fit=crop" 
-              alt="CCTV Security" 
-              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-            />
+            <div class="w-full h-full bg-gradient-to-br from-gray-500 to-slate-600 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+              <span class="text-7xl">📹</span>
+            </div>
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
             <div class="absolute bottom-4 left-4">
               <span class="inline-block bg-red-600 text-white px-3 py-1 rounded-full text-sm font-semibold">Security</span>
@@ -157,7 +151,7 @@
         <div class="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
           <div class="relative h-64 overflow-hidden">
             <img 
-              src="https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=600&h=400&fit=crop" 
+              src="/images/firesafety.jpg" 
               alt="Fire Safety Equipment" 
               class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
@@ -182,7 +176,7 @@
         <div class="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
           <div class="relative h-64 overflow-hidden">
             <img 
-              src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=600&h=400&fit=crop" 
+              src="/images/sports.jpg" 
               alt="Sports Training" 
               class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
             />
@@ -206,11 +200,9 @@
         <!-- Amphitheater -->
         <div class="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
           <div class="relative h-64 overflow-hidden">
-            <img 
-              src="https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=600&h=400&fit=crop" 
-              alt="Amphitheater" 
-              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-            />
+            <div class="w-full h-full bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+              <span class="text-7xl">🎭</span>
+            </div>
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
             <div class="absolute bottom-4 left-4">
               <span class="inline-block bg-indigo-600 text-white px-3 py-1 rounded-full text-sm font-semibold">Events</span>
@@ -231,11 +223,9 @@
         <!-- Abacus & Debate Classes -->
         <div class="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
           <div class="relative h-64 overflow-hidden">
-            <img 
-              src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=600&h=400&fit=crop" 
-              alt="Abacus and Debate Classes" 
-              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-            />
+            <div class="w-full h-full bg-gradient-to-br from-teal-400 to-emerald-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+              <span class="text-7xl">🧮</span>
+            </div>
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
             <div class="absolute bottom-4 left-4">
               <span class="inline-block bg-teal-600 text-white px-3 py-1 rounded-full text-sm font-semibold">Skills</span>
@@ -256,11 +246,9 @@
         <!-- Transportation -->
         <div class="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
           <div class="relative h-64 overflow-hidden">
-            <img 
-              src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=600&h=400&fit=crop" 
-              alt="School Transportation" 
-              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-            />
+            <div class="w-full h-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+              <span class="text-7xl">🚌</span>
+            </div>
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
             <div class="absolute bottom-4 left-4">
               <span class="inline-block bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">Transport</span>
@@ -281,11 +269,9 @@
         <!-- Wi-Fi Campus -->
         <div class="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
           <div class="relative h-64 overflow-hidden">
-            <img 
-              src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&h=400&fit=crop" 
-              alt="Wi-Fi Enabled Campus" 
-              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-            />
+            <div class="w-full h-full bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+              <span class="text-7xl">📡</span>
+            </div>
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
             <div class="absolute bottom-4 left-4">
               <span class="inline-block bg-cyan-600 text-white px-3 py-1 rounded-full text-sm font-semibold">Connectivity</span>
@@ -306,11 +292,9 @@
         <!-- RO Water -->
         <div class="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
           <div class="relative h-64 overflow-hidden">
-            <img 
-              src="https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=600&h=400&fit=crop" 
-              alt="RO Water Facility" 
-              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-            />
+            <div class="w-full h-full bg-gradient-to-br from-blue-300 to-cyan-400 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+              <span class="text-7xl">💧</span>
+            </div>
             <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
             <div class="absolute bottom-4 left-4">
               <span class="inline-block bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-semibold">Health</span>

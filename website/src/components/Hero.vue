@@ -51,7 +51,7 @@
             to="/admissions"
             class="bg-blue-700 hover:bg-blue-800 text-white font-medium py-3 px-6 rounded-md transition-colors text-center"
           >
-            Admissions Open 2025-26
+            Admissions Open 2026-27
           </router-link>
           <router-link
             to="/about"

@@ -19,9 +19,10 @@
           <div>
             <h2 class="text-3xl font-bold text-blue-900 mb-6">Our Legacy</h2>
             <p class="text-lg text-gray-700 leading-relaxed mb-6">
-              Established in 1925, Dalmia Vidya Mandir has been a beacon of educational excellence for over a century. 
-              As a premier CBSE-affiliated institution, we have nurtured thousands of students who have gone on to 
-              excel in various fields across the globe.
+              Dalmia Vidya Mandir inherits a proud legacy of over 100 years of the Dalmia family's unwavering 
+              commitment to advancing education in the region. Building upon this rich heritage of educational 
+              initiatives, our institution has grown into a premier CBSE-affiliated school that has nurtured 
+              thousands of students who have gone on to excel in various fields across the globe.
             </p>
             <p class="text-lg text-gray-700 leading-relaxed mb-6">
               Our institution stands as a testament to quality education, combining traditional values with modern 
@@ -38,7 +39,7 @@
                 <div class="text-sm text-gray-600">Alumni</div>
               </div>
               <div>
-                <div class="text-3xl font-bold text-blue-900">Above 90%</div>
+                <div class="text-3xl font-bold text-blue-900">100%</div>
                 <div class="text-sm text-gray-600">Board Results</div>
               </div>
             </div>
@@ -66,25 +67,33 @@
               </div>
               <h3 class="text-2xl font-bold text-blue-900">Our Vision</h3>
             </div>
+            <h4 class="text-xl font-semibold text-purple-700 mb-3 italic">
+              From Higher Standard of Living to Higher Standard of Life
+            </h4>
             <p class="text-gray-700 leading-relaxed text-lg">
-              To nurture enlightened minds and compassionate hearts, creating global citizens who excel academically, 
-              embody moral integrity, and contribute to society with wisdom and cultural pride. We envision Dalmia Vidya Mandir 
-              as a beacon of transformative education that honors our century-old legacy while preparing students for tomorrow's challenges.
+              We believe true education empowers students to rise above their circumstances with clarity, resilience, 
+              and purpose—transforming them into active creators of meaning. We envision Dalmia Vidya Mandir as a beacon 
+              of transformative education that nurtures enlightened minds and compassionate hearts, creating global citizens 
+              who excel academically while embodying moral integrity and cultural pride.
             </p>
           </div>
-          <div class="bg-gradient-to-br from-yellow-50 to-orange-100 p-8 rounded-xl shadow-lg border-l-4 border-yellow-600">
+          <div class="bg-gradient-to-br from-orange-50 to-red-100 p-8 rounded-xl shadow-lg border-l-4 border-orange-600">
             <div class="flex items-center mb-4">
-              <div class="w-12 h-12 bg-yellow-600 rounded-full flex items-center justify-center mr-4">
+              <div class="w-12 h-12 bg-orange-600 rounded-full flex items-center justify-center mr-4">
                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
               <h3 class="text-2xl font-bold text-blue-900">Our Mission</h3>
             </div>
+            <blockquote class="text-lg font-medium italic text-orange-800 mb-3">
+              "अभयं सत्त्वसंशुद्धिर्ज्ञानयोगव्यवस्थितिः"
+            </blockquote>
             <p class="text-gray-700 leading-relaxed text-lg">
-              To provide holistic education that integrates academic excellence with character building, fostering critical thinking, 
-              creativity, and cultural values. We are committed to developing confident, competent, and caring individuals who honor 
-              their heritage while embracing innovation and serving humanity with distinction.
+              Inspired by the divine qualities of the Bhagavad Gita, we cultivate fearlessness, truthfulness, compassion, 
+              and wisdom in every student—transforming education into character formation. We are committed to providing 
+              holistic education that integrates academic excellence with moral development, fostering critical thinking, 
+              creativity, and cultural values while preparing students to serve humanity with distinction.
             </p>
           </div>
         </div>

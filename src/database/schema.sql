@@ -262,6 +262,27 @@ CREATE TABLE IF NOT EXISTS file_uploads (
 DROP INDEX IF EXISTS idx_file_uploads_entity;
 CREATE INDEX idx_file_uploads_entity ON file_uploads(entity_type, entity_id);
 
+-- Contact Messages (Website contact form submissions)
+CREATE TABLE IF NOT EXISTS contact_messages (
+    id SERIAL PRIMARY KEY,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    phone VARCHAR(20),
+    subject VARCHAR(255) NOT NULL,
+    message TEXT NOT NULL,
+    status VARCHAR(20) DEFAULT 'new' CHECK (status IN ('new', 'read', 'replied', 'archived')),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+DROP INDEX IF EXISTS idx_contact_messages_status;
+DROP INDEX IF EXISTS idx_contact_messages_created_at;
+DROP INDEX IF EXISTS idx_contact_messages_email;
+CREATE INDEX idx_contact_messages_status ON contact_messages(status);
+CREATE INDEX idx_contact_messages_created_at ON contact_messages(created_at DESC);
+CREATE INDEX idx_contact_messages_email ON contact_messages(email);
+
 -- ============================================================================
 -- INITIAL DATA
 -- ============================================================================
@@ -303,3 +324,6 @@ CREATE TRIGGER update_news_updated_at BEFORE UPDATE ON news FOR EACH ROW EXECUTE
 
 DROP TRIGGER IF EXISTS update_events_updated_at ON events;
 CREATE TRIGGER update_events_updated_at BEFORE UPDATE ON events FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+DROP TRIGGER IF EXISTS update_contact_messages_updated_at ON contact_messages;
+CREATE TRIGGER update_contact_messages_updated_at BEFORE UPDATE ON contact_messages FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();

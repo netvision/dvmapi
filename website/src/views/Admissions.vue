@@ -147,7 +147,7 @@
           </a>
         </div>
         <div class="mt-6 text-blue-100">
-          <p><strong>Admission Office:</strong> +91 1596 220602 | admissions@davmchirawa.ac.in</p>
+          <p><strong>Admission Office:</strong> +91 1596 220602 | admissions@dvmchirawa.ac.in</p>
           <p><strong>Office Hours:</strong> Monday to Saturday, 9:00 AM - 4:00 PM</p>
         </div>
       </div>

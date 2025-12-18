@@ -32,9 +32,8 @@
                   <h3 class="text-lg font-semibold text-blue-900 mb-2">School Address</h3>
                   <p class="text-gray-700">
                     Dalmia Vidya Mandir<br>
-                    Chirawa Road, Near Railway Station<br>
-                    Chirawa, Jhunjhunu<br>
-                    Rajasthan - 333026
+                    Station Road, Chirawa<br>
+                    Jhunjhunu, Rajasthan - 333026
                   </p>
                 </div>
               </div>
@@ -48,10 +47,9 @@
                 <div>
                   <h3 class="text-lg font-semibold text-blue-900 mb-2">Phone Numbers</h3>
                   <div class="text-gray-700 space-y-1">
-                    <p><strong>Main Office:</strong> +91 1596 220602</p>
-                    <p><strong>Admissions:</strong> +91 1596 220603</p>
-                    <p><strong>Principal:</strong> +91 1596 220601</p>
-                    <p><strong>Transport:</strong> +91 1596 220605</p>
+                    <p><strong>Main Office:</strong> 01596220602</p>
+                    <p><strong>Reception:</strong> +91 9672609111</p>
+                    <p><strong>Principal:</strong> +91 9928073151</p>
                   </div>
                 </div>
               </div>
@@ -65,10 +63,9 @@
                 <div>
                   <h3 class="text-lg font-semibold text-blue-900 mb-2">Email Addresses</h3>
                   <div class="text-gray-700 space-y-1">
-                    <p><strong>General Inquiries:</strong> info@davmchirawa.ac.in</p>
-                    <p><strong>Admissions:</strong> admissions@davmchirawa.ac.in</p>
-                    <p><strong>Principal:</strong> principal@davmchirawa.ac.in</p>
-                    <p><strong>Careers:</strong> careers@davmchirawa.ac.in</p>
+                    <p><strong>General Inquiries:</strong> info@dvmchirawa.ac.in</p>
+                    <p><strong>Admissions:</strong> admissions@dvmchirawa.ac.in</p>
+                    <p><strong>Principal:</strong> principal@dvmchirawa.ac.in</p>
                   </div>
                 </div>
               </div>
@@ -188,11 +185,11 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div class="bg-gradient-to-br from-blue-500 to-purple-600 text-white p-6 rounded-lg text-center">
             <div class="text-4xl mb-4">🎓</div>
-            <h3 class="text-xl font-semibold mb-3">Admissions Office</h3>
-            <p class="text-sm mb-4">For new admissions and enrollment queries</p>
+            <h3 class="text-xl font-semibold mb-3">Main Office</h3>
+            <p class="text-sm mb-4">For general inquiries and information</p>
             <div class="space-y-2 text-sm">
-              <p>📞 +91 1596 220603</p>
-              <p>✉️ admissions@davmchirawa.ac.in</p>
+              <p>📞 01596220602</p>
+              <p>✉️ info@dvmchirawa.ac.in</p>
             </div>
           </div>
           <div class="bg-gradient-to-br from-green-500 to-teal-600 text-white p-6 rounded-lg text-center">
@@ -200,17 +197,17 @@
             <h3 class="text-xl font-semibold mb-3">Principal's Office</h3>
             <p class="text-sm mb-4">For academic matters and school policies</p>
             <div class="space-y-2 text-sm">
-              <p>📞 +91 1596 220601</p>
-              <p>✉️ principal@davmchirawa.ac.in</p>
+              <p>📞 +91 9928073151</p>
+              <p>✉️ principal@dvmchirawa.ac.in</p>
             </div>
           </div>
           <div class="bg-gradient-to-br from-orange-500 to-red-600 text-white p-6 rounded-lg text-center">
-            <div class="text-4xl mb-4">🚌</div>
-            <h3 class="text-xl font-semibold mb-3">Transport Office</h3>
-            <p class="text-sm mb-4">For bus routes and transportation services</p>
+            <div class="text-4xl mb-4">📱</div>
+            <h3 class="text-xl font-semibold mb-3">Reception</h3>
+            <p class="text-sm mb-4">For immediate assistance and queries</p>
             <div class="space-y-2 text-sm">
-              <p>📞 +91 1596 220605</p>
-              <p>✉️ transport@davmchirawa.ac.in</p>
+              <p>📞 +91 9672609111</p>
+              <p>✉️ admissions@dvmchirawa.ac.in</p>
             </div>
           </div>
         </div>
@@ -221,11 +218,26 @@
         <h2 class="text-3xl font-bold text-blue-900 mb-8 text-center">Find Us</h2>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div>
-            <div class="bg-gray-200 h-96 rounded-lg flex items-center justify-center">
-              <p class="text-gray-600 text-center">
-                Interactive Map<br>
-                <span class="text-sm">(Google Maps integration would go here)</span>
-              </p>
+            <div class="h-96 rounded-lg overflow-hidden shadow-lg">
+              <iframe 
+                src="https://www.openstreetmap.org/export/embed.html?bbox=75.64977836608888%2C28.237778091430664%2C75.65377807617189%2C28.24177780151367&layer=mapnik&marker=28.239778%2C75.651778" 
+                width="100%" 
+                height="100%" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade"
+              ></iframe>
+            </div>
+            <div class="mt-4 text-center">
+              <a 
+                href="https://www.google.com/maps/dir/?api=1&destination=28.239778,75.651778" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors"
+              >
+                Get Directions
+              </a>
             </div>
           </div>
           <div>

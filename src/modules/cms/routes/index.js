@@ -5,6 +5,7 @@ import { newsController } from '../controllers/newsController.js';
 import { eventsController } from '../controllers/eventsController.js';
 import { categoryController } from '../controllers/categoryController.js';
 import { achieversController } from '../controllers/achieversController.js';
+import { contactController } from '../controllers/contactController.js';
 import { newsSchemas, eventsSchemas } from '../validators/cmsValidators.js';
 import { achieversSchemas } from '../validators/achieversValidators.js';
 
@@ -340,5 +341,44 @@ router.put('/achievers/:id', authenticate, authorize('admin'), validate(achiever
  * @access  Admin
  */
 router.delete('/achievers/:id', authenticate, authorize('admin'), achieversController.deleteAchiever);
+
+// ============================================================================
+// CONTACT ROUTES
+// ============================================================================
+
+/**
+ * @route   POST /api/v1/cms/contact
+ * @desc    Submit contact form
+ * @access  Public
+ */
+router.post('/contact', contactController.submitContact);
+
+/**
+ * @route   GET /api/v1/cms/contact
+ * @desc    Get all contact messages
+ * @access  Admin
+ */
+router.get('/contact', authenticate, authorize('admin'), contactController.getAllMessages);
+
+/**
+ * @route   GET /api/v1/cms/contact/:id
+ * @desc    Get single contact message
+ * @access  Admin
+ */
+router.get('/contact/:id', authenticate, authorize('admin'), contactController.getMessage);
+
+/**
+ * @route   PATCH /api/v1/cms/contact/:id/status
+ * @desc    Update message status
+ * @access  Admin
+ */
+router.patch('/contact/:id/status', authenticate, authorize('admin'), contactController.updateStatus);
+
+/**
+ * @route   DELETE /api/v1/cms/contact/:id
+ * @desc    Delete contact message
+ * @access  Admin
+ */
+router.delete('/contact/:id', authenticate, authorize('admin'), contactController.deleteMessage);
 
 export default router;

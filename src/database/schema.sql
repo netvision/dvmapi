@@ -22,6 +22,9 @@ CREATE TABLE IF NOT EXISTS users (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Drop and recreate indexes to avoid conflicts
+DROP INDEX IF EXISTS idx_users_email;
+DROP INDEX IF EXISTS idx_users_role;
 CREATE INDEX idx_users_email ON users(email);
 CREATE INDEX idx_users_role ON users(role);
 
@@ -52,6 +55,9 @@ CREATE TABLE IF NOT EXISTS books (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+DROP INDEX IF EXISTS idx_books_isbn;
+DROP INDEX IF EXISTS idx_books_title;
+DROP INDEX IF EXISTS idx_books_category;
 CREATE INDEX idx_books_isbn ON books(isbn);
 CREATE INDEX idx_books_title ON books(title);
 CREATE INDEX idx_books_category ON books(category);
@@ -70,6 +76,9 @@ CREATE TABLE IF NOT EXISTS book_circulation (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+DROP INDEX IF EXISTS idx_circulation_book_id;
+DROP INDEX IF EXISTS idx_circulation_user_id;
+DROP INDEX IF EXISTS idx_circulation_status;
 CREATE INDEX idx_circulation_book_id ON book_circulation(book_id);
 CREATE INDEX idx_circulation_user_id ON book_circulation(user_id);
 CREATE INDEX idx_circulation_status ON book_circulation(status);
@@ -90,6 +99,7 @@ CREATE TABLE IF NOT EXISTS subjects (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+DROP INDEX IF EXISTS idx_subjects_code;
 CREATE INDEX idx_subjects_code ON subjects(code);
 
 -- Syllabus
@@ -105,6 +115,7 @@ CREATE TABLE IF NOT EXISTS syllabus (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+DROP INDEX IF EXISTS idx_syllabus_subject_id;
 CREATE INDEX idx_syllabus_subject_id ON syllabus(subject_id);
 
 -- Learning content
@@ -123,6 +134,8 @@ CREATE TABLE IF NOT EXISTS learning_content (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+DROP INDEX IF EXISTS idx_learning_content_subject_id;
+DROP INDEX IF EXISTS idx_learning_content_type;
 CREATE INDEX idx_learning_content_subject_id ON learning_content(subject_id);
 CREATE INDEX idx_learning_content_type ON learning_content(content_type);
 
@@ -137,6 +150,7 @@ CREATE TABLE IF NOT EXISTS chat_history (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+DROP INDEX IF EXISTS idx_chat_history_user_id;
 CREATE INDEX idx_chat_history_user_id ON chat_history(user_id);
 
 -- ============================================================================
@@ -170,6 +184,9 @@ CREATE TABLE IF NOT EXISTS news (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+DROP INDEX IF EXISTS idx_news_slug;
+DROP INDEX IF EXISTS idx_news_status;
+DROP INDEX IF EXISTS idx_news_category;
 CREATE INDEX idx_news_slug ON news(slug);
 CREATE INDEX idx_news_status ON news(status);
 CREATE INDEX idx_news_category ON news(category_id);
@@ -184,6 +201,7 @@ CREATE TABLE IF NOT EXISTS news_gallery (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+DROP INDEX IF EXISTS idx_news_gallery_news;
 CREATE INDEX idx_news_gallery_news ON news_gallery(news_id);
 
 -- Events
@@ -203,6 +221,9 @@ CREATE TABLE IF NOT EXISTS events (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+DROP INDEX IF EXISTS idx_events_slug;
+DROP INDEX IF EXISTS idx_events_status;
+DROP INDEX IF EXISTS idx_events_start_date;
 CREATE INDEX idx_events_slug ON events(slug);
 CREATE INDEX idx_events_status ON events(status);
 CREATE INDEX idx_events_start_date ON events(start_date);
@@ -217,6 +238,7 @@ CREATE TABLE IF NOT EXISTS events_gallery (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+DROP INDEX IF EXISTS idx_events_gallery_event;
 CREATE INDEX idx_events_gallery_event ON events_gallery(event_id);
 
 -- ============================================================================
@@ -237,6 +259,7 @@ CREATE TABLE IF NOT EXISTS file_uploads (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+DROP INDEX IF EXISTS idx_file_uploads_entity;
 CREATE INDEX idx_file_uploads_entity ON file_uploads(entity_type, entity_id);
 
 -- ============================================================================

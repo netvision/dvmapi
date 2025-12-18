@@ -93,12 +93,35 @@
           <div class="lg:col-span-2">
             <div class="bg-white shadow-lg rounded-lg p-8">
               <h2 class="text-3xl font-bold text-blue-900 mb-6">Send us a Message</h2>
-              <form class="space-y-6">
+              
+              <!-- Success Message -->
+              <div v-if="submitSuccess" class="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
+                <div class="flex items-center">
+                  <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                  </svg>
+                  <span class="font-semibold">Thank you! Your message has been sent successfully. We'll get back to you soon.</span>
+                </div>
+              </div>
+              
+              <!-- Error Message -->
+              <div v-if="submitError" class="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+                <div class="flex items-center">
+                  <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                  </svg>
+                  <span class="font-semibold">{{ submitError }}</span>
+                </div>
+              </div>
+              
+              <form @submit.prevent="handleSubmit" class="space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">First Name *</label>
                     <input 
+                      v-model="formData.firstName"
                       type="text" 
+                      required
                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       placeholder="Enter your first name"
                     />
@@ -106,7 +129,9 @@
                   <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Last Name *</label>
                     <input 
+                      v-model="formData.lastName"
                       type="text" 
+                      required
                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       placeholder="Enter your last name"
                     />
@@ -117,7 +142,9 @@
                   <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
                     <input 
+                      v-model="formData.email"
                       type="email" 
+                      required
                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       placeholder="Enter your email"
                     />
@@ -125,6 +152,7 @@
                   <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
                     <input 
+                      v-model="formData.phone"
                       type="tel" 
                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       placeholder="Enter your phone number"
@@ -134,7 +162,11 @@
 
                 <div>
                   <label class="block text-sm font-medium text-gray-700 mb-2">Subject *</label>
-                  <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                  <select 
+                    v-model="formData.subject"
+                    required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  >
                     <option value="">Select a subject</option>
                     <option value="admissions">Admissions Inquiry</option>
                     <option value="academic">Academic Information</option>
@@ -150,7 +182,9 @@
                 <div>
                   <label class="block text-sm font-medium text-gray-700 mb-2">Message *</label>
                   <textarea 
+                    v-model="formData.message"
                     rows="5" 
+                    required
                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Enter your message here..."
                   ></textarea>
@@ -158,7 +192,9 @@
 
                 <div class="flex items-start">
                   <input 
+                    v-model="formData.agreeToPolicy"
                     type="checkbox" 
+                    required
                     class="mt-1 mr-3 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                   />
                   <label class="text-sm text-gray-700">
@@ -169,9 +205,11 @@
 
                 <button 
                   type="submit" 
-                  class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
+                  :disabled="isSubmitting"
+                  class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
                 >
-                  Send Message
+                  <span v-if="isSubmitting">Sending...</span>
+                  <span v-else>Send Message</span>
                 </button>
               </form>
             </div>
@@ -328,5 +366,70 @@
 </template>
 
 <script setup lang="ts">
-// Contact page component
+import { ref } from 'vue'
+import axios from 'axios'
+
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api/v1'
+
+const formData = ref({
+  firstName: '',
+  lastName: '',
+  email: '',
+  phone: '',
+  subject: '',
+  message: '',
+  agreeToPolicy: false
+})
+
+const isSubmitting = ref(false)
+const submitSuccess = ref(false)
+const submitError = ref('')
+
+const handleSubmit = async () => {
+  isSubmitting.value = true
+  submitSuccess.value = false
+  submitError.value = ''
+
+  try {
+    const response = await axios.post(`${API_URL}/cms/contact`, {
+      firstName: formData.value.firstName,
+      lastName: formData.value.lastName,
+      email: formData.value.email,
+      phone: formData.value.phone,
+      subject: formData.value.subject,
+      message: formData.value.message
+    })
+
+    if (response.data.success) {
+      submitSuccess.value = true
+      
+      // Reset form
+      formData.value = {
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        subject: '',
+        message: '',
+        agreeToPolicy: false
+      }
+
+      // Scroll to success message
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+
+      // Hide success message after 10 seconds
+      setTimeout(() => {
+        submitSuccess.value = false
+      }, 10000)
+    }
+  } catch (error: any) {
+    console.error('Failed to submit contact form:', error)
+    submitError.value = error.response?.data?.message || 'Failed to send message. Please try again later.'
+    
+    // Scroll to error message
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  } finally {
+    isSubmitting.value = false
+  }
+}
 </script>

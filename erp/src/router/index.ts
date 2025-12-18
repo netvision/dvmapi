@@ -40,6 +40,12 @@ const router = createRouter({
           path: 'achievers',
           name: 'Achievers',
           component: () => import('../views/Achievers.vue')
+        },
+        {
+          path: 'contact-messages',
+          name: 'ContactMessages',
+          component: () => import('../views/ContactMessages.vue'),
+          meta: { requiresAdmin: true }
         }
       ]
     }

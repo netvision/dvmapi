@@ -64,6 +64,7 @@ const menuItems = computed(() => {
   ]
   
   if (authStore.isAdmin) {
+    items.push({ path: '/contact-messages', label: 'Contact Messages' })
     items.push({ path: '/users', label: 'User Management' })
   }
   
@@ -76,7 +77,8 @@ const pageTitle = computed(() => {
     '/users': 'User Management',
     '/news': 'News Management',
     '/events': 'Events Management',
-    '/achievers': 'Achievers Management'
+    '/achievers': 'Achievers Management',
+    '/contact-messages': 'Contact Messages'
   }
   return titles[route.path] || 'ERP Admin'
 })

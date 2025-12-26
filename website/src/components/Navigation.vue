@@ -77,18 +77,18 @@
                     <BookOpen :size="16" class="mr-2" />
                     Curriculum
                   </router-link>
-                  <router-link to="/syllabus-breakup" class="dropdown-link" @click="showAcademicsDropdown = false">
+                  <!-- <router-link to="/syllabus-breakup" class="dropdown-link" @click="showAcademicsDropdown = false">
                     <FileText :size="16" class="mr-2" />
                     Syllabus Breakup
-                  </router-link>
-                  <router-link to="/book-list" class="dropdown-link" @click="showAcademicsDropdown = false">
+                  </router-link> -->
+                  <!-- <router-link to="/book-list" class="dropdown-link" @click="showAcademicsDropdown = false">
                     <BookOpen :size="16" class="mr-2" />
                     Book List 2025-26
-                  </router-link>
-                  <router-link to="/admissions" class="dropdown-link" @click="showAcademicsDropdown = false">
+                  </router-link> -->
+                  <!-- <router-link to="/admissions" class="dropdown-link" @click="showAcademicsDropdown = false">
                     <Users :size="16" class="mr-2" />
                     Admissions
-                  </router-link>
+                  </router-link> -->
                   <router-link to="/facilities" class="dropdown-link" @click="showAcademicsDropdown = false">
                     <Building :size="16" class="mr-2" />
                     Facilities
@@ -143,10 +143,10 @@
                     <Users :size="16" class="mr-2" />
                     Staff Details
                   </router-link>
-                  <router-link to="/fee-structure" class="dropdown-link" @click="showMandatoryDropdown = false">
+                  <!-- <router-link to="/fee-structure" class="dropdown-link" @click="showMandatoryDropdown = false">
                     <DollarSign :size="16" class="mr-2" />
                     Fee Structure
-                  </router-link>
+                  </router-link> -->
                   <router-link to="/student-strength" class="dropdown-link" @click="showMandatoryDropdown = false">
                     <TrendingUp :size="16" class="mr-2" />
                     Student Strength
@@ -155,10 +155,10 @@
                     <UserCheck :size="16" class="mr-2" />
                     School Management Committee
                   </router-link>
-                  <router-link to="/annual-report" class="dropdown-link" @click="showMandatoryDropdown = false">
+                  <!-- <router-link to="/annual-report" class="dropdown-link" @click="showMandatoryDropdown = false">
                     <BarChart3 :size="16" class="mr-2" />
                     Annual Report
-                  </router-link>
+                  </router-link> -->
                   <router-link to="/grievance-redressal" class="dropdown-link" @click="showMandatoryDropdown = false">
                     <MessageSquare :size="16" class="mr-2" />
                     Grievance Redressal
@@ -229,7 +229,7 @@
             <BookOpen :size="18" class="mr-2" />
             Academics
           </router-link>
-          <router-link 
+          <!-- <router-link 
             to="/admissions" 
             class="mobile-nav-link"
             active-class="mobile-nav-link-active"
@@ -237,7 +237,7 @@
           >
             <Users :size="18" class="mr-2" />
             Admissions
-          </router-link>
+          </router-link> -->
           <router-link 
             to="/facilities" 
             class="mobile-nav-link"

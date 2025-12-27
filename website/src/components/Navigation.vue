@@ -341,11 +341,11 @@ import {
   ChevronDown,
   FileText,
   MessageSquare,
-  BarChart3,
+  // BarChart3,
   Shield,
   Award,
   Image,
-  DollarSign,
+  // DollarSign,
   TrendingUp,
   UserCheck
 } from 'lucide-vue-next'

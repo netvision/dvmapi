@@ -6,7 +6,10 @@ export const newsSchemas = {
     excerpt: Joi.string().max(1000).optional().allow(null, ''),
     content: Joi.string().min(10).required(),
     featured_image_url: Joi.string().uri().optional().allow(null, ''),
-    category_id: Joi.number().integer().positive().optional().allow(null),
+    category_id: Joi.alternatives().try(
+      Joi.number().integer().positive(),
+      Joi.string().pattern(/^\d+$/)
+    ).optional().allow(null, ''),
     status: Joi.string().valid('draft', 'published', 'archived').optional(),
     gallery: Joi.array().items(
       Joi.object({
@@ -21,7 +24,10 @@ export const newsSchemas = {
     excerpt: Joi.string().max(1000).optional().allow(null, ''),
     content: Joi.string().min(10).optional(),
     featured_image_url: Joi.string().uri().optional().allow(null, ''),
-    category_id: Joi.number().integer().positive().optional().allow(null),
+    category_id: Joi.alternatives().try(
+      Joi.number().integer().positive(),
+      Joi.string().pattern(/^\d+$/)
+    ).optional().allow(null, ''),
     status: Joi.string().valid('draft', 'published', 'archived').optional(),
     gallery: Joi.array().items(
       Joi.object({

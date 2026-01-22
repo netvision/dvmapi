@@ -191,15 +191,12 @@ export const newsController = {
       }
 
       const published_at = status === 'published' ? new Date() : null;
-      
-      // Convert category_id to number if it's a string
-      const categoryId = category_id ? parseInt(category_id, 10) : null;
 
       const result = await query(
         `INSERT INTO news (title, slug, excerpt, content, featured_image_url, category_id, author_id, status, published_at)
          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
          RETURNING id, title, slug, excerpt, content, featured_image_url, category_id, status, published_at, created_at`,
-        [title, slug, excerpt, content, featured_image_url, categoryId, req.user.id, status, published_at]
+        [title, slug, excerpt, content, featured_image_url, category_id || null, req.user.id, status, published_at]
       );
 
       const newsId = result.rows[0].id;
@@ -281,8 +278,7 @@ export const newsController = {
       if (category_id !== undefined) {
         paramCount++;
         updates.push(`category_id = $${paramCount}`);
-        const categoryIdNum = category_id ? parseInt(category_id, 10) : null;
-        values.push(categoryIdNum);
+        values.push(category_id || null);
       }
 
       if (status !== undefined) {

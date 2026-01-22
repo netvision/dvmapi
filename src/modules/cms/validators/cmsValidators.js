@@ -3,18 +3,32 @@ import Joi from 'joi';
 export const newsSchemas = {
   createNews: Joi.object({
     title: Joi.string().min(5).max(500).required(),
-    excerpt: Joi.string().max(1000).optional(),
+    excerpt: Joi.string().max(1000).optional().allow(null, ''),
     content: Joi.string().min(10).required(),
     featured_image_url: Joi.string().uri().optional().allow(null, ''),
+    category_id: Joi.number().integer().positive().optional().allow(null),
     status: Joi.string().valid('draft', 'published', 'archived').optional(),
+    gallery: Joi.array().items(
+      Joi.object({
+        url: Joi.string().uri().required(),
+        caption: Joi.string().max(500).optional().allow(null, '')
+      })
+    ).optional()
   }),
 
   updateNews: Joi.object({
     title: Joi.string().min(5).max(500).optional(),
-    excerpt: Joi.string().max(1000).optional(),
+    excerpt: Joi.string().max(1000).optional().allow(null, ''),
     content: Joi.string().min(10).optional(),
     featured_image_url: Joi.string().uri().optional().allow(null, ''),
+    category_id: Joi.number().integer().positive().optional().allow(null),
     status: Joi.string().valid('draft', 'published', 'archived').optional(),
+    gallery: Joi.array().items(
+      Joi.object({
+        url: Joi.string().uri().required(),
+        caption: Joi.string().max(500).optional().allow(null, '')
+      })
+    ).optional()
   }),
 };
 

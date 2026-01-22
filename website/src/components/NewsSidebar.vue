@@ -19,10 +19,11 @@
 
     <!-- News Items -->
     <div class="divide-y divide-gray-100 max-h-80 overflow-y-auto">
-      <article 
+      <router-link 
         v-for="(article, index) in latestNews" 
         :key="index"
-        class="p-3 hover:bg-blue-50 transition-colors duration-200 cursor-pointer group border-l-3 border-transparent hover:border-blue-500"
+        :to="`/news/${article.slug}`"
+        class="block p-3 hover:bg-blue-50 transition-colors duration-200 cursor-pointer group border-l-3 border-transparent hover:border-blue-500 no-underline"
       >
         <div class="flex items-start space-x-2">
           <div class="flex-shrink-0">
@@ -52,7 +53,7 @@
             </div>
           </div>
         </div>
-      </article>
+      </router-link>
     </div>
 
     <!-- View All Link -->

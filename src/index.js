@@ -18,6 +18,9 @@ import coreRoutes from './modules/core/routes/index.js';
 import libraryRoutes from './modules/library/routes/index.js';
 import learningRoutes from './modules/learning/routes/index.js';
 import cmsRoutes from './modules/cms/routes/index.js';
+import studentsRoutes from './modules/students/routes/index.js';
+import academicsRoutes from './modules/academics/routes/index.js';
+import staffRoutes from './modules/staff/routes/index.js';
 
 // Utilities
 import logger from './shared/utils/logger.js';
@@ -114,6 +117,9 @@ app.use(`/api/${API_VERSION}/core`, coreRoutes);
 app.use(`/api/${API_VERSION}/library`, libraryRoutes);
 app.use(`/api/${API_VERSION}/learning`, learningRoutes);
 app.use(`/api/${API_VERSION}/cms`, cmsRoutes);
+app.use(`/api/${API_VERSION}/students`, studentsRoutes);
+app.use(`/api/${API_VERSION}/academics`, academicsRoutes);
+app.use(`/api/${API_VERSION}/staff`, staffRoutes);
 
 // Root endpoint
 app.get('/', (req, res) => {
@@ -122,7 +128,7 @@ app.get('/', (req, res) => {
     version: API_VERSION,
     documentation: '/api-docs',
     health: '/health',
-    modules: ['core', 'library', 'learning', 'cms'],
+    modules: ['core', 'library', 'learning', 'cms', 'students', 'academics', 'staff'],
   });
 });
 

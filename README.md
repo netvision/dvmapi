@@ -1,28 +1,49 @@
-# Institute Integrated API 🎓
+# Institute ERP System 🏫
 
-A production-ready, modular REST API designed to unify all institute management systems into a single, scalable backend. This API serves as the foundation for library management, AI-powered learning, content management, and any future institutional needs.
+A comprehensive, production-ready school management ERP system with a modular REST API backend. This unified platform handles everything from student admissions and academic records to staff management, payroll, accounting, and more.
 
 ## 🎯 Purpose
 
-This API consolidates three separate projects (`dvm-vue`, `dvm-erp`, `ai-learning-app`) into one unified backend with:
-- **Single authentication system** across all modules
-- **Shared database** with optimized schema
-- **Consistent API design** following RESTful principles
-- **Modular architecture** for easy expansion
+This system provides a complete school management solution with:
+- **Unified REST API** serving multiple frontend applications
+- **Comprehensive ERP modules** for all school operations
+- **Single authentication system** with role-based access control
+- **Shared PostgreSQL database** with optimized schema
+- **Modular architecture** for easy customization and expansion
 
 ## ✨ Features
 
-### ✅ Implemented (Core Module)
+### ✅ Implemented
 - 🔐 **Authentication & Authorization**: JWT-based auth with refresh tokens
 - 👥 **User Management**: Complete CRUD operations with role-based access
 - 🛡️ **Security**: Rate limiting, input validation, password hashing
 - 📊 **API Documentation**: Auto-generated Swagger/OpenAPI docs
 - 🔧 **Production Ready**: PM2, Docker, Nginx configurations
+- 📰 **CMS Module**: News, events, achievers management
 
-### 📝 Ready for Implementation
-- 📚 **Library Module**: Book catalog, circulation, inventory (schema ready)
-- 🤖 **AI Learning Module**: OpenAI chat, syllabus, content (schema ready)
-- 📰 **CMS Module**: News, events, content publishing (schema ready)
+### 📝 Planned ERP Modules
+
+**Academic Management:**
+- 👨‍🎓 **Student Management**: Admissions, profiles, academic records, grading
+- 👨‍🏫 **Staff Management**: Teacher/staff profiles, qualifications, assignments
+- 🏫 **Class & Subject Management**: Class structure, sections, subject allocation
+- 📚 **Library Management**: Book catalog, circulation, inventory
+- 🤖 **AI Learning Platform**: Personalized learning with OpenAI integration
+- 📅 **Timetable Management**: Period schedules, teacher assignments
+- 📝 **Exam Management**: Exam schedules, marks entry, report cards
+
+**Operations Management:**
+- 📅 **Attendance System**: Student and staff attendance tracking
+- 🏖️ **Leave Management**: Leave requests, approvals, balance tracking
+- 💰 **Payroll System**: Salary processing, payslips, tax calculations
+- 💳 **Fee Management**: Fee structure, collection, receipts, dues tracking
+- 📊 **Accounting**: Ledger, income/expense, financial reports
+- 🚌 **Transport Management**: Vehicle tracking, routes (optional)
+- 🏠 **Hostel Management**: Room allocation, mess management (optional)
+
+**Analytics & Reporting:**
+- 📈 **Comprehensive Reports**: Academic, financial, operational reports
+- 📊 **Analytics Dashboard**: Real-time insights and metrics
 
 ## 🚀 Tech Stack
 
@@ -218,13 +239,16 @@ npm test             # Run tests (when implemented)
 
 ## 🌐 Integration with Existing Projects
 
-This API replaces/integrates with:
+## \ud83c\udfe2 System Architecture
 
-| Project | Current Stack | Integration |
-|---------|--------------|-------------|
-| **dvm-vue** | Vue 3 + Yii2 PHP | Replace Yii2 API with this unified API |
-| **dvm-erp** | Node.js + Express | Port library features to this API |
-| **ai-learning-app** | Node.js + Express | Port AI features to this API |
+This monorepo contains:
+
+| Component | Technology | Purpose |
+|-----------|-----------|---------|
+| **`src/`** | Node.js + Express + PostgreSQL | Unified REST API backend serving all applications |
+| **`erp/`** | Vue 3 + TypeScript + Pinia + Tailwind | Comprehensive school management dashboard |
+| **`website/`** | Vue 3 + TypeScript + UnoCSS | Public-facing institutional website |
+| **Future apps** | Any framework | Can consume the unified REST API |
 
 **Benefits:**
 - Single authentication across all frontends

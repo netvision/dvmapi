@@ -42,6 +42,24 @@ const router = createRouter({
           component: () => import('../views/Achievers.vue')
         },
         {
+          path: 'students',
+          name: 'Students',
+          component: () => import('../views/Students.vue'),
+          meta: { requiresAdmin: true }
+        },
+        {
+          path: 'staff',
+          name: 'Staff',
+          component: () => import('../views/Staff.vue'),
+          meta: { requiresAdmin: true }
+        },
+        {
+          path: 'classes',
+          name: 'Classes',
+          component: () => import('../views/Classes.vue'),
+          meta: { requiresAdmin: true }
+        },
+        {
           path: 'contact-messages',
           name: 'ContactMessages',
           component: () => import('../views/ContactMessages.vue'),

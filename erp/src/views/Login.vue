@@ -2,8 +2,16 @@
   <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-600 to-primary-800">
     <div class="w-full max-w-md">
       <div class="bg-white rounded-lg shadow-2xl p-8">
-        <h1 class="text-3xl font-bold text-center text-gray-800 mb-2">Institute ERP</h1>
-        <p class="text-center text-gray-600 mb-8">Admin Login</p>
+        <div class="flex flex-col items-center mb-8">
+          <img 
+            src="/images/dvm-logo-white.png" 
+            alt="Dalmia Vidya Mandir Logo" 
+            class="w-20 h-20 object-contain mb-4 bg-primary-800 rounded-full p-3"
+          />
+          <h1 class="text-2xl font-bold text-center text-gray-800 mb-1">Dalmia Vidya Mandir</h1>
+          <p class="text-center text-primary-600 font-semibold mb-1">ERP Dashboard</p>
+          <p class="text-center text-gray-500 text-sm">Admin Login</p>
+        </div>
         
         <form @submit.prevent="handleLogin">
           <div v-if="error" class="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">

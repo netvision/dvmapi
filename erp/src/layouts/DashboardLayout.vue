@@ -2,8 +2,18 @@
   <div class="min-h-screen bg-gray-100">
     <!-- Sidebar -->
     <aside class="fixed left-0 top-0 h-full w-64 bg-primary-800 text-white shadow-lg">
-      <div class="p-6">
-        <h1 class="text-2xl font-bold">Institute ERP</h1>
+      <div class="p-6 border-b border-primary-700">
+        <router-link to="/" class="flex items-center space-x-3 hover:opacity-80 transition-opacity">
+          <img 
+            src="/images/dvm-logo-white.png" 
+            alt="Dalmia Vidya Mandir Logo" 
+            class="w-12 h-12 object-contain"
+          />
+          <div>
+            <h1 class="text-lg font-bold leading-tight">Dalmia Vidya Mandir</h1>
+            <p class="text-xs text-blue-200 font-medium">ERP Dashboard</p>
+          </div>
+        </router-link>
       </div>
       
       <nav class="mt-6">
@@ -64,6 +74,9 @@ const menuItems = computed(() => {
   ]
   
   if (authStore.isAdmin) {
+    items.push({ path: '/students', label: 'Student Management' })
+    items.push({ path: '/staff', label: 'Staff Management' })
+    items.push({ path: '/classes', label: 'Classes & Sections' })
     items.push({ path: '/contact-messages', label: 'Contact Messages' })
     items.push({ path: '/users', label: 'User Management' })
   }
@@ -78,6 +91,9 @@ const pageTitle = computed(() => {
     '/news': 'News Management',
     '/events': 'Events Management',
     '/achievers': 'Achievers Management',
+    '/students': 'Student Management',
+    '/staff': 'Staff Management',
+    '/classes': 'Classes & Sections',
     '/contact-messages': 'Contact Messages'
   }
   return titles[route.path] || 'ERP Admin'

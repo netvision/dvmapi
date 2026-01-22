@@ -75,7 +75,10 @@ export const deleteFile = (filePath) => {
 
 // Helper to get file URL
 export const getFileUrl = (req, filePath) => {
-  const protocol = req.protocol;
+  // Check for forwarded protocol (from reverse proxy like Nginx)
+  const forwardedProto = req.get('x-forwarded-proto');
+  // Use environment variable to force HTTPS in production, or detect from headers
+  const protocol = process.env.FORCE_HTTPS === 'true' ? 'https' : (forwardedProto || req.protocol);
   const host = req.get('host');
   return `${protocol}://${host}/uploads/${filePath}`;
 };

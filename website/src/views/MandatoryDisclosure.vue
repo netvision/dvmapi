@@ -117,6 +117,224 @@
         </div>
       </div>
 
+      <!-- Compliance & Supporting Documents -->
+      <div id="compliance-documents" class="mb-16">
+        <h2 class="text-3xl font-bold text-blue-900 mb-8 text-center">Compliance & Supporting Documents</h2>
+        <div class="mb-8">
+          <p class="text-gray-600 text-center mb-8">Complete documentation demonstrating school compliance with regulations and standards</p>
+        </div>
+        
+        <!-- Documents Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <a href="/documents/1%20AFFADAVIT.pdf" target="_blank" class="group bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+            <div class="flex items-start justify-between mb-3">
+              <h4 class="text-lg font-semibold text-blue-900 group-hover:text-blue-600 flex-1">📋 Affidavit</h4>
+              <span class="text-2xl text-gray-400 group-hover:text-blue-400 ml-2">→</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-4">Official affidavit document</p>
+            <div class="text-blue-600 text-sm font-medium">View Document</div>
+          </a>
+
+          <a href="/documents/academic%20calender.pdf" target="_blank" class="group bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+            <div class="flex items-start justify-between mb-3">
+              <h4 class="text-lg font-semibold text-blue-900 group-hover:text-blue-600 flex-1">📅 Academic Calendar</h4>
+              <span class="text-2xl text-gray-400 group-hover:text-blue-400 ml-2">→</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-4">Current academic year calendar</p>
+            <div class="text-blue-600 text-sm font-medium">View Document</div>
+          </a>
+
+          <a href="/documents/balance%20sheet%20AR.pdf" target="_blank" class="group bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+            <div class="flex items-start justify-between mb-3">
+              <h4 class="text-lg font-semibold text-blue-900 group-hover:text-blue-600 flex-1">💰 Balance Sheet</h4>
+              <span class="text-2xl text-gray-400 group-hover:text-blue-400 ml-2">→</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-4">Annual financial statement</p>
+            <div class="text-blue-600 text-sm font-medium">View Document</div>
+          </a>
+
+          <a href="/documents/biology%20and%20chemistry.pdf" target="_blank" class="group bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+            <div class="flex items-start justify-between mb-3">
+              <h4 class="text-lg font-semibold text-blue-900 group-hover:text-blue-600 flex-1">🔬 Lab Infrastructure</h4>
+              <span class="text-2xl text-gray-400 group-hover:text-blue-400 ml-2">→</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-4">Biology & Chemistry laboratories</p>
+            <div class="text-blue-600 text-sm font-medium">View Document</div>
+          </a>
+
+          <a href="/documents/building%20safety%20pwd.pdf" target="_blank" class="group bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+            <div class="flex items-start justify-between mb-3">
+              <h4 class="text-lg font-semibold text-blue-900 group-hover:text-blue-600 flex-1">🏢 Building Safety PWD</h4>
+              <span class="text-2xl text-gray-400 group-hover:text-blue-400 ml-2">→</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-4">PWD safety certification</p>
+            <div class="text-blue-600 text-sm font-medium">View Document</div>
+          </a>
+
+          <a href="/documents/deo%20certificate.pdf" target="_blank" class="group bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+            <div class="flex items-start justify-between mb-3">
+              <h4 class="text-lg font-semibold text-blue-900 group-hover:text-blue-600 flex-1">📜 DEO Certificate</h4>
+              <span class="text-2xl text-gray-400 group-hover:text-blue-400 ml-2">→</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-4">State education authority certificate</p>
+            <div class="text-blue-600 text-sm font-medium">View Document</div>
+          </a>
+
+          <a href="/documents/executive%20committee.pdf" target="_blank" class="group bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+            <div class="flex items-start justify-between mb-3">
+              <h4 class="text-lg font-semibold text-blue-900 group-hover:text-blue-600 flex-1">👥 Executive Committee</h4>
+              <span class="text-2xl text-gray-400 group-hover:text-blue-400 ml-2">→</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-4">Committee details and members</p>
+            <div class="text-blue-600 text-sm font-medium">View Document</div>
+          </a>
+
+          <a href="/documents/extention%20of%20affiliation.pdf" target="_blank" class="group bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+            <div class="flex items-start justify-between mb-3">
+              <h4 class="text-lg font-semibold text-blue-900 group-hover:text-blue-600 flex-1">✅ Affiliation Extension</h4>
+              <span class="text-2xl text-gray-400 group-hover:text-blue-400 ml-2">→</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-4">CBSE affiliation extension letter</p>
+            <div class="text-blue-600 text-sm font-medium">View Document</div>
+          </a>
+
+          <a href="/documents/fire%20safety.pdf" target="_blank" class="group bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+            <div class="flex items-start justify-between mb-3">
+              <h4 class="text-lg font-semibold text-blue-900 group-hover:text-blue-600 flex-1">🚒 Fire Safety</h4>
+              <span class="text-2xl text-gray-400 group-hover:text-blue-400 ml-2">→</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-4">Fire safety compliance certificate</p>
+            <div class="text-blue-600 text-sm font-medium">View Document</div>
+          </a>
+
+          <a href="/documents/land%20certificate.pdf" target="_blank" class="group bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+            <div class="flex items-start justify-between mb-3">
+              <h4 class="text-lg font-semibold text-blue-900 group-hover:text-blue-600 flex-1">🏗️ Land Certificate</h4>
+              <span class="text-2xl text-gray-400 group-hover:text-blue-400 ml-2">→</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-4">Land ownership documents</p>
+            <div class="text-blue-600 text-sm font-medium">View Document</div>
+          </a>
+
+          <a href="/documents/library%20and%20math%20lab%20photos.pdf" target="_blank" class="group bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+            <div class="flex items-start justify-between mb-3">
+              <h4 class="text-lg font-semibold text-blue-900 group-hover:text-blue-600 flex-1">📚 Library & Lab</h4>
+              <span class="text-2xl text-gray-400 group-hover:text-blue-400 ml-2">→</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-4">Library and mathematics laboratory photos</p>
+            <div class="text-blue-600 text-sm font-medium">View Document</div>
+          </a>
+
+          <a href="/documents/noc%20cbse.pdf" target="_blank" class="group bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+            <div class="flex items-start justify-between mb-3">
+              <h4 class="text-lg font-semibold text-blue-900 group-hover:text-blue-600 flex-1">✔️ CBSE NOC</h4>
+              <span class="text-2xl text-gray-400 group-hover:text-blue-400 ml-2">→</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-4">No objection from CBSE board</p>
+            <div class="text-blue-600 text-sm font-medium">View Document</div>
+          </a>
+
+          <a href="/documents/physics%20and%20computer%20lab.pdf" target="_blank" class="group bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+            <div class="flex items-start justify-between mb-3">
+              <h4 class="text-lg font-semibold text-blue-900 group-hover:text-blue-600 flex-1">💻 Science Labs</h4>
+              <span class="text-2xl text-gray-400 group-hover:text-blue-400 ml-2">→</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-4">Physics and computer laboratory details</p>
+            <div class="text-blue-600 text-sm font-medium">View Document</div>
+          </a>
+
+          <a href="/documents/playground%20and%20science%20lab.pdf" target="_blank" class="group bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+            <div class="flex items-start justify-between mb-3">
+              <h4 class="text-lg font-semibold text-blue-900 group-hover:text-blue-600 flex-1">🎾 Sports & Science</h4>
+              <span class="text-2xl text-gray-400 group-hover:text-blue-400 ml-2">→</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-4">Playground and science laboratory</p>
+            <div class="text-blue-600 text-sm font-medium">View Document</div>
+          </a>
+
+          <a href="/documents/ramp.pdf" target="_blank" class="group bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+            <div class="flex items-start justify-between mb-3">
+              <h4 class="text-lg font-semibold text-blue-900 group-hover:text-blue-600 flex-1">♿ Accessibility Ramp</h4>
+              <span class="text-2xl text-gray-400 group-hover:text-blue-400 ml-2">→</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-4">Disabled accessibility compliance</p>
+            <div class="text-blue-600 text-sm font-medium">View Document</div>
+          </a>
+
+          <a href="/documents/recognition%20under%20rte.pdf" target="_blank" class="group bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+            <div class="flex items-start justify-between mb-3">
+              <h4 class="text-lg font-semibold text-blue-900 group-hover:text-blue-600 flex-1">📜 RTE Recognition</h4>
+              <span class="text-2xl text-gray-400 group-hover:text-blue-400 ml-2">→</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-4">Right to Education recognition</p>
+            <div class="text-blue-600 text-sm font-medium">View Document</div>
+          </a>
+
+          <a href="/documents/salary%20bank%20statement.pdf" target="_blank" class="group bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+            <div class="flex items-start justify-between mb-3">
+              <h4 class="text-lg font-semibold text-blue-900 group-hover:text-blue-600 flex-1">💼 Salary Statements</h4>
+              <span class="text-2xl text-gray-400 group-hover:text-blue-400 ml-2">→</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-4">Staff salary account statements</p>
+            <div class="text-blue-600 text-sm font-medium">View Document</div>
+          </a>
+
+          <a href="/documents/school%20entrance.pdf" target="_blank" class="group bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+            <div class="flex items-start justify-between mb-3">
+              <h4 class="text-lg font-semibold text-blue-900 group-hover:text-blue-600 flex-1">🚪 School Entrance</h4>
+              <span class="text-2xl text-gray-400 group-hover:text-blue-400 ml-2">→</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-4">School entrance and building photos</p>
+            <div class="text-blue-600 text-sm font-medium">View Document</div>
+          </a>
+
+          <a href="/documents/society%20registration%20certificate.pdf" target="_blank" class="group bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+            <div class="flex items-start justify-between mb-3">
+              <h4 class="text-lg font-semibold text-blue-900 group-hover:text-blue-600 flex-1">⚖️ Society Registration</h4>
+              <span class="text-2xl text-gray-400 group-hover:text-blue-400 ml-2">→</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-4">Trust/Society registration certificate</p>
+            <div class="text-blue-600 text-sm font-medium">View Document</div>
+          </a>
+
+          <a href="/documents/staff%20and%20salary.pdf" target="_blank" class="group bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+            <div class="flex items-start justify-between mb-3">
+              <h4 class="text-lg font-semibold text-blue-900 group-hover:text-blue-600 flex-1">👨‍🏫 Staff Details</h4>
+              <span class="text-2xl text-gray-400 group-hover:text-blue-400 ml-2">→</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-4">Complete staff and salary information</p>
+            <div class="text-blue-600 text-sm font-medium">View Document</div>
+          </a>
+
+          <a href="/documents/staff%20details.pdf" target="_blank" class="group bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+            <div class="flex items-start justify-between mb-3">
+              <h4 class="text-lg font-semibold text-blue-900 group-hover:text-blue-600 flex-1">📋 Staff Directory</h4>
+              <span class="text-2xl text-gray-400 group-hover:text-blue-400 ml-2">→</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-4">Detailed staff directory and qualifications</p>
+            <div class="text-blue-600 text-sm font-medium">View Document</div>
+          </a>
+
+          <a href="/documents/toilets.pdf" target="_blank" class="group bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+            <div class="flex items-start justify-between mb-3">
+              <h4 class="text-lg font-semibold text-blue-900 group-hover:text-blue-600 flex-1">🚽 Sanitary Facilities</h4>
+              <span class="text-2xl text-gray-400 group-hover:text-blue-400 ml-2">→</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-4">Toilet and sanitation facilities</p>
+            <div class="text-blue-600 text-sm font-medium">View Document</div>
+          </a>
+
+          <a href="/documents/water%20and%20sanitary.pdf" target="_blank" class="group bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+            <div class="flex items-start justify-between mb-3">
+              <h4 class="text-lg font-semibold text-blue-900 group-hover:text-blue-600 flex-1">💧 Water & Sanitation</h4>
+              <span class="text-2xl text-gray-400 group-hover:text-blue-400 ml-2">→</span>
+            </div>
+            <p class="text-gray-600 text-sm mb-4">Water quality and sanitation compliance</p>
+            <div class="text-blue-600 text-sm font-medium">View Document</div>
+          </a>
+        </div>
+      </div>
+
       <!-- Faculty Information -->
       <div class="mb-16">
         <h2 class="text-3xl font-bold text-blue-900 mb-8 text-center">Faculty Information</h2>

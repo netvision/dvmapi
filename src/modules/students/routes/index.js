@@ -157,6 +157,59 @@ router.get(
   studentController.getStatistics
 );
 
+router.post(
+  '/attendance/mark',
+  authenticate,
+  authorize('admin', 'teacher'),
+  validate(studentSchemas.markAttendance),
+  studentController.markAttendance
+);
+
+router.get(
+  '/attendance',
+  authenticate,
+  authorize('admin', 'teacher'),
+  validate(studentSchemas.attendanceQuery, 'query'),
+  studentController.getAttendanceByClassDate
+);
+
+router.get(
+  '/:studentId/attendance',
+  authenticate,
+  authorize('admin', 'teacher', 'student'),
+  studentController.getStudentAttendance
+);
+
+router.post(
+  '/exam-results',
+  authenticate,
+  authorize('admin', 'teacher'),
+  validate(studentSchemas.upsertExamResult),
+  studentController.upsertExamResult
+);
+
+router.get(
+  '/exam-results',
+  authenticate,
+  authorize('admin', 'teacher', 'student'),
+  validate(studentSchemas.examResultsQuery, 'query'),
+  studentController.getExamResults
+);
+
+router.get(
+  '/me/dashboard',
+  authenticate,
+  authorize('student'),
+  studentController.getMyDashboard
+);
+
+router.post(
+  '/:id/create-credentials',
+  authenticate,
+  authorize('admin'),
+  studentController.createCredentials
+);
+
 /**
  * @swagger
  * /students/{id}:

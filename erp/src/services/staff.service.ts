@@ -66,6 +66,27 @@ export interface StaffQuery {
   employment_type?: string;
 }
 
+export interface StaffDashboard {
+  profile: {
+    id: string;
+    employee_id: string;
+    first_name: string;
+    last_name: string;
+    designation?: string;
+    department?: string;
+    staff_type: string;
+    status: string;
+  };
+  assignments: {
+    assigned_subjects: number;
+    assigned_classes: number;
+  };
+  leaves: {
+    pending_leaves: number;
+    approved_leaves: number;
+  };
+}
+
 export const staffService = {
   async getAll(params: StaffQuery = {}) {
     const response = await apiClient.get('/staff', { params });
@@ -114,5 +135,10 @@ export const staffService = {
     if (year) params.year = year;
     const response = await apiClient.get(`/staff/${id}/leaves`, { params });
     return response.data;
+  },
+
+  async getMyDashboard() {
+    const response = await apiClient.get('/staff/me/dashboard');
+    return response.data as { success: boolean; data: StaffDashboard };
   }
 };

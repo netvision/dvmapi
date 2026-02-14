@@ -44,6 +44,7 @@ async function main() {
     await runMigration('005-enhance-students-comprehensive.sql');
     await runMigration('006-enhance-staff-comprehensive.sql');
     await runMigration('007-enhance-classes-sections.sql');
+    await runMigration('010-student-attendance-and-results.sql');
     
     console.log('\n' + '='.repeat(80));
     console.log('✅ ALL MIGRATIONS COMPLETED SUCCESSFULLY');

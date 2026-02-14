@@ -89,6 +89,22 @@ router.post(
   staffController.create
 );
 
+router.get(
+  '/me/dashboard',
+  authenticate,
+  authorize('admin', 'teacher', 'user'),
+  staffController.getMyDashboard
+);
+
+router.post(
+  '/:id/create-credentials',
+  authenticate,
+  authorize('admin'),
+  staffController.createCredentials
+);
+
+router.get('/employee/:employee_id', authenticate, staffController.getByEmployeeId);
+
 /**
  * @swagger
  * /api/v1/staff/{id}:
@@ -154,26 +170,6 @@ router.put(
  *         description: Staff member deleted successfully
  */
 router.delete('/:id', authenticate, authorize('admin'), staffController.delete);
-
-/**
- * @swagger
- * /api/v1/staff/employee/{employee_id}:
- *   get:
- *     summary: Get staff member by employee ID
- *     tags: [Staff]
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - in: path
- *         name: employee_id
- *         required: true
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Staff member retrieved successfully
- */
-router.get('/employee/:employee_id', authenticate, staffController.getByEmployeeId);
 
 /**
  * @swagger

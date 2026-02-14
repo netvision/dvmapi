@@ -66,19 +66,24 @@ const route = useRoute()
 const authStore = useAuthStore()
 
 const menuItems = computed(() => {
-  const items = [
-    { path: '/', label: 'Dashboard' },
-    { path: '/news', label: 'News Management' },
-    { path: '/events', label: 'Events Management' },
-    { path: '/achievers', label: 'Achievers Management' },
-  ]
+  const items = [{ path: '/', label: 'Dashboard' }]
   
   if (authStore.isAdmin) {
+    items.push({ path: '/news', label: 'News Management' })
+    items.push({ path: '/events', label: 'Events Management' })
+    items.push({ path: '/achievers', label: 'Achievers Management' })
     items.push({ path: '/students', label: 'Student Management' })
+    items.push({ path: '/attendance', label: 'Attendance' })
+    items.push({ path: '/exam-results', label: 'Exam Results' })
     items.push({ path: '/staff', label: 'Staff Management' })
     items.push({ path: '/classes', label: 'Classes & Sections' })
     items.push({ path: '/contact-messages', label: 'Contact Messages' })
     items.push({ path: '/users', label: 'User Management' })
+  } else if (authStore.user?.role === 'teacher') {
+    items.push({ path: '/attendance', label: 'Attendance' })
+    items.push({ path: '/exam-results', label: 'Exam Results' })
+  } else if (authStore.user?.role === 'student') {
+    items.push({ path: '/exam-results', label: 'Exam Results' })
   }
   
   return items
@@ -92,6 +97,8 @@ const pageTitle = computed(() => {
     '/events': 'Events Management',
     '/achievers': 'Achievers Management',
     '/students': 'Student Management',
+    '/attendance': 'Attendance',
+    '/exam-results': 'Exam Results',
     '/staff': 'Staff Management',
     '/classes': 'Classes & Sections',
     '/contact-messages': 'Contact Messages'

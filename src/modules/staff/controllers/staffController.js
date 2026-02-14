@@ -1,5 +1,7 @@
 import { getPool } from '../../../database/connection.js';
 import { AppError } from '../../../middleware/errorHandler.js';
+import bcrypt from 'bcryptjs';
+import { randomBytes } from 'crypto';
 
 export const staffController = {
   // Get all staff with pagination and filters
@@ -324,6 +326,157 @@ export const staffController = {
 
       const result = await getPool().query(query, params);
       res.json(result.rows);
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  // Create login credentials for a staff member (admin only)
+  async createCredentials(req, res, next) {
+    try {
+      const { id } = req.params;
+      const pool = getPool();
+
+      const staffResult = await pool.query(
+        `SELECT id, first_name, last_name, email, user_id, staff_type, status
+         FROM staff
+         WHERE id = $1`,
+        [id]
+      );
+
+      if (staffResult.rows.length === 0) {
+        throw new AppError('Staff member not found', 404);
+      }
+
+      const staff = staffResult.rows[0];
+
+      if (staff.status === 'resigned' || staff.status === 'retired') {
+        throw new AppError('Cannot create credentials for resigned/retired staff', 400);
+      }
+
+      if (!staff.email) {
+        throw new AppError('Staff email is required to create login credentials', 400);
+      }
+
+      if (staff.user_id) {
+        const existingLinkedUser = await pool.query(
+          'SELECT id FROM users WHERE CAST(id AS TEXT) = CAST($1 AS TEXT)',
+          [staff.user_id]
+        );
+
+        if (existingLinkedUser.rows.length > 0) {
+          throw new AppError('Staff member already has login credentials', 409);
+        }
+      }
+
+      const emailExists = await pool.query('SELECT id FROM users WHERE email = $1', [staff.email]);
+      if (emailExists.rows.length > 0) {
+        throw new AppError(`Email ${staff.email} is already used by another user`, 409);
+      }
+
+      const role = staff.staff_type === 'teaching' ? 'teacher' : 'user';
+      const temporaryPassword = `Stf@${randomBytes(4).toString('hex')}`;
+      const hashedPassword = await bcrypt.hash(temporaryPassword, 10);
+
+      const userResult = await pool.query(
+        `INSERT INTO users (email, password, first_name, last_name, role, is_active)
+         VALUES ($1, $2, $3, $4, $5, true)
+         RETURNING id, email, first_name, last_name, role, is_active, created_at`,
+        [staff.email, hashedPassword, staff.first_name, staff.last_name, role]
+      );
+
+      const user = userResult.rows[0];
+
+      await pool.query(
+        `UPDATE staff
+         SET user_id = $2, updated_by = $3, updated_at = CURRENT_TIMESTAMP
+         WHERE id = $1`,
+        [id, user.id, req.user.id]
+      );
+
+      res.status(201).json({
+        success: true,
+        message: 'Staff login credentials created successfully',
+        data: {
+          user,
+          temporaryPassword
+        }
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  // Get dashboard data for logged-in staff user
+  async getMyDashboard(req, res, next) {
+    try {
+      const pool = getPool();
+
+      const staffResult = await pool.query(
+        `SELECT id, employee_id, first_name, last_name, designation, department, staff_type, status
+         FROM staff
+         WHERE CAST(user_id AS TEXT) = $1
+         LIMIT 1`,
+        [String(req.user.id)]
+      );
+
+      if (staffResult.rows.length === 0) {
+        throw new AppError('No staff profile is linked with this login', 404);
+      }
+
+      const staff = staffResult.rows[0];
+
+      const teacherSubjectsTable = await pool.query(
+        `SELECT to_regclass('public.teacher_subjects') IS NOT NULL AS exists`
+      );
+      const staffLeavesTable = await pool.query(
+        `SELECT to_regclass('public.staff_leaves') IS NOT NULL AS exists`
+      );
+
+      let assignments = {
+        assigned_subjects: 0,
+        assigned_classes: 0
+      };
+
+      if (teacherSubjectsTable.rows[0].exists) {
+        const assignmentsResult = await pool.query(
+          `SELECT
+             COUNT(DISTINCT subject_id) AS assigned_subjects,
+             COUNT(DISTINCT class_id) AS assigned_classes
+           FROM teacher_subjects
+           WHERE CAST(teacher_id AS TEXT) = $1`,
+          [String(req.user.id)]
+        );
+
+        assignments = assignmentsResult.rows[0];
+      }
+
+      let leaves = {
+        pending_leaves: 0,
+        approved_leaves: 0
+      };
+
+      if (staffLeavesTable.rows[0].exists) {
+        const leavesResult = await pool.query(
+          `SELECT
+             COUNT(*) FILTER (WHERE status = 'pending') AS pending_leaves,
+             COUNT(*) FILTER (WHERE status = 'approved') AS approved_leaves
+           FROM staff_leaves
+           WHERE staff_id = $1`,
+          [staff.id]
+        );
+
+        leaves = leavesResult.rows[0];
+      }
+
+      res.json({
+        success: true,
+        data: {
+          profile: staff,
+          assignments,
+          leaves
+        }
+      });
     } catch (error) {
       next(error);
     }

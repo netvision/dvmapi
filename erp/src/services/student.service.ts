@@ -89,6 +89,54 @@ export interface StudentStatistics {
   }[]
 }
 
+export interface StudentDashboard {
+  profile: {
+    id: string
+    admission_number: string
+    first_name: string
+    last_name: string
+    class: string
+    section?: string
+    academic_year: string
+    status: string
+  }
+  attendance: {
+    present_days: number
+    absent_days: number
+    late_days: number
+    total_marked_days: number
+  }
+  results: {
+    exams_attempted: number
+    average_percentage: number
+  }
+}
+
+export interface AttendanceRecordInput {
+  student_id: string
+  status: 'present' | 'absent' | 'late' | 'half-day' | 'leave' | 'holiday'
+  remarks?: string
+}
+
+export interface ExamResult {
+  id: string
+  student_id: string
+  examination_id: string
+  examination_name: string
+  subject: string
+  marks_obtained: number
+  total_marks: number
+  grade?: string
+  remarks?: string
+  exam_date?: string
+  admission_number?: string
+  first_name?: string
+  last_name?: string
+  class?: string
+  section?: string
+  academic_year?: string
+}
+
 const studentService = {
   async getAll(filters?: StudentFilters) {
     const params = new URLSearchParams()
@@ -137,6 +185,65 @@ const studentService = {
     const params = academicYear ? `?academic_year=${academicYear}` : ''
     const response = await apiClient.get(`/students/statistics${params}`)
     return response.data
+  },
+
+  async getMyDashboard() {
+    const response = await apiClient.get('/students/me/dashboard')
+    return response.data as { success: boolean; data: StudentDashboard }
+  },
+
+  async getAttendanceByClassDate(payload: { attendance_date: string; class: string; section?: string }) {
+    const params = new URLSearchParams()
+    params.append('attendance_date', payload.attendance_date)
+    params.append('class', payload.class)
+    if (payload.section) {
+      params.append('section', payload.section)
+    }
+
+    const response = await apiClient.get(`/students/attendance?${params.toString()}`)
+    return response.data
+  },
+
+  async markAttendance(payload: { attendance_date: string; class: string; section?: string; records: AttendanceRecordInput[] }) {
+    const response = await apiClient.post('/students/attendance/mark', payload)
+    return response.data
+  },
+
+  async getExamResults(filters?: {
+    student_id?: string
+    examination_id?: string
+    class?: string
+    section?: string
+    academic_year?: string
+    limit?: number
+  }) {
+    const params = new URLSearchParams()
+    if (filters) {
+      Object.entries(filters).forEach(([key, value]) => {
+        if (value !== undefined && value !== null && value !== '') {
+          params.append(key, String(value))
+        }
+      })
+    }
+
+    const query = params.toString()
+    const response = await apiClient.get(`/students/exam-results${query ? `?${query}` : ''}`)
+    return response.data as { success: boolean; data: ExamResult[] }
+  },
+
+  async upsertExamResult(payload: {
+    student_id: string
+    examination_id: string
+    examination_name: string
+    subject: string
+    marks_obtained: number
+    total_marks: number
+    grade?: string
+    remarks?: string
+    exam_date?: string
+  }) {
+    const response = await apiClient.post('/students/exam-results', payload)
+    return response.data as { success: boolean; data: ExamResult }
   }
 }
 

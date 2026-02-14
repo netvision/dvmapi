@@ -127,5 +127,45 @@ export const studentSchemas = {
     status: Joi.string().valid('active', 'inactive', 'alumni', 'transferred'),
     academic_year: Joi.string().max(20).trim(),
     search: Joi.string().max(100).trim()
+  }),
+
+  markAttendance: Joi.object({
+    attendance_date: Joi.date().iso().required(),
+    class: Joi.string().required().max(50).trim(),
+    section: Joi.string().allow('', null).max(10).trim(),
+    records: Joi.array().items(
+      Joi.object({
+        student_id: Joi.string().uuid().required(),
+        status: Joi.string().valid('present', 'absent', 'late', 'half-day', 'leave', 'holiday').required(),
+        remarks: Joi.string().allow('', null).max(500).trim()
+      })
+    ).min(1).required()
+  }),
+
+  attendanceQuery: Joi.object({
+    attendance_date: Joi.date().iso().required(),
+    class: Joi.string().required().max(50).trim(),
+    section: Joi.string().allow('', null).max(10).trim()
+  }),
+
+  upsertExamResult: Joi.object({
+    student_id: Joi.string().uuid().required(),
+    examination_id: Joi.string().required().max(100).trim(),
+    examination_name: Joi.string().required().max(255).trim(),
+    subject: Joi.string().required().max(100).trim(),
+    marks_obtained: Joi.number().required().min(0),
+    total_marks: Joi.number().required().greater(0),
+    grade: Joi.string().allow('', null).max(10).trim(),
+    remarks: Joi.string().allow('', null).max(1000).trim(),
+    exam_date: Joi.date().iso().allow(null)
+  }),
+
+  examResultsQuery: Joi.object({
+    student_id: Joi.string().uuid().optional(),
+    examination_id: Joi.string().max(100).trim().optional(),
+    class: Joi.string().max(50).trim().optional(),
+    section: Joi.string().allow('', null).max(10).trim().optional(),
+    academic_year: Joi.string().max(20).trim().optional(),
+    limit: Joi.number().integer().min(1).max(500).default(100)
   })
 };

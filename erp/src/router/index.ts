@@ -48,6 +48,18 @@ const router = createRouter({
           meta: { requiresAdmin: true }
         },
         {
+          path: 'attendance',
+          name: 'Attendance',
+          component: () => import('../views/Attendance.vue'),
+          meta: { requiresRoles: ['admin', 'teacher'] }
+        },
+        {
+          path: 'exam-results',
+          name: 'ExamResults',
+          component: () => import('../views/ExamResults.vue'),
+          meta: { requiresRoles: ['admin', 'teacher', 'student'] }
+        },
+        {
           path: 'staff',
           name: 'Staff',
           component: () => import('../views/Staff.vue'),
@@ -77,6 +89,8 @@ router.beforeEach((to, _from, next) => {
 
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     next('/login')
+  } else if (Array.isArray(to.meta.requiresRoles) && !to.meta.requiresRoles.includes(authStore.user?.role as string)) {
+    next('/')
   } else if (to.meta.requiresAdmin && !authStore.isAdmin) {
     next('/')
   } else if (to.path === '/login' && authStore.isAuthenticated) {

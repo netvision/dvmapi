@@ -6,7 +6,8 @@
       <div v-if="canManage" class="border border-gray-200 rounded-lg p-4 mb-6">
         <h3 class="text-lg font-medium text-gray-800 mb-4">Add / Update Result</h3>
         <form @submit.prevent="saveResult" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <input v-model="resultForm.student_id" type="text" placeholder="Student ID" class="px-3 py-2 border border-gray-300 rounded-lg" required />
+          <input v-model="resultForm.student_id" type="text" placeholder="Student ID (UUID)" class="px-3 py-2 border border-gray-300 rounded-lg" />
+          <input v-model="resultForm.admission_number" type="text" placeholder="OR Admission Number" class="px-3 py-2 border border-gray-300 rounded-lg" />
           <input v-model="resultForm.examination_id" type="text" placeholder="Exam ID (e.g. UNIT1-2026)" class="px-3 py-2 border border-gray-300 rounded-lg" required />
           <input v-model="resultForm.examination_name" type="text" placeholder="Exam Name" class="px-3 py-2 border border-gray-300 rounded-lg" required />
           <input v-model="resultForm.subject" type="text" placeholder="Subject" class="px-3 py-2 border border-gray-300 rounded-lg" required />
@@ -97,6 +98,7 @@ const filters = ref({
 
 const resultForm = ref({
   student_id: '',
+  admission_number: '',
   examination_id: '',
   examination_name: '',
   subject: '',
@@ -137,12 +139,18 @@ async function loadResults() {
 async function saveResult() {
   if (!canManage.value) return
 
+  if (!resultForm.value.student_id.trim() && !resultForm.value.admission_number.trim()) {
+    error.value = 'Provide Student ID or Admission Number'
+    return
+  }
+
   saving.value = true
   error.value = ''
 
   try {
     await studentService.upsertExamResult({
-      student_id: resultForm.value.student_id,
+      student_id: resultForm.value.student_id.trim() || undefined,
+      admission_number: resultForm.value.admission_number.trim() || undefined,
       examination_id: resultForm.value.examination_id,
       examination_name: resultForm.value.examination_name,
       subject: resultForm.value.subject,

@@ -566,6 +566,18 @@ export const studentController = {
       const pool = getPool();
       const { attendance_date, class: studentClass, section } = req.query;
 
+      if (!attendance_date || !studentClass) {
+        return res.json({
+          success: true,
+          data: {
+            attendance_date: attendance_date || null,
+            class: studentClass || null,
+            section: section || null,
+            students: []
+          }
+        });
+      }
+
       const result = await pool.query(
         `SELECT
            s.id,
@@ -642,6 +654,7 @@ export const studentController = {
       const pool = getPool();
       const {
         student_id,
+        admission_number,
         examination_id,
         examination_name,
         subject,
@@ -651,6 +664,25 @@ export const studentController = {
         remarks,
         exam_date
       } = req.body;
+
+      let targetStudentId = student_id;
+
+      if (!targetStudentId && admission_number) {
+        const studentLookup = await pool.query(
+          'SELECT id FROM students WHERE admission_number = $1 LIMIT 1',
+          [admission_number]
+        );
+
+        if (studentLookup.rows.length === 0) {
+          throw new AppError('Student not found for given admission number', 404);
+        }
+
+        targetStudentId = studentLookup.rows[0].id;
+      }
+
+      if (!targetStudentId) {
+        throw new AppError('student_id or admission_number is required', 400);
+      }
 
       const result = await pool.query(
         `INSERT INTO student_exam_results (
@@ -670,7 +702,7 @@ export const studentController = {
            updated_at = CURRENT_TIMESTAMP
          RETURNING *`,
         [
-          student_id,
+          targetStudentId,
           examination_id,
           examination_name,
           subject,

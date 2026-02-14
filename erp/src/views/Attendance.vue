@@ -130,6 +130,11 @@ const students = ref<AttendanceStudent[]>([])
 const attendanceMap = ref<Record<string, { status: AttendanceRecordInput['status']; remarks: string }>>({})
 
 async function loadAttendance() {
+  if (!filters.value.attendance_date || !filters.value.class.trim()) {
+    error.value = 'Attendance date and class are required'
+    return
+  }
+
   loading.value = true
   error.value = ''
 
@@ -161,6 +166,16 @@ async function loadAttendance() {
 }
 
 async function saveAttendance() {
+  if (!filters.value.attendance_date || !filters.value.class.trim()) {
+    error.value = 'Attendance date and class are required'
+    return
+  }
+
+  if (!students.value.length) {
+    error.value = 'Load students first before saving attendance'
+    return
+  }
+
   saving.value = true
   error.value = ''
 

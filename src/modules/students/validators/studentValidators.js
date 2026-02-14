@@ -143,13 +143,14 @@ export const studentSchemas = {
   }),
 
   attendanceQuery: Joi.object({
-    attendance_date: Joi.date().iso().required(),
-    class: Joi.string().required().max(50).trim(),
+    attendance_date: Joi.date().iso().optional(),
+    class: Joi.string().max(50).trim().optional(),
     section: Joi.string().allow('', null).max(10).trim()
   }),
 
   upsertExamResult: Joi.object({
-    student_id: Joi.string().uuid().required(),
+    student_id: Joi.string().uuid().optional(),
+    admission_number: Joi.string().max(50).trim().optional(),
     examination_id: Joi.string().required().max(100).trim(),
     examination_name: Joi.string().required().max(255).trim(),
     subject: Joi.string().required().max(100).trim(),
@@ -158,7 +159,7 @@ export const studentSchemas = {
     grade: Joi.string().allow('', null).max(10).trim(),
     remarks: Joi.string().allow('', null).max(1000).trim(),
     exam_date: Joi.date().iso().allow(null)
-  }),
+  }).or('student_id', 'admission_number'),
 
   examResultsQuery: Joi.object({
     student_id: Joi.string().uuid().optional(),

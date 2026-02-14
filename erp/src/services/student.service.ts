@@ -232,7 +232,8 @@ const studentService = {
   },
 
   async upsertExamResult(payload: {
-    student_id: string
+    student_id?: string
+    admission_number?: string
     examination_id: string
     examination_name: string
     subject: string

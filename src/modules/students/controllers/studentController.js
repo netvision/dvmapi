@@ -514,6 +514,17 @@ export const studentController = {
       const pool = getPool();
       const { attendance_date, class: studentClass, section, records } = req.body;
 
+      let markerUserId = null;
+      if (req.user?.id) {
+        const markerCheck = await pool.query(
+          'SELECT id FROM users WHERE CAST(id AS TEXT) = $1 LIMIT 1',
+          [String(req.user.id)]
+        );
+        if (markerCheck.rows.length > 0) {
+          markerUserId = markerCheck.rows[0].id;
+        }
+      }
+
       const updatedRows = [];
       for (const record of records) {
         const studentCheck = await pool.query(
@@ -538,7 +549,7 @@ export const studentController = {
              marked_by = EXCLUDED.marked_by,
              updated_at = CURRENT_TIMESTAMP
            RETURNING *`,
-          [record.student_id, attendance_date, record.status, record.remarks || null, req.user.id]
+          [record.student_id, attendance_date, record.status, record.remarks || null, markerUserId]
         );
 
         updatedRows.push(result.rows[0]);
@@ -684,6 +695,17 @@ export const studentController = {
         throw new AppError('student_id or admission_number is required', 400);
       }
 
+      let enteredBy = null;
+      if (req.user?.id) {
+        const enteredByCheck = await pool.query(
+          'SELECT id FROM users WHERE CAST(id AS TEXT) = $1 LIMIT 1',
+          [String(req.user.id)]
+        );
+        if (enteredByCheck.rows.length > 0) {
+          enteredBy = enteredByCheck.rows[0].id;
+        }
+      }
+
       const result = await pool.query(
         `INSERT INTO student_exam_results (
            student_id, examination_id, examination_name, subject,
@@ -711,7 +733,7 @@ export const studentController = {
           grade || null,
           remarks || null,
           exam_date || null,
-          req.user.id
+          enteredBy
         ]
       );
 

@@ -44,6 +44,17 @@ export interface Student {
   medical_conditions?: string
   allergies?: string
   previous_school?: string
+  previous_school_name?: string
+  father_email?: string
+  father_qualification?: string
+  father_profession?: string
+  father_designation?: string
+  father_annual_income?: number
+  mother_email?: string
+  mother_qualification?: string
+  mother_profession?: string
+  mother_designation?: string
+  mother_annual_income?: number
   transfer_certificate_number?: string
   notes?: string
   created_at: string

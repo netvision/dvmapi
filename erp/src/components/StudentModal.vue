@@ -312,7 +312,7 @@ const form = ref({
   middle_name: '',
   last_name: '',
   date_of_birth: '',
-  gender: '',
+  gender: '' as Student['gender'] | '',
   blood_group: '',
   religion: '',
   email: '',
@@ -325,7 +325,7 @@ const form = ref({
   section: '',
   academic_year: '2025-2026',
   admission_date: new Date().toISOString().split('T')[0],
-  status: 'active',
+  status: 'active' as Student['status'],
   previous_school_name: '',
   parent1_name: '',
   parent1_relation: 'Father',
@@ -341,12 +341,12 @@ const form = ref({
   father_qualification: '',
   father_profession: '',
   father_designation: '',
-  father_annual_income: null,
+  father_annual_income: null as number | null,
   mother_email: '',
   mother_qualification: '',
   mother_profession: '',
   mother_designation: '',
-  mother_annual_income: null,
+  mother_annual_income: null as number | null,
   medical_conditions: '',
   allergies: ''
 })
@@ -395,12 +395,12 @@ watch(() => props.student, (student) => {
       father_qualification: student.father_qualification || '',
       father_profession: student.father_profession || '',
       father_designation: student.father_designation || '',
-      father_annual_income: student.father_annual_income || null,
+      father_annual_income: student.father_annual_income ?? null,
       mother_email: student.mother_email || '',
       mother_qualification: student.mother_qualification || '',
       mother_profession: student.mother_profession || '',
       mother_designation: student.mother_designation || '',
-      mother_annual_income: student.mother_annual_income || null,
+      mother_annual_income: student.mother_annual_income ?? null,
       medical_conditions: student.medical_conditions || '',
       allergies: student.allergies || ''
     }
@@ -420,7 +420,7 @@ watch(() => props.mode, (mode) => {
       middle_name: '',
       last_name: '',
       date_of_birth: '',
-      gender: '',
+      gender: '' as Student['gender'] | '',
       blood_group: '',
       religion: '',
       email: '',
@@ -433,7 +433,7 @@ watch(() => props.mode, (mode) => {
       section: '',
       academic_year: '2025-2026',
       admission_date: new Date().toISOString().split('T')[0],
-      status: 'active',
+      status: 'active' as Student['status'],
       previous_school_name: '',
       parent1_name: '',
       parent1_relation: 'Father',
@@ -449,12 +449,12 @@ watch(() => props.mode, (mode) => {
       father_qualification: '',
       father_profession: '',
       father_designation: '',
-      father_annual_income: null,
+      father_annual_income: null as number | null,
       mother_email: '',
       mother_qualification: '',
       mother_profession: '',
       mother_designation: '',
-      mother_annual_income: null,
+      mother_annual_income: null as number | null,
       medical_conditions: '',
       allergies: ''
     }
@@ -466,10 +466,18 @@ async function handleSubmit() {
   error.value = ''
 
   try {
+    const payload: Partial<Student> = {
+      ...form.value,
+      gender: form.value.gender || undefined,
+      previous_school: form.value.previous_school_name || undefined,
+      father_annual_income: form.value.father_annual_income ?? undefined,
+      mother_annual_income: form.value.mother_annual_income ?? undefined
+    }
+
     if (props.mode === 'create') {
-      await studentService.create(form.value)
+      await studentService.create(payload)
     } else if (props.student?.id) {
-      await studentService.update(props.student.id, form.value)
+      await studentService.update(props.student.id, payload)
     }
     emit('saved')
   } catch (err: any) {

@@ -345,7 +345,7 @@ const error = ref('')
 const showModal = ref(false)
 const showDetailModal = ref(false)
 const selectedStudent = ref<Student | null>(null)
-const modalMode = ref<'create' | 'edit' | 'view'>('create')
+const modalMode = ref<'create' | 'edit'>('create')
 
 const filters = ref<StudentFilters>({
   page: 1,
@@ -372,10 +372,12 @@ const visiblePages = computed(() => {
   return pages
 })
 
-let searchTimeout: NodeJS.Timeout
+let searchTimeout: ReturnType<typeof setTimeout> | undefined
 
 const debouncedSearch = () => {
-  clearTimeout(searchTimeout)
+  if (searchTimeout) {
+    clearTimeout(searchTimeout)
+  }
   searchTimeout = setTimeout(() => {
     filters.value.page = 1
     loadStudents()

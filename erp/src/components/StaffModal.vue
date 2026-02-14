@@ -103,7 +103,7 @@ const emit = defineEmits(['close', 'saved']);
 
 const isEdit = computed(() => !!props.staff?.id);
 
-const initialFormData = () => ({
+const initialFormData = (): Partial<Staff> => ({
   employee_id: '',
   first_name: '',
   middle_name: '',
@@ -123,7 +123,7 @@ const initialFormData = () => ({
   status: 'active'
 });
 
-const formData = ref(initialFormData());
+const formData = ref<Partial<Staff>>(initialFormData());
 
 watch(() => props.staff, (newVal) => {
   if (newVal?.id) {

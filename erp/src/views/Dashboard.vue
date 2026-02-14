@@ -1,24 +1,23 @@
 <template>
   <div>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8" v-if="dashboardRole === 'admin'">
+    <div v-if="dashboardRole === 'admin'" class="space-y-6 mb-8">
       <div class="bg-white rounded-lg shadow p-6">
-        <h3 class="text-gray-500 text-sm font-medium">Total Users</h3>
-        <p class="text-3xl font-bold text-primary-600 mt-2">{{ stats.totalUsers }}</p>
+        <h2 class="text-xl font-semibold text-gray-800">Admin Overview</h2>
+        <p class="text-sm text-gray-500 mt-1">Grouped module insights for faster decision-making.</p>
       </div>
-      
-      <div class="bg-white rounded-lg shadow p-6">
-        <h3 class="text-gray-500 text-sm font-medium">Published News</h3>
-        <p class="text-3xl font-bold text-green-600 mt-2">{{ stats.publishedNews }}</p>
-      </div>
-      
-      <div class="bg-white rounded-lg shadow p-6">
-        <h3 class="text-gray-500 text-sm font-medium">Upcoming Events</h3>
-        <p class="text-3xl font-bold text-blue-600 mt-2">{{ stats.upcomingEvents }}</p>
-      </div>
-      
-      <div class="bg-white rounded-lg shadow p-6">
-        <h3 class="text-gray-500 text-sm font-medium">Active Students</h3>
-        <p class="text-3xl font-bold text-purple-600 mt-2">{{ stats.activeStudents }}</p>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div v-for="group in adminModuleGroups" :key="group.title" class="bg-white rounded-lg shadow p-6">
+          <h3 class="text-base font-semibold text-gray-800">{{ group.title }}</h3>
+          <p class="text-xs text-gray-500 mt-1 mb-4">{{ group.subtitle }}</p>
+
+          <div class="space-y-3">
+            <div v-for="metric in group.metrics" :key="metric.label" class="flex items-center justify-between border border-gray-100 rounded-lg px-3 py-2">
+              <span class="text-sm text-gray-600">{{ metric.label }}</span>
+              <span class="text-lg font-semibold" :class="metric.valueClass">{{ metric.value }}</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -98,6 +97,33 @@ const stats = ref({
   activeStudents: 0
 })
 
+const adminModuleGroups = computed(() => [
+  {
+    title: 'People Module',
+    subtitle: 'Users, students, and staff footprint',
+    metrics: [
+      { label: 'Total Users', value: stats.value.totalUsers, valueClass: 'text-primary-600' },
+      { label: 'Active Students', value: stats.value.activeStudents, valueClass: 'text-purple-600' }
+    ]
+  },
+  {
+    title: 'Content Module',
+    subtitle: 'Public communication activity',
+    metrics: [
+      { label: 'Published News', value: stats.value.publishedNews, valueClass: 'text-green-600' },
+      { label: 'Upcoming Events', value: stats.value.upcomingEvents, valueClass: 'text-blue-600' }
+    ]
+  },
+  {
+    title: 'Academics Module',
+    subtitle: 'Operational school records',
+    metrics: [
+      { label: 'Attendance Tracking', value: 'Enabled', valueClass: 'text-primary-600' },
+      { label: 'Exam Results', value: 'Enabled', valueClass: 'text-primary-600' }
+    ]
+  }
+])
+
 const studentDashboard = ref({
   classLabel: '-',
   presentDays: 0,
@@ -149,11 +175,13 @@ onMounted(async () => {
       cmsService.getNews({ status: 'published', limit: 1 }),
       cmsService.getEvents({ upcoming: true, limit: 1 })
     ])
+
+    const studentStatsResponse = await studentService.getStatistics()
     
     stats.value.totalUsers = users.pagination.total
     stats.value.publishedNews = news.pagination.total
     stats.value.upcomingEvents = events.pagination.total
-    stats.value.activeStudents = 0 // Placeholder
+    stats.value.activeStudents = Number(studentStatsResponse.data.overview.active_students || 0)
   } catch (error) {
     console.error('Failed to load dashboard stats:', error)
   }

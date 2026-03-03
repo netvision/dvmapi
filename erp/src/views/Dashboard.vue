@@ -47,7 +47,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted, defineComponent, h } from 'vue'
+import { computed, ref, onMounted, defineComponent, h, type PropType, type Component } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
 import userService from '../services/user.service'
@@ -76,7 +76,7 @@ const StatCard = defineComponent({
   props: {
     label: { type: String, required: true },
     value: { type: [String, Number], required: true },
-    icon: { type: [Object, Function], required: true },
+    icon: { type: Object as PropType<Component>, required: true },
     color: { type: String, default: 'blue' }
   },
   setup(props) {
@@ -99,7 +99,7 @@ const QuickLink = defineComponent({
   props: {
     to: { type: String, required: true },
     label: { type: String, required: true },
-    icon: { type: [Object, Function], required: true },
+    icon: { type: Object as PropType<Component>, required: true },
     color: { type: String, default: 'blue' }
   },
   setup(props) {

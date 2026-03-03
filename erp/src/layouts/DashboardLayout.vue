@@ -94,7 +94,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineComponent, h } from 'vue'
+import { computed, defineComponent, h, type PropType, type Component } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { RouterLink } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
@@ -113,7 +113,7 @@ const NavItem = defineComponent({
   props: {
     to: { type: String, required: true },
     label: { type: String, required: true },
-    icon: { type: [Object, Function], required: true },
+    icon: { type: Object as PropType<Component>, required: true },
     active: { type: Boolean, default: false }
   },
   setup(props) {

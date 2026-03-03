@@ -18,6 +18,7 @@ export interface LearningChapter {
   title: string
   description: string | null
   pdf_url: string | null
+  xlsx_url: string | null
 }
 
 export interface TeacherAssignmentOptionData {
@@ -147,12 +148,12 @@ const learningService = {
     return response.data as { success: boolean; data: LearningChapter[] }
   },
 
-  async createChapter(payload: { class_id: string; subject_id: string; chapterNo: string; title: string; description?: string; pdf_url?: string | null }) {
+  async createChapter(payload: { class_id: string; subject_id: string; chapterNo: string; title: string; description?: string; pdf_url?: string | null; xlsx_url?: string | null }) {
     const response = await apiClient.post('/learning/chapters', payload)
     return response.data
   },
 
-  async updateChapter(id: string, payload: { chapterNo?: string; title?: string; description?: string; pdf_url?: string | null }) {
+  async updateChapter(id: string, payload: { chapterNo?: string; title?: string; description?: string; pdf_url?: string | null; xlsx_url?: string | null }) {
     const response = await apiClient.put(`/learning/chapters/${id}`, payload)
     return response.data
   },

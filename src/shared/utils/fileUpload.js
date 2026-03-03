@@ -38,17 +38,22 @@ const storage = multer.diskStorage({
   }
 });
 
-// File filter - allow images always, videos when type=learning
+// File filter - allow images, videos, PDFs, and spreadsheets
 const fileFilter = (req, file, cb) => {
   const allowedImages = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
   const allowedVideos = ['video/mp4', 'video/webm', 'video/ogg', 'video/quicktime', 'video/x-msvideo'];
+  const allowedDocs   = [
+    'application/pdf',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // .xlsx
+    'application/vnd.ms-excel',                                           // .xls
+  ];
 
-  if (allowedImages.includes(file.mimetype)) {
-    cb(null, true);
-  } else if (allowedVideos.includes(file.mimetype)) {
+  if (allowedImages.includes(file.mimetype) ||
+      allowedVideos.includes(file.mimetype) ||
+      allowedDocs.includes(file.mimetype)) {
     cb(null, true);
   } else {
-    cb(new AppError('Only image or video files are allowed', 400), false);
+    cb(new AppError('Only image, video, PDF or Excel files are allowed', 400), false);
   }
 };
 

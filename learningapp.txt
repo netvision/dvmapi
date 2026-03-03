@@ -1,0 +1,94 @@
+Being senior full-stack software architect and developer. please extend the existing api and develop a new module as follows:
+(Note: please first plan what you are going to make)
+
+APPLICATION TYPE
+    A structured academic learning platform where teachers create detailed lesson plans.
+
+CORE DOMAIN STRUCTURE
+    Academic hierarchy:
+        Class (1 to 8)
+            → Subjects
+            → Chapters
+            → Key Concepts
+            → Lesson Plan
+            Each key concept has ONE lesson plan.
+
+        KEY CONCEPT STRUCTURE
+            Each Key Concept must store:
+                title
+                description
+                chapterId reference
+                totalSessionsRequired (Number, required)
+                sessionDurationMinutes (Number)
+                difficultyLevel (easy | medium | hard)
+                prerequisites (array of conceptIds or text)
+
+        LESSON PLAN STRUCTURE
+            Design lesson plans using 4 professional academic layers:
+            1️⃣ PLANNING
+            2️⃣ DELIVERY
+            3️⃣ EVALUATION
+            4️⃣ REFLECTION
+
+        LESSON PLAN DATA MODEL
+        PLANNING
+            learningOutcomes (array)
+            teachingMethod (lecture | activity | discussion | project)
+            instructionalSteps (ordered list)
+            teachingAids (array)
+            requiredMaterials (array)
+        DELIVERY
+            actualContent
+            text
+            images
+            audio
+            videos
+            studentActivities (array)
+            integration
+            otherSubjects
+            libraryReferences
+            lifeLessons
+        EVALUATION
+            assessmentMethod
+            rubric
+            homeworkAssigned
+            assessmentRemarks
+            progressStatus (notStarted | ongoing | completed)
+        REFLECTION
+            teacherReflection
+            improvementsForNextTime
+
+USER ROLES
+    Implement role-based access control.
+    Admin
+        manage classes
+        assign teachers to subjects
+        full CRUD everywhere
+    Teacher
+        view assigned subjects
+        create lesson plans
+        edit own lesson plans
+    Viewer (read only)
+
+LESSON PLAN EDITOR UI
+Structured into 4 tabs:
+TAB 1 — Planning
+    learning outcomes
+    teaching method
+    instructional steps
+    teaching aids
+    materials required
+TAB 2 — Delivery
+    content editor
+    media upload
+    student activities
+    integration panel
+TAB 3 — Evaluation
+    assessment method
+    rubric
+    homework
+    remarks
+    progress status
+TAB 4 — Reflection
+    teacher reflection
+    improvements for next time

@@ -103,6 +103,13 @@ router.post(
   staffController.createCredentials
 );
 
+router.post(
+  '/sync-users',
+  authenticate,
+  authorize('admin'),
+  staffController.syncAllToUsers
+);
+
 router.get('/employee/:employee_id', authenticate, staffController.getByEmployeeId);
 
 /**

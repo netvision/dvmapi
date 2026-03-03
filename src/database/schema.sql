@@ -139,6 +139,99 @@ DROP INDEX IF EXISTS idx_learning_content_type;
 CREATE INDEX idx_learning_content_subject_id ON learning_content(subject_id);
 CREATE INDEX idx_learning_content_type ON learning_content(content_type);
 
+-- Learning chapters (Class -> Subject -> Chapter)
+CREATE TABLE IF NOT EXISTS learning_chapters (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    class_id UUID NOT NULL,
+    subject_id UUID NOT NULL REFERENCES subjects(id) ON DELETE CASCADE,
+    chapter_no VARCHAR(50),
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    created_by UUID REFERENCES users(id) ON DELETE SET NULL,
+    updated_by UUID REFERENCES users(id) ON DELETE SET NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(class_id, subject_id, title)
+);
+
+ALTER TABLE IF EXISTS learning_chapters
+ADD COLUMN IF NOT EXISTS chapter_no VARCHAR(50);
+
+ALTER TABLE IF EXISTS learning_chapters
+ADD COLUMN IF NOT EXISTS pdf_url VARCHAR(500);
+
+DROP INDEX IF EXISTS idx_learning_chapters_class_subject;
+DROP INDEX IF EXISTS idx_learning_chapters_subject;
+CREATE INDEX idx_learning_chapters_class_subject ON learning_chapters(class_id, subject_id);
+CREATE INDEX idx_learning_chapters_subject ON learning_chapters(subject_id);
+
+-- Learning key concepts (One lesson plan per key concept)
+CREATE TABLE IF NOT EXISTS learning_key_concepts (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    chapter_id UUID NOT NULL REFERENCES learning_chapters(id) ON DELETE CASCADE,
+    total_sessions_required INTEGER NOT NULL CHECK (total_sessions_required > 0),
+    session_duration_minutes INTEGER CHECK (session_duration_minutes > 0),
+    difficulty_level VARCHAR(20) NOT NULL DEFAULT 'medium' CHECK (difficulty_level IN ('easy', 'medium', 'hard')),
+    prerequisites JSONB DEFAULT '[]'::jsonb,
+    created_by UUID REFERENCES users(id) ON DELETE SET NULL,
+    updated_by UUID REFERENCES users(id) ON DELETE SET NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+DROP INDEX IF EXISTS idx_learning_key_concepts_chapter;
+DROP INDEX IF EXISTS idx_learning_key_concepts_difficulty;
+CREATE INDEX idx_learning_key_concepts_chapter ON learning_key_concepts(chapter_id);
+CREATE INDEX idx_learning_key_concepts_difficulty ON learning_key_concepts(difficulty_level);
+
+-- Structured lesson plans with 4 professional academic layers
+CREATE TABLE IF NOT EXISTS learning_lesson_plans (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    key_concept_id UUID NOT NULL UNIQUE REFERENCES learning_key_concepts(id) ON DELETE CASCADE,
+
+    -- Planning
+    learning_outcomes JSONB DEFAULT '[]'::jsonb,
+    teaching_method VARCHAR(20) CHECK (teaching_method IN ('lecture', 'activity', 'discussion', 'project')),
+    instructional_steps JSONB DEFAULT '[]'::jsonb,
+    teaching_aids JSONB DEFAULT '[]'::jsonb,
+    required_materials JSONB DEFAULT '[]'::jsonb,
+
+    -- Delivery
+    actual_content TEXT,
+    content_text TEXT,
+    content_images JSONB DEFAULT '[]'::jsonb,
+    content_audio JSONB DEFAULT '[]'::jsonb,
+    content_videos JSONB DEFAULT '[]'::jsonb,
+    student_activities JSONB DEFAULT '[]'::jsonb,
+    integration TEXT,
+    other_subjects JSONB DEFAULT '[]'::jsonb,
+    library_references JSONB DEFAULT '[]'::jsonb,
+    life_lessons TEXT,
+
+    -- Evaluation
+    assessment_method TEXT,
+    rubric TEXT,
+    homework_assigned TEXT,
+    assessment_remarks TEXT,
+    progress_status VARCHAR(20) NOT NULL DEFAULT 'notStarted' CHECK (progress_status IN ('notStarted', 'ongoing', 'completed')),
+
+    -- Reflection
+    teacher_reflection TEXT,
+    improvements_for_next_time TEXT,
+
+    created_by UUID REFERENCES users(id) ON DELETE SET NULL,
+    updated_by UUID REFERENCES users(id) ON DELETE SET NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+DROP INDEX IF EXISTS idx_learning_lesson_plans_key_concept;
+DROP INDEX IF EXISTS idx_learning_lesson_plans_progress;
+CREATE INDEX idx_learning_lesson_plans_key_concept ON learning_lesson_plans(key_concept_id);
+CREATE INDEX idx_learning_lesson_plans_progress ON learning_lesson_plans(progress_status);
+
 -- AI Chat history
 CREATE TABLE IF NOT EXISTS chat_history (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -318,6 +411,15 @@ CREATE TRIGGER update_syllabus_updated_at BEFORE UPDATE ON syllabus FOR EACH ROW
 
 DROP TRIGGER IF EXISTS update_learning_content_updated_at ON learning_content;
 CREATE TRIGGER update_learning_content_updated_at BEFORE UPDATE ON learning_content FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+DROP TRIGGER IF EXISTS update_learning_chapters_updated_at ON learning_chapters;
+CREATE TRIGGER update_learning_chapters_updated_at BEFORE UPDATE ON learning_chapters FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+DROP TRIGGER IF EXISTS update_learning_key_concepts_updated_at ON learning_key_concepts;
+CREATE TRIGGER update_learning_key_concepts_updated_at BEFORE UPDATE ON learning_key_concepts FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+DROP TRIGGER IF EXISTS update_learning_lesson_plans_updated_at ON learning_lesson_plans;
+CREATE TRIGGER update_learning_lesson_plans_updated_at BEFORE UPDATE ON learning_lesson_plans FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 DROP TRIGGER IF EXISTS update_news_updated_at ON news;
 CREATE TRIGGER update_news_updated_at BEFORE UPDATE ON news FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();

@@ -38,7 +38,7 @@ class UserService {
     password: string
     first_name?: string
     last_name?: string
-    role?: 'admin' | 'teacher' | 'student' | 'parent' | 'staff'
+    role?: 'admin' | 'teacher' | 'student' | 'parent' | 'staff' | 'user' | 'librarian'
   }): Promise<SingleResponse<User>> {
     const response = await apiClient.post('/core/users', data)
     return response.data
@@ -48,7 +48,7 @@ class UserService {
     email: string
     first_name: string
     last_name: string
-    role: 'admin' | 'teacher' | 'student' | 'parent' | 'staff'
+    role: 'admin' | 'teacher' | 'student' | 'parent' | 'staff' | 'user' | 'librarian'
     is_active: boolean
   }>): Promise<SingleResponse<User>> {
     const response = await apiClient.put(`/core/users/${id}`, data)

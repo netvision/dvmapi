@@ -76,6 +76,12 @@ const router = createRouter({
           name: 'ContactMessages',
           component: () => import('../views/ContactMessages.vue'),
           meta: { requiresAdmin: true }
+        },
+        {
+          path: 'learning',
+          name: 'Learning',
+          component: () => import('../views/LearningLessonPlans.vue'),
+          meta: { requiresRoles: ['admin', 'teacher'] }
         }
       ]
     }

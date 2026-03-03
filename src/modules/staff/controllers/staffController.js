@@ -3,7 +3,225 @@ import { AppError } from '../../../middleware/errorHandler.js';
 import bcrypt from 'bcryptjs';
 import { randomBytes } from 'crypto';
 
+const mapStaffToUserRole = (staff) => {
+  if (staff.staff_type === 'teaching') {
+    return 'teacher';
+  }
+
+  if ((staff.designation || '').toLowerCase().includes('librarian')) {
+    return 'librarian';
+  }
+
+  return 'user';
+};
+
+const isStaffActiveForLogin = (status) => !['resigned', 'retired', 'suspended'].includes(status || '');
+
+const normalizeEmail = (value) => (value || '').trim().toLowerCase();
+
+const isUsableEmail = (email) => {
+  if (!email) return false;
+  if (!email.includes('@')) return false;
+
+  const invalidValues = new Set(['nan', 'na', 'null', 'undefined', '-']);
+  return !invalidValues.has(email);
+};
+
+const buildFallbackEmail = (staff) => {
+  const employeePart = (staff.employee_id || '').trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+  if (employeePart) {
+    return `${employeePart}@staff.institute.local`;
+  }
+  return `staff-${String(staff.id).replace(/[^a-z0-9]/gi, '').toLowerCase()}@staff.institute.local`;
+};
+
+const generateTemporaryPassword = () => `Stf@${randomBytes(4).toString('hex')}`;
+
+const resolveUniqueEmail = async (pool, baseEmail, ignoreUserId = null) => {
+  const atIndex = baseEmail.lastIndexOf('@');
+  const localPart = atIndex > 0 ? baseEmail.slice(0, atIndex) : baseEmail;
+  const domainPart = atIndex > 0 ? baseEmail.slice(atIndex + 1) : 'staff.institute.local';
+
+  let candidate = `${localPart}@${domainPart}`;
+  let suffix = 1;
+
+  while (true) {
+    const exists = await pool.query(
+      `SELECT id FROM users WHERE email = $1 LIMIT 1`,
+      [candidate]
+    );
+
+    if (exists.rows.length === 0) {
+      return candidate;
+    }
+
+    if (ignoreUserId && String(exists.rows[0].id) === String(ignoreUserId)) {
+      return candidate;
+    }
+
+    candidate = `${localPart}+${suffix}@${domainPart}`;
+    suffix += 1;
+  }
+};
+
+const createOrLinkStaffUser = async (pool, staff, adminUserId, options = {}) => {
+  const targetRole = mapStaffToUserRole(staff);
+  const normalized = normalizeEmail(staff.email);
+  const sourceEmail = isUsableEmail(normalized) ? normalized : buildFallbackEmail(staff);
+  const targetActive = isStaffActiveForLogin(staff.status);
+
+  const existingByLink = staff.user_id
+    ? await pool.query(
+      `SELECT id, email, role FROM users WHERE CAST(id AS TEXT) = CAST($1 AS TEXT) LIMIT 1`,
+      [staff.user_id]
+    )
+    : { rows: [] };
+
+  let user = existingByLink.rows[0] || null;
+  let temporaryPassword = null;
+  let action = 'linked';
+
+  if (user) {
+    const linkedElsewhere = await pool.query(
+      `SELECT id FROM staff
+       WHERE CAST(user_id AS TEXT) = CAST($1 AS TEXT)
+         AND CAST(id AS TEXT) <> CAST($2 AS TEXT)
+       LIMIT 1`,
+      [user.id, staff.id]
+    );
+
+    if (linkedElsewhere.rows.length > 0) {
+      user = null;
+    }
+  }
+
+  if (!user) {
+    const existingByEmail = await pool.query(
+      `SELECT id, email, role FROM users WHERE email = $1 LIMIT 1`,
+      [sourceEmail]
+    );
+
+    if (existingByEmail.rows.length > 0) {
+      const alreadyLinkedToOtherStaff = await pool.query(
+        `SELECT id FROM staff
+         WHERE CAST(user_id AS TEXT) = CAST($1 AS TEXT)
+           AND CAST(id AS TEXT) <> CAST($2 AS TEXT)
+         LIMIT 1`,
+        [existingByEmail.rows[0].id, staff.id]
+      );
+
+      if (alreadyLinkedToOtherStaff.rows.length === 0) {
+        user = existingByEmail.rows[0];
+        action = 'linked-existing-email';
+      }
+    }
+  }
+
+  const desiredEmail = await resolveUniqueEmail(pool, sourceEmail, user?.id || null);
+
+  if (!user) {
+    temporaryPassword = generateTemporaryPassword();
+    const hashedPassword = await bcrypt.hash(temporaryPassword, 10);
+
+    const created = await pool.query(
+      `INSERT INTO users (email, password, first_name, last_name, role, is_active)
+       VALUES ($1, $2, $3, $4, $5, $6)
+       RETURNING id, email, role, is_active`,
+      [desiredEmail, hashedPassword, staff.first_name, staff.last_name, targetRole, targetActive]
+    );
+
+    user = created.rows[0];
+    action = 'created';
+  } else {
+    if (options.resetPasswords === true) {
+      temporaryPassword = generateTemporaryPassword();
+      const hashedPassword = await bcrypt.hash(temporaryPassword, 10);
+
+      await pool.query(
+        `UPDATE users
+         SET password = $1,
+             updated_at = CURRENT_TIMESTAMP
+         WHERE id = $2`,
+        [hashedPassword, user.id]
+      );
+    }
+
+    await pool.query(
+      `UPDATE users
+       SET email = $1,
+           first_name = $2,
+           last_name = $3,
+           role = $4,
+           is_active = $5,
+           updated_at = CURRENT_TIMESTAMP
+       WHERE id = $6`,
+      [desiredEmail, staff.first_name, staff.last_name, targetRole, targetActive, user.id]
+    );
+    action = 'updated';
+  }
+
+  await pool.query(
+    `UPDATE staff
+     SET user_id = $2, updated_by = $3, updated_at = CURRENT_TIMESTAMP
+     WHERE id = $1`,
+    [staff.id, user.id, adminUserId || null]
+  );
+
+  return {
+    staffId: staff.id,
+    employeeId: staff.employee_id,
+    userId: user.id,
+    email: desiredEmail,
+    role: targetRole,
+    action,
+    temporaryPassword,
+  };
+};
+
 export const staffController = {
+  async syncAllToUsers(req, res, next) {
+    try {
+      const pool = getPool();
+      const resetPasswords = String(req.query.resetPasswords || '') === 'true';
+
+      const staffResult = await pool.query(
+        `SELECT id, employee_id, first_name, last_name, email, user_id, staff_type, designation, status
+         FROM staff
+         ORDER BY first_name, last_name`
+      );
+
+      const synchronized = [];
+      const failures = [];
+
+      for (const staff of staffResult.rows) {
+        try {
+          const entry = await createOrLinkStaffUser(pool, staff, req.user.id, { resetPasswords });
+          synchronized.push(entry);
+        } catch (error) {
+          failures.push({
+            staffId: staff.id,
+            employeeId: staff.employee_id,
+            reason: error.message,
+          });
+        }
+      }
+
+      res.json({
+        success: true,
+        message: 'Staff to user synchronization completed',
+        data: {
+          totalStaff: staffResult.rows.length,
+          synchronizedCount: synchronized.length,
+          failedCount: failures.length,
+          synchronized,
+          failures,
+        },
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+
   // Get all staff with pagination and filters
   async getAll(req, res, next) {
     try {
@@ -102,7 +320,22 @@ export const staffController = {
         throw new AppError('Staff member not found', 404);
       }
 
-      res.json(result.rows[0]);
+      const updatedStaff = result.rows[0];
+      const syncResult = await createOrLinkStaffUser(getPool(), {
+        ...updatedStaff,
+        designation: updatedStaff.designation,
+      }, updatedBy);
+
+      res.json({
+        ...updatedStaff,
+        generatedCredentials: syncResult.temporaryPassword
+          ? {
+            email: syncResult.email,
+            temporaryPassword: syncResult.temporaryPassword,
+            role: syncResult.role,
+          }
+          : null,
+      });
     } catch (error) {
       next(error);
     }
@@ -171,7 +404,23 @@ export const staffController = {
         ]
       );
 
-      res.status(201).json(result.rows[0]);
+      const createdStaff = result.rows[0];
+
+      const syncResult = await createOrLinkStaffUser(getPool(), {
+        ...createdStaff,
+        designation: createdStaff.designation,
+      }, createdBy);
+
+      res.status(201).json({
+        ...createdStaff,
+        generatedCredentials: syncResult.temporaryPassword
+          ? {
+            email: syncResult.email,
+            temporaryPassword: syncResult.temporaryPassword,
+            role: syncResult.role,
+          }
+          : null,
+      });
     } catch (error) {
       next(error);
     }
@@ -354,52 +603,19 @@ export const staffController = {
         throw new AppError('Cannot create credentials for resigned/retired staff', 400);
       }
 
-      if (!staff.email) {
-        throw new AppError('Staff email is required to create login credentials', 400);
-      }
-
-      if (staff.user_id) {
-        const existingLinkedUser = await pool.query(
-          'SELECT id FROM users WHERE CAST(id AS TEXT) = CAST($1 AS TEXT)',
-          [staff.user_id]
-        );
-
-        if (existingLinkedUser.rows.length > 0) {
-          throw new AppError('Staff member already has login credentials', 409);
-        }
-      }
-
-      const emailExists = await pool.query('SELECT id FROM users WHERE email = $1', [staff.email]);
-      if (emailExists.rows.length > 0) {
-        throw new AppError(`Email ${staff.email} is already used by another user`, 409);
-      }
-
-      const role = staff.staff_type === 'teaching' ? 'teacher' : 'user';
-      const temporaryPassword = `Stf@${randomBytes(4).toString('hex')}`;
-      const hashedPassword = await bcrypt.hash(temporaryPassword, 10);
-
-      const userResult = await pool.query(
-        `INSERT INTO users (email, password, first_name, last_name, role, is_active)
-         VALUES ($1, $2, $3, $4, $5, true)
-         RETURNING id, email, first_name, last_name, role, is_active, created_at`,
-        [staff.email, hashedPassword, staff.first_name, staff.last_name, role]
-      );
-
-      const user = userResult.rows[0];
-
-      await pool.query(
-        `UPDATE staff
-         SET user_id = $2, updated_by = $3, updated_at = CURRENT_TIMESTAMP
-         WHERE id = $1`,
-        [id, user.id, req.user.id]
-      );
+      const syncResult = await createOrLinkStaffUser(pool, staff, req.user.id);
 
       res.status(201).json({
         success: true,
         message: 'Staff login credentials created successfully',
         data: {
-          user,
-          temporaryPassword
+          user: {
+            id: syncResult.userId,
+            email: syncResult.email,
+            role: syncResult.role,
+          },
+          temporaryPassword: syncResult.temporaryPassword,
+          action: syncResult.action,
         }
       });
     } catch (error) {

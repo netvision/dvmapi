@@ -1,248 +1,215 @@
-<template>
-  <div>
-    <!-- Header Actions -->
-    <div class="mb-6 flex justify-between items-center">
-      <div class="flex gap-4">
-        <input
-          v-model="searchQuery"
-          type="text"
-          placeholder="Search users..."
-          class="px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-primary-500"
-          @input="handleSearch"
-        />
-        <select
-          v-model="roleFilter"
-          class="px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-primary-500"
-          @change="loadUsers"
-        >
+﻿<template>
+  <div class="space-y-5">
+
+    <!-- Page header -->
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Users</h1>
+        <p class="page-subtitle">{{ pagination.total }} total accounts</p>
+      </div>
+      <button @click="openCreateModal" class="btn-primary">
+        <Plus :size="15" />
+        Add User
+      </button>
+    </div>
+
+    <!-- Filters -->
+    <div class="card p-4">
+      <div class="flex flex-wrap gap-3">
+        <div class="relative flex-1 min-w-48">
+          <Search :size="14" class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+          <input
+            v-model="searchQuery"
+            type="text"
+            placeholder="Search usersâ€¦"
+            class="form-input pl-8"
+            @input="handleSearch"
+          />
+        </div>
+        <select v-model="roleFilter" class="form-input w-40" @change="loadUsers">
           <option value="">All Roles</option>
           <option value="admin">Admin</option>
           <option value="teacher">Teacher</option>
           <option value="student">Student</option>
           <option value="parent">Parent</option>
           <option value="staff">Staff</option>
+          <option value="user">Viewer</option>
+          <option value="librarian">Librarian</option>
         </select>
       </div>
-      
-      <button
-        @click="openCreateModal"
-        class="px-4 py-2 bg-primary-600 text-white rounded hover:bg-primary-700 transition-colors"
-      >
-        + Add User
-      </button>
     </div>
 
-    <!-- Users Table -->
-    <div class="bg-white rounded-lg shadow overflow-hidden">
-      <table class="min-w-full divide-y divide-gray-200">
-        <thead class="bg-gray-50">
-          <tr>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">First Name</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Last Name</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Role</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
-          </tr>
-        </thead>
-        <tbody class="bg-white divide-y divide-gray-200">
-          <tr v-for="user in users" :key="user.id">
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ user.id }}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ user.email }}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ user.first_name || '-' }}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ user.last_name || '-' }}</td>
-            <td class="px-6 py-4 whitespace-nowrap">
-              <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
-                {{ user.role }}
-              </span>
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap">
-              <span
-                :class="user.is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'"
-                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
-              >
-                {{ user.is_active ? 'Active' : 'Inactive' }}
-              </span>
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-              <button @click="openEditModal(user)" class="text-primary-600 hover:text-primary-900 mr-3">Edit</button>
-              <button @click="openPasswordModal(user)" class="text-blue-600 hover:text-blue-900 mr-3">Reset Password</button>
-              <button @click="toggleStatus(user)" class="text-yellow-600 hover:text-yellow-900 mr-3">
-                {{ user.is_active ? 'Suspend' : 'Activate' }}
-              </button>
-              <button @click="handleDelete(user)" class="text-red-600 hover:text-red-900">Delete</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      
+    <!-- Table -->
+    <div class="card overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Role</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="user in users" :key="user.id">
+              <td>
+                <div class="flex items-center gap-2.5">
+                  <div class="w-7 h-7 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center text-xs font-semibold flex-shrink-0">
+                    {{ (user.first_name?.[0] || user.email[0]).toUpperCase() }}
+                  </div>
+                  <div>
+                    <p class="font-medium text-slate-900">{{ user.first_name || '' }} {{ user.last_name || '' }}</p>
+                    <p class="text-xs text-slate-400">{{ user.email }}</p>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="badge" :class="getRoleClass(user.role)">{{ user.role }}</span>
+              </td>
+              <td>
+                <span class="badge" :class="user.is_active ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-500'">
+                  {{ user.is_active ? 'Active' : 'Inactive' }}
+                </span>
+              </td>
+              <td>
+                <div class="flex items-center gap-1">
+                  <button @click="openEditModal(user)" class="p-1.5 rounded-md text-slate-500 hover:bg-slate-100 hover:text-slate-700 transition-colors" title="Edit">
+                    <Pencil :size="14" />
+                  </button>
+                  <button @click="openPasswordModal(user)" class="p-1.5 rounded-md text-slate-500 hover:bg-slate-100 hover:text-slate-700 transition-colors" title="Reset password">
+                    <KeyRound :size="14" />
+                  </button>
+                  <button @click="toggleStatus(user)" class="p-1.5 rounded-md text-slate-500 hover:bg-amber-50 hover:text-amber-600 transition-colors" :title="user.is_active ? 'Suspend' : 'Activate'">
+                    <component :is="user.is_active ? ShieldOff : ShieldCheck" :size="14" />
+                  </button>
+                  <button @click="handleDelete(user)" class="p-1.5 rounded-md text-slate-500 hover:bg-red-50 hover:text-red-600 transition-colors" title="Delete">
+                    <Trash2 :size="14" />
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
       <!-- Pagination -->
-      <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200">
-        <div class="text-sm text-gray-700">
-          Showing {{ (pagination.page - 1) * pagination.limit + 1 }} to 
-          {{ Math.min(pagination.page * pagination.limit, pagination.total) }} of 
-          {{ pagination.total }} results
-        </div>
-        <div class="flex gap-2">
-          <button
-            @click="changePage(pagination.page - 1)"
-            :disabled="pagination.page === 1"
-            class="px-3 py-1 border rounded disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Previous
+      <div class="px-4 py-3 border-t border-slate-100 flex items-center justify-between">
+        <p class="text-xs text-slate-500">
+          {{ (pagination.page - 1) * pagination.limit + 1 }}â€“{{ Math.min(pagination.page * pagination.limit, pagination.total) }} of {{ pagination.total }}
+        </p>
+        <div class="flex items-center gap-2">
+          <button @click="changePage(pagination.page - 1)" :disabled="pagination.page === 1" class="btn-secondary py-1.5 px-3 disabled:opacity-40">
+            <ChevronLeft :size="14" />
           </button>
-          <button
-            @click="changePage(pagination.page + 1)"
-            :disabled="pagination.page >= pagination.totalPages"
-            class="px-3 py-1 border rounded disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Next
+          <span class="text-xs text-slate-500">{{ pagination.page }} / {{ pagination.totalPages }}</span>
+          <button @click="changePage(pagination.page + 1)" :disabled="pagination.page >= pagination.totalPages" class="btn-secondary py-1.5 px-3 disabled:opacity-40">
+            <ChevronRight :size="14" />
           </button>
         </div>
       </div>
     </div>
 
-    <!-- Password Reset Modal -->
-    <div v-if="showPasswordModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div class="bg-white rounded-lg p-8 max-w-md w-full">
-        <h3 class="text-xl font-bold mb-4">Reset Password</h3>
-        <p class="text-gray-600 mb-4">Reset password for: <strong>{{ passwordResetUser?.email }}</strong></p>
-        
-        <form @submit.prevent="handlePasswordReset">
-          <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2">New Password</label>
-            <input
-              v-model="newPassword"
-              type="password"
-              required
-              minlength="6"
-              class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-primary-500"
-              placeholder="Minimum 6 characters"
-            />
+    <!-- â”€â”€ Password Reset Modal â”€â”€ -->
+    <div v-if="showPasswordModal" class="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div class="bg-white rounded-2xl w-full max-w-sm shadow-xl">
+        <div class="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
+          <h3 class="text-base font-semibold text-slate-900">Reset Password</h3>
+          <button @click="closePasswordModal" class="text-slate-400 hover:text-slate-600 transition-colors">
+            <X :size="18" />
+          </button>
+        </div>
+        <form @submit.prevent="handlePasswordReset" class="p-6 space-y-4">
+          <p class="text-sm text-slate-500">Setting a new password for <span class="font-medium text-slate-700">{{ passwordResetUser?.email }}</span>.</p>
+          <div>
+            <label class="form-label">New Password</label>
+            <input v-model="newPassword" type="password" required minlength="6" class="form-input" placeholder="Minimum 6 characters" />
           </div>
-          
-          <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2">Confirm Password</label>
-            <input
-              v-model="confirmPassword"
-              type="password"
-              required
-              class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-primary-500"
-              placeholder="Re-enter password"
-            />
+          <div>
+            <label class="form-label">Confirm Password</label>
+            <input v-model="confirmPassword" type="password" required class="form-input" placeholder="Re-enter password" />
           </div>
-          
-          <div class="flex gap-4">
-            <button
-              type="submit"
-              class="flex-1 bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition-colors"
-            >
-              Reset Password
-            </button>
-            <button
-              type="button"
-              @click="closePasswordModal"
-              class="flex-1 bg-gray-300 text-gray-700 py-2 rounded hover:bg-gray-400 transition-colors"
-            >
-              Cancel
-            </button>
+          <div class="flex gap-3 pt-2">
+            <button type="submit" class="btn-primary flex-1 justify-center">Reset Password</button>
+            <button type="button" @click="closePasswordModal" class="btn-secondary flex-1 justify-center">Cancel</button>
           </div>
         </form>
       </div>
     </div>
 
-    <!-- User Modal -->
-    <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div class="bg-white rounded-lg p-8 max-w-md w-full">
-        <h3 class="text-xl font-bold mb-4">{{ editingUser ? 'Edit User' : 'Create User' }}</h3>
-        
-        <form @submit.prevent="handleSubmit">
-          <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2">Email</label>
-            <input
-              v-model="formData.email"
-              type="email"
-              required
-              :disabled="!!editingUser"
-              class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-primary-500"
-            />
+    <!-- â”€â”€ User Create/Edit Modal â”€â”€ -->
+    <div v-if="showModal" class="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div class="bg-white rounded-2xl w-full max-w-sm shadow-xl">
+        <div class="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
+          <h3 class="text-base font-semibold text-slate-900">{{ editingUser ? 'Edit User' : 'Create User' }}</h3>
+          <button @click="closeModal" class="text-slate-400 hover:text-slate-600 transition-colors">
+            <X :size="18" />
+          </button>
+        </div>
+        <form @submit.prevent="handleSubmit" class="p-6 space-y-4">
+          <div>
+            <label class="form-label">Email</label>
+            <input v-model="formData.email" type="email" required :disabled="!!editingUser" class="form-input" />
           </div>
-          
-          <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2">First Name</label>
-            <input
-              v-model="formData.first_name"
-              type="text"
-              class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-primary-500"
-            />
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="form-label">First Name</label>
+              <input v-model="formData.first_name" type="text" class="form-input" />
+            </div>
+            <div>
+              <label class="form-label">Last Name</label>
+              <input v-model="formData.last_name" type="text" class="form-input" />
+            </div>
           </div>
-          
-          <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2">Last Name</label>
-            <input
-              v-model="formData.last_name"
-              type="text"
-              class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-primary-500"
-            />
+          <div v-if="!editingUser">
+            <label class="form-label">Password</label>
+            <input v-model="formData.password" type="password" required class="form-input" />
           </div>
-          
-          <div v-if="!editingUser" class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2">Password</label>
-            <input
-              v-model="formData.password"
-              type="password"
-              required
-              class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-primary-500"
-            />
-          </div>
-          
-          <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2">Role</label>
-            <select
-              v-model="formData.role"
-              class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:border-primary-500"
-            >
+          <div>
+            <label class="form-label">Role</label>
+            <select v-model="formData.role" class="form-input">
               <option value="admin">Admin</option>
               <option value="teacher">Teacher</option>
               <option value="student">Student</option>
               <option value="parent">Parent</option>
               <option value="staff">Staff</option>
+              <option value="user">Viewer</option>
+              <option value="librarian">Librarian</option>
             </select>
           </div>
-          
-          <div v-if="editingUser" class="mb-4">
-            <label class="flex items-center">
-              <input v-model="formData.is_active" type="checkbox" class="mr-2" />
-              <span class="text-gray-700 text-sm font-bold">Active</span>
-            </label>
+          <div v-if="editingUser" class="flex items-center gap-2">
+            <input v-model="formData.is_active" type="checkbox" id="is_active" class="w-4 h-4 rounded border-slate-300 text-blue-600" />
+            <label for="is_active" class="text-sm text-slate-700">Active account</label>
           </div>
-          
-          <div class="flex gap-4">
-            <button
-              type="submit"
-              class="flex-1 bg-primary-600 text-white py-2 rounded hover:bg-primary-700 transition-colors"
-            >
-              {{ editingUser ? 'Update' : 'Create' }}
-            </button>
-            <button
-              type="button"
-              @click="closeModal"
-              class="flex-1 bg-gray-300 text-gray-700 py-2 rounded hover:bg-gray-400 transition-colors"
-            >
-              Cancel
-            </button>
+          <div class="flex gap-3 pt-2">
+            <button type="submit" class="btn-primary flex-1 justify-center">{{ editingUser ? 'Update' : 'Create' }}</button>
+            <button type="button" @click="closeModal" class="btn-secondary flex-1 justify-center">Cancel</button>
           </div>
         </form>
       </div>
     </div>
+
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { Plus, Search, Pencil, KeyRound, ShieldOff, ShieldCheck, Trash2, ChevronLeft, ChevronRight, X } from 'lucide-vue-next'
 import userService from '../services/user.service'
 import type { User } from '../services/auth.service'
+
+const getRoleClass = (role: string) => {
+  const classes: Record<string, string> = {
+    admin: 'bg-blue-50 text-blue-700',
+    teacher: 'bg-emerald-50 text-emerald-700',
+    student: 'bg-violet-50 text-violet-700',
+    parent: 'bg-pink-50 text-pink-700',
+    staff: 'bg-orange-50 text-orange-700',
+    user: 'bg-slate-100 text-slate-600',
+    librarian: 'bg-teal-50 text-teal-700',
+  }
+  return classes[role] || 'bg-slate-100 text-slate-600'
+}
 
 const users = ref<User[]>([])
 const pagination = ref({ page: 1, limit: 10, total: 0, totalPages: 0 })
@@ -255,7 +222,7 @@ const formData = ref({
   password: '',
   first_name: '',
   last_name: '',
-  role: 'student' as 'admin' | 'teacher' | 'student' | 'parent' | 'staff',
+  role: 'student' as 'admin' | 'teacher' | 'student' | 'parent' | 'staff' | 'user' | 'librarian',
   is_active: true
 })
 

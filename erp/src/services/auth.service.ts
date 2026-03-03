@@ -5,7 +5,7 @@ export interface User {
   email: string
   first_name: string
   last_name: string
-  role: 'admin' | 'teacher' | 'student' | 'parent' | 'staff'
+  role: 'admin' | 'teacher' | 'student' | 'parent' | 'staff' | 'user' | 'librarian'
   is_active: boolean
   created_at: string
   updated_at: string
@@ -21,7 +21,7 @@ export interface RegisterRequest {
   password: string
   first_name?: string
   last_name?: string
-  role?: 'admin' | 'teacher' | 'student' | 'parent' | 'staff'
+  role?: 'admin' | 'teacher' | 'student' | 'parent' | 'staff' | 'user' | 'librarian'
 }
 
 export interface AuthResponse {

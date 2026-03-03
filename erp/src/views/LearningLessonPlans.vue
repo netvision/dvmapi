@@ -262,6 +262,45 @@
                 </div>
               </div>
             </div>
+
+            <div class="bg-white rounded-xl border border-slate-200 overflow-hidden">
+              <div class="px-4 py-2.5 border-b border-slate-100 bg-slate-50">
+                <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Student Activities</p>
+              </div>
+              <div class="p-4">
+                <RichTextEditor v-model="lessonPlan.studentActivitiesCsv" placeholder="Describe student activities, group work, experiments…" min-height="80px" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="bg-white rounded-xl border border-slate-200 overflow-hidden">
+                <div class="px-4 py-2.5 border-b border-slate-100 bg-slate-50">
+                  <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Cross-subject Integration</p>
+                </div>
+                <div class="p-4">
+                  <textarea v-model="lessonPlan.integration" rows="2" class="form-input resize-none"
+                    placeholder="e.g. Link to Mathematics — area &amp; perimeter" />
+                </div>
+              </div>
+              <div class="bg-white rounded-xl border border-slate-200 overflow-hidden">
+                <div class="px-4 py-2.5 border-b border-slate-100 bg-slate-50">
+                  <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Library References</p>
+                </div>
+                <div class="p-4">
+                  <textarea v-model="lessonPlan.libraryReferencesCsv" rows="2" class="form-input resize-none"
+                    placeholder="e.g. NCERT Science Ch. 7, Author Name" />
+                </div>
+              </div>
+              <div class="md:col-span-2 bg-white rounded-xl border border-slate-200 overflow-hidden">
+                <div class="px-4 py-2.5 border-b border-slate-100 bg-slate-50">
+                  <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Life Lessons / Values</p>
+                </div>
+                <div class="p-4">
+                  <textarea v-model="lessonPlan.lifeLessons" rows="2" class="form-input resize-none"
+                    placeholder="e.g. Environmental responsibility, importance of conservation" />
+                </div>
+              </div>
+            </div>
           </template>
 
           <!-- ── Delivery ─────────────────────────────────────── -->
@@ -290,45 +329,6 @@
                 </div>
                 <div class="p-4">
                   <MediaUpload v-model="uploadedVideos" media-type="video" />
-                </div>
-              </div>
-            </div>
-
-            <div class="bg-white rounded-xl border border-slate-200 overflow-hidden">
-              <div class="px-4 py-2.5 border-b border-slate-100 bg-slate-50">
-                <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Student Activities</p>
-              </div>
-              <div class="p-4">
-                <RichTextEditor v-model="lessonPlan.studentActivitiesCsv" placeholder="Describe student activities, group work, experiments…" min-height="80px" />
-              </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div class="bg-white rounded-xl border border-slate-200 overflow-hidden">
-                <div class="px-4 py-2.5 border-b border-slate-100 bg-slate-50">
-                  <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Cross-subject Integration</p>
-                </div>
-                <div class="p-4">
-                  <textarea v-model="lessonPlan.integration" rows="2" class="form-input resize-none"
-                    placeholder="e.g. Link to Mathematics — area & perimeter" />
-                </div>
-              </div>
-              <div class="bg-white rounded-xl border border-slate-200 overflow-hidden">
-                <div class="px-4 py-2.5 border-b border-slate-100 bg-slate-50">
-                  <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Library References</p>
-                </div>
-                <div class="p-4">
-                  <textarea v-model="lessonPlan.libraryReferencesCsv" rows="2" class="form-input resize-none"
-                    placeholder="e.g. NCERT Science Ch. 7, Author Name" />
-                </div>
-              </div>
-              <div class="md:col-span-2 bg-white rounded-xl border border-slate-200 overflow-hidden">
-                <div class="px-4 py-2.5 border-b border-slate-100 bg-slate-50">
-                  <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Life Lessons / Values</p>
-                </div>
-                <div class="p-4">
-                  <textarea v-model="lessonPlan.lifeLessons" rows="2" class="form-input resize-none"
-                    placeholder="e.g. Environmental responsibility, importance of conservation" />
                 </div>
               </div>
             </div>
@@ -573,6 +573,43 @@
                   @change="(e) => { const f = (e.target as HTMLInputElement).files?.[0]; if (f) chapterPdfFile = f }" />
               </label>
               <p class="text-xs text-slate-400 mt-1.5">PDF only — max 20 MB</p>
+            </div>
+          </div>
+
+          <!-- XLSX Upload -->
+          <div class="bg-white rounded-xl border border-slate-200 overflow-hidden">
+            <div class="px-3 py-2 border-b border-slate-100 bg-slate-50">
+              <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Lesson Plan XLSX <span class="normal-case font-normal text-slate-300">(optional)</span></p>
+            </div>
+            <div class="p-3">
+              <!-- existing XLSX link in edit mode -->
+              <div v-if="chapterModalMode === 'edit' && chapterForm.xlsxUrl && !chapterXlsxFile"
+                class="flex items-center gap-3 mb-2 p-2.5 rounded-lg bg-emerald-50 border border-emerald-100">
+                <FileText class="w-5 h-5 text-emerald-500 flex-shrink-0" />
+                <a :href="chapterForm.xlsxUrl" target="_blank"
+                  class="text-sm text-emerald-700 truncate flex-1 hover:underline">Current XLSX</a>
+                <button type="button" @click="chapterForm.xlsxUrl = ''"
+                  class="text-emerald-400 hover:text-red-500 transition-colors" title="Remove XLSX">
+                  <X class="w-4 h-4" />
+                </button>
+              </div>
+              <!-- File selected preview -->
+              <div v-if="chapterXlsxFile" class="flex items-center gap-3 mb-2 p-2.5 rounded-lg bg-blue-50 border border-blue-100">
+                <FileText class="w-5 h-5 text-blue-500 flex-shrink-0" />
+                <span class="text-sm text-blue-700 truncate flex-1">{{ chapterXlsxFile.name }}</span>
+                <button type="button" @click="chapterXlsxFile = null; if (chapterXlsxInputRef) chapterXlsxInputRef.value = ''"
+                  class="text-blue-400 hover:text-red-500 transition-colors">
+                  <X class="w-4 h-4" />
+                </button>
+              </div>
+              <!-- Upload button -->
+              <label class="flex items-center gap-2 cursor-pointer w-fit px-3 py-2 rounded-lg border border-dashed border-slate-300 text-slate-500 text-sm hover:border-green-400 hover:text-green-600 hover:bg-green-50 transition-colors">
+                <UploadCloud class="w-4 h-4" />
+                <span>{{ chapterXlsxFile ? 'Replace XLSX' : 'Upload XLSX' }}</span>
+                <input ref="chapterXlsxInputRef" type="file" accept=".xlsx,.xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" class="sr-only"
+                  @change="(e) => { const f = (e.target as HTMLInputElement).files?.[0]; if (f) chapterXlsxFile = f }" />
+              </label>
+              <p class="text-xs text-slate-400 mt-1.5">Excel (.xlsx/.xls) only — max 10 MB</p>
             </div>
           </div>
 
@@ -941,16 +978,19 @@ const assignmentSectionsForClass = computed(() =>
 const showChapterModal    = ref(false)
 const chapterModalMode    = ref<'create' | 'edit'>('create')
 const editingChapterId    = ref('')
-const chapterForm         = ref({ chapterNo: '', title: '', description: '', pdfUrl: '' })
+const chapterForm         = ref({ chapterNo: '', title: '', description: '', pdfUrl: '', xlsxUrl: '' })
 const chapterPdfFile      = ref<File | null>(null)
 const chapterPdfUploading = ref(false)
 const chapterPdfInputRef  = ref<HTMLInputElement>()
+const chapterXlsxFile     = ref<File | null>(null)
+const chapterXlsxInputRef = ref<HTMLInputElement>()
 
 function openChapterModal() {
   chapterModalMode.value = 'create'
   editingChapterId.value = ''
-  chapterForm.value = { chapterNo: '', title: '', description: '', pdfUrl: '' }
+  chapterForm.value = { chapterNo: '', title: '', description: '', pdfUrl: '', xlsxUrl: '' }
   chapterPdfFile.value = null
+  chapterXlsxFile.value = null
   showChapterModal.value = true
 }
 
@@ -964,17 +1004,21 @@ function openChapterEditModal() {
     title:       ch.title,
     description: ch.description || '',
     pdfUrl:      ch.pdf_url || '',
+    xlsxUrl:     ch.xlsx_url || '',
   }
   chapterPdfFile.value = null
+  chapterXlsxFile.value = null
   showChapterModal.value = true
 }
 
 function closeChapterModal() {
   showChapterModal.value = false
-  chapterForm.value = { chapterNo: '', title: '', description: '', pdfUrl: '' }
+  chapterForm.value = { chapterNo: '', title: '', description: '', pdfUrl: '', xlsxUrl: '' }
   chapterPdfFile.value = null
   chapterPdfUploading.value = false
   if (chapterPdfInputRef.value) chapterPdfInputRef.value.value = ''
+  chapterXlsxFile.value = null
+  if (chapterXlsxInputRef.value) chapterXlsxInputRef.value.value = ''
 }
 
 // ── key concept modal ─────────────────────────────────────────────────
@@ -1183,12 +1227,32 @@ async function submitChapter() {
       pdfUrl = result.data.url
     }
 
+    // Upload XLSX if a new one was selected
+    let xlsxUrl: string | null = chapterModalMode.value === 'edit' ? (chapterForm.value.xlsxUrl || null) : null
+    if (chapterXlsxFile.value) {
+      chapterPdfUploading.value = true
+      const API_BASE = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api/v1').replace('/api/v1', '')
+      const token = localStorage.getItem('accessToken') || ''
+      const fd = new FormData()
+      fd.append('file', chapterXlsxFile.value)
+      const res = await fetch(`${API_BASE}/api/v1/core/upload/single?type=learning`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+        body: fd,
+      })
+      chapterPdfUploading.value = false
+      if (!res.ok) throw new Error('XLSX upload failed')
+      const result = await res.json()
+      xlsxUrl = result.data.url
+    }
+
     if (chapterModalMode.value === 'edit') {
       await learningService.updateChapter(editingChapterId.value, {
         chapterNo:   chapterForm.value.chapterNo,
         title:       chapterForm.value.title,
         description: chapterForm.value.description,
         pdf_url:     pdfUrl,
+        xlsx_url:    xlsxUrl,
       })
     } else {
       await learningService.createChapter({
@@ -1198,6 +1262,7 @@ async function submitChapter() {
         title:       chapterForm.value.title,
         description: chapterForm.value.description,
         pdf_url:     pdfUrl,
+        xlsx_url:    xlsxUrl,
       })
     }
 

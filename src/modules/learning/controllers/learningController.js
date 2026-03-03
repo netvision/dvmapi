@@ -266,13 +266,13 @@ export const learningController = {
 
   async createChapter(req, res, next) {
     try {
-      const { class_id, subject_id, chapterNo, title, description, pdf_url } = req.body;
+      const { class_id, subject_id, chapterNo, title, description, pdf_url, xlsx_url } = req.body;
 
       const result = await getPool().query(
-        `INSERT INTO learning_chapters (class_id, subject_id, chapter_no, title, description, pdf_url, created_by, updated_by)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $7)
+        `INSERT INTO learning_chapters (class_id, subject_id, chapter_no, title, description, pdf_url, xlsx_url, created_by, updated_by)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $8)
          RETURNING *`,
-        [class_id, subject_id, chapterNo, title, description || null, pdf_url || null, req.user.id]
+        [class_id, subject_id, chapterNo, title, description || null, pdf_url || null, xlsx_url || null, req.user.id]
       );
 
       res.status(201).json({ success: true, message: 'Chapter created successfully', data: result.rows[0] });
@@ -318,7 +318,7 @@ export const learningController = {
   async updateChapter(req, res, next) {
     try {
       const { id } = req.params;
-      const { chapterNo, title, description, pdf_url } = req.body;
+      const { chapterNo, title, description, pdf_url, xlsx_url } = req.body;
 
       const result = await getPool().query(
         `UPDATE learning_chapters
@@ -326,11 +326,12 @@ export const learningController = {
              title = COALESCE($2, title),
              description = COALESCE($3, description),
              pdf_url = COALESCE($4, pdf_url),
-             updated_by = $5,
+             xlsx_url = COALESCE($5, xlsx_url),
+             updated_by = $6,
              updated_at = CURRENT_TIMESTAMP
-         WHERE id = $6
+         WHERE id = $7
          RETURNING *`,
-        [chapterNo, title, description, pdf_url, req.user.id, id]
+        [chapterNo, title, description, pdf_url, xlsx_url, req.user.id, id]
       );
 
       if (result.rows.length === 0) {

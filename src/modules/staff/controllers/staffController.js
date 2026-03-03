@@ -628,7 +628,8 @@ export const staffController = {
     try {
       const pool = getPool();
 
-      const staffResult = await pool.query(
+      // First try matching by user_id, fallback to email match
+      let staffResult = await pool.query(
         `SELECT id, employee_id, first_name, last_name, designation, department, staff_type, status
          FROM staff
          WHERE CAST(user_id AS TEXT) = $1
@@ -636,8 +637,28 @@ export const staffController = {
         [String(req.user.id)]
       );
 
+      if (staffResult.rows.length === 0 && req.user.email) {
+        staffResult = await pool.query(
+          `SELECT id, employee_id, first_name, last_name, designation, department, staff_type, status
+           FROM staff
+           WHERE LOWER(email) = LOWER($1)
+           LIMIT 1`,
+          [req.user.email]
+        );
+        // Auto-link: update user_id for future lookups
+        if (staffResult.rows.length > 0) {
+          await pool.query(
+            `UPDATE staff SET user_id = $1 WHERE id = $2`,
+            [req.user.id, staffResult.rows[0].id]
+          ).catch(() => {}); // non-critical, ignore errors
+        }
+      }
+
       if (staffResult.rows.length === 0) {
-        throw new AppError('No staff profile is linked with this login', 404);
+        return res.json({
+          success: true,
+          data: { profile: null, assignments: { assigned_subjects: 0, assigned_classes: 0 }, leaves: { pending_leaves: 0, approved_leaves: 0 } }
+        });
       }
 
       const staff = staffResult.rows[0];

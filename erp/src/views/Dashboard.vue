@@ -178,10 +178,10 @@ onMounted(async () => {
     if (dashboardRole.value === 'staff') {
       const response = await staffService.getMyDashboard()
       const data = response.data
-      staffDashboard.value.designation = data.profile.designation || 'Staff'
-      staffDashboard.value.assignedSubjects = Number(data.assignments.assigned_subjects || 0)
-      staffDashboard.value.assignedClasses = Number(data.assignments.assigned_classes || 0)
-      staffDashboard.value.pendingLeaves = Number(data.leaves.pending_leaves || 0)
+      staffDashboard.value.designation = data.profile?.designation || 'Staff'
+      staffDashboard.value.assignedSubjects = Number(data.assignments?.assigned_subjects || 0)
+      staffDashboard.value.assignedClasses = Number(data.assignments?.assigned_classes || 0)
+      staffDashboard.value.pendingLeaves = Number(data.leaves?.pending_leaves || 0)
       return
     }
 

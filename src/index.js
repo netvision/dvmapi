@@ -73,6 +73,9 @@ const swaggerOptions = {
 
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
+// Trust proxy (required when behind Nginx/reverse proxy for correct IP detection)
+app.set('trust proxy', 1);
+
 // Global Middleware
 app.use(helmet({
   crossOriginResourcePolicy: { policy: "cross-origin" },

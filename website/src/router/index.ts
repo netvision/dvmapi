@@ -79,6 +79,11 @@ const routes = [
     component: () => import('../views/SportsExcellence.vue')
   },
   {
+    path: '/ncc',
+    name: 'NCC',
+    component: () => import('../views/NCC.vue')
+  },
+  {
     path: '/contact',
     name: 'Contact',
     component: () => import('../views/Contact.vue')

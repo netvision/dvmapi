@@ -118,6 +118,10 @@
                     <Image :size="16" class="mr-2" />
                     Photo Gallery
                   </router-link>
+                  <router-link to="/ncc" class="dropdown-link" @click="showStudentLifeDropdown = false">
+                    <Shield :size="16" class="mr-2" />
+                    NCC
+                  </router-link>
                   <router-link to="/transfer-certificate" class="dropdown-link" @click="showStudentLifeDropdown = false">
                     <FileText :size="16" class="mr-2" />
                     Transfer Certificate
@@ -273,6 +277,15 @@
           >
             <Image :size="18" class="mr-2" />
             Photo Gallery
+          </router-link>
+          <router-link 
+            to="/ncc" 
+            class="mobile-nav-link"
+            active-class="mobile-nav-link-active"
+            @click="closeMobileMenu"
+          >
+            <Shield :size="18" class="mr-2" />
+            NCC
           </router-link>
           <router-link 
             to="/mandatory-disclosure" 

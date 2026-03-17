@@ -262,6 +262,30 @@
               </div>
             </div>
           </swiper-slide>
+
+          <!-- Slide 11: NCC -->
+          <swiper-slide>
+            <router-link to="/ncc" class="block h-full no-underline">
+              <div class="group bg-gradient-to-br from-green-50 to-lime-50 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-green-100 h-full">
+                <div class="w-full h-32 overflow-hidden rounded-t-xl transform transition-transform duration-300 group-hover:scale-105">
+                  <img 
+                    src="/images/ncc1.jpeg" 
+                    alt="National Cadet Corps" 
+                    class="w-full h-full object-cover"
+                  />
+                </div>
+                <div class="p-4 text-center">
+                  <h3 class="text-lg font-bold text-gray-900 mb-2">National Cadet Corps</h3>
+                  <p class="text-gray-600 text-xs leading-relaxed mb-3">
+                    Building discipline, leadership, and patriotism through NCC camps and activities
+                  </p>
+                  <div class="text-green-700 font-semibold text-xs">
+                    Unity &amp; Discipline
+                  </div>
+                </div>
+              </div>
+            </router-link>
+          </swiper-slide>
         </swiper>
 
         <!-- Custom Navigation Buttons -->

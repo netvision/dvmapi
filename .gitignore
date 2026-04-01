@@ -35,3 +35,45 @@ build/
 
 # PM2
 .pm2/
+
+# Database dumps & backups
+*.dump
+*.sql.gz
+*.sql.bak
+backup-export/
+institute_db.dump
+
+# Data files (spreadsheets, PDFs, images not in public/)
+*.xlsx
+*.xls
+*.csv
+*.pdf
+*.jpeg
+*.jpg
+*.png
+*.gif
+!erp/public/**
+!website/public/**
+
+# TypeScript build info
+*.tsbuildinfo
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+
+# Temporary / one-off scripts
+push-error.txt
+setup-new-machine.ps1
+export-backup.ps1
+check-*.mjs
+check-*.js
+db-sync.js
+analyze-*.py
+fix-*.py
+import-*.py
+verify-*.py
+extract*.py
+extract*/
+extracted_*/

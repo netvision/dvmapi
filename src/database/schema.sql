@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS users (
     password VARCHAR(255) NOT NULL,
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
-    role VARCHAR(50) NOT NULL DEFAULT 'user' CHECK (role IN ('admin', 'teacher', 'student', 'librarian', 'user')),
+    role VARCHAR(50) NOT NULL DEFAULT 'user' CHECK (role IN ('admin', 'teacher', 'student', 'librarian', 'user', 'principal', 'mentor', 'class_teacher', 'accounts', 'front_desk')),
     is_active BOOLEAN DEFAULT true,
     last_login TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

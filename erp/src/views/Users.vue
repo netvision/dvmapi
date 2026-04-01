@@ -29,12 +29,15 @@
         <select v-model="roleFilter" class="form-input w-40" @change="loadUsers">
           <option value="">All Roles</option>
           <option value="admin">Admin</option>
+          <option value="principal">Principal</option>
           <option value="teacher">Teacher</option>
+          <option value="mentor">Mentor</option>
+          <option value="class_teacher">Class Teacher</option>
           <option value="student">Student</option>
-          <option value="parent">Parent</option>
-          <option value="staff">Staff</option>
-          <option value="user">Viewer</option>
           <option value="librarian">Librarian</option>
+          <option value="accounts">Accounts</option>
+          <option value="front_desk">Front Desk</option>
+          <option value="user">Viewer</option>
         </select>
       </div>
     </div>
@@ -169,12 +172,15 @@
             <label class="form-label">Role</label>
             <select v-model="formData.role" class="form-input">
               <option value="admin">Admin</option>
+              <option value="principal">Principal</option>
               <option value="teacher">Teacher</option>
+              <option value="mentor">Mentor</option>
+              <option value="class_teacher">Class Teacher</option>
               <option value="student">Student</option>
-              <option value="parent">Parent</option>
-              <option value="staff">Staff</option>
-              <option value="user">Viewer</option>
               <option value="librarian">Librarian</option>
+              <option value="accounts">Accounts</option>
+              <option value="front_desk">Front Desk</option>
+              <option value="user">Viewer</option>
             </select>
           </div>
           <div v-if="editingUser" class="flex items-center gap-2">

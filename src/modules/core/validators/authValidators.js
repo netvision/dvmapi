@@ -6,7 +6,7 @@ export const authSchemas = {
     password: Joi.string().min(6).required(),
     first_name: Joi.string().min(2).required(),
     last_name: Joi.string().min(2).required(),
-    role: Joi.string().valid('admin', 'teacher', 'student', 'librarian', 'user').optional(),
+    role: Joi.string().valid('admin', 'teacher', 'student', 'librarian', 'user', 'principal', 'mentor', 'class_teacher', 'accounts', 'front_desk').optional(),
   }),
 
   login: Joi.object({
@@ -33,7 +33,7 @@ export const userSchemas = {
   updateUser: Joi.object({
     first_name: Joi.string().min(2).optional(),
     last_name: Joi.string().min(2).optional(),
-    role: Joi.string().valid('admin', 'teacher', 'student', 'librarian', 'user').optional(),
+    role: Joi.string().valid('admin', 'teacher', 'student', 'librarian', 'user', 'principal', 'mentor', 'class_teacher', 'accounts', 'front_desk').optional(),
     is_active: Joi.boolean().optional(),
   }),
 };

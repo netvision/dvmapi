@@ -35,9 +35,16 @@ export const authController = {
 
       const user = result.rows[0];
 
+      // Add to user_roles
+      await query(
+        'INSERT INTO user_roles (user_id, role_name) VALUES ($1, $2) ON CONFLICT DO NOTHING',
+        [user.id, role]
+      );
+      const roles = [role];
+
       // Generate tokens
       const accessToken = jwt.sign(
-        { id: user.id, email: user.email, role: user.role },
+        { id: user.id, email: user.email, role: user.role, roles },
         process.env.JWT_SECRET,
         { expiresIn: process.env.JWT_EXPIRES_IN }
       );
@@ -48,6 +55,7 @@ export const authController = {
         { expiresIn: process.env.JWT_REFRESH_EXPIRES_IN }
       );
 
+      user.roles = roles;
       logger.info('User registered', { userId: user.id, email: user.email });
 
       res.status(201).json({
@@ -95,9 +103,18 @@ export const authController = {
         throw new AppError('Invalid credentials', 401);
       }
 
+      // Get all roles for this user
+      const userRolesResult = await query(
+        'SELECT role_name FROM user_roles WHERE user_id = $1 ORDER BY role_name',
+        [user.id]
+      );
+      const roles = userRolesResult.rows.length > 0
+        ? userRolesResult.rows.map(r => r.role_name)
+        : [user.role];
+
       // Generate tokens
       const accessToken = jwt.sign(
-        { id: user.id, email: user.email, role: user.role },
+        { id: user.id, email: user.email, role: user.role, roles },
         process.env.JWT_SECRET,
         { expiresIn: process.env.JWT_EXPIRES_IN }
       );
@@ -111,6 +128,7 @@ export const authController = {
       // Update last login
       await query('UPDATE users SET last_login = NOW() WHERE id = $1', [user.id]);
 
+      user.roles = roles;
       delete user.password;
 
       logger.info('User logged in', { userId: user.id, email: user.email });
@@ -154,9 +172,18 @@ export const authController = {
 
       const user = result.rows[0];
 
+      // Get all roles
+      const rolesResult = await query(
+        'SELECT role_name FROM user_roles WHERE user_id = $1 ORDER BY role_name',
+        [decoded.id]
+      );
+      const roles = rolesResult.rows.length > 0
+        ? rolesResult.rows.map(r => r.role_name)
+        : [user.role];
+
       // Generate new access token
       const accessToken = jwt.sign(
-        { id: user.id, email: user.email, role: user.role },
+        { id: user.id, email: user.email, role: user.role, roles },
         process.env.JWT_SECRET,
         { expiresIn: process.env.JWT_EXPIRES_IN }
       );
@@ -176,8 +203,12 @@ export const authController = {
   async getProfile(req, res, next) {
     try {
       const result = await query(
-        `SELECT id, email, first_name, last_name, role, is_active, created_at, last_login
-         FROM users WHERE id = $1`,
+        `SELECT u.id, u.email, u.first_name, u.last_name, u.role, u.is_active, u.created_at, u.last_login,
+                COALESCE(
+                  (SELECT array_agg(role_name ORDER BY role_name) FROM user_roles WHERE user_id = u.id),
+                  ARRAY[u.role]
+                ) as roles
+         FROM users u WHERE u.id = $1`,
         [req.user.id]
       );
 

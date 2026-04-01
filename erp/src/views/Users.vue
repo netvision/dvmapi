@@ -59,7 +59,9 @@
                 </div>
               </td>
               <td>
-                <span class="badge" :class="getRoleClass(user.role)">{{ user.role }}</span>
+                <div class="flex flex-wrap gap-1">
+                  <span v-for="r in (user.roles || [user.role])" :key="r" class="badge" :class="getRoleClass(r)">{{ r }}</span>
+                </div>
               </td>
               <td>
                 <span class="badge" :class="user.is_active ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-500'">
@@ -160,10 +162,22 @@
             <input v-model="formData.password" type="password" required class="form-input" />
           </div>
           <div>
-            <label class="form-label">Role</label>
-            <select v-model="formData.role" class="form-input">
-              <option v-for="r in availableRoles" :key="r.name" :value="r.name">{{ r.display_name }}</option>
-            </select>
+            <label class="form-label">Roles <span class="text-slate-400 text-xs">(select one or more)</span></label>
+            <div class="border border-slate-200 rounded-lg p-2 max-h-52 overflow-y-auto space-y-0.5">
+              <label
+                v-for="r in availableRoles"
+                :key="r.name"
+                class="flex items-center gap-2.5 px-2 py-1.5 rounded hover:bg-slate-50 cursor-pointer"
+              >
+                <input
+                  type="checkbox"
+                  :value="r.name"
+                  v-model="formData.roles"
+                  class="w-4 h-4 rounded border-slate-300 text-blue-600"
+                />
+                <span class="text-sm text-slate-700">{{ r.display_name }}</span>
+              </label>
+            </div>
           </div>
           <div v-if="editingUser" class="flex items-center gap-2">
             <input v-model="formData.is_active" type="checkbox" id="is_active" class="w-4 h-4 rounded border-slate-300 text-blue-600" />
@@ -212,7 +226,7 @@ const formData = ref({
   password: '',
   first_name: '',
   last_name: '',
-  role: 'student' as string,
+  roles: ['user'] as string[],
   is_active: true
 })
 
@@ -264,7 +278,7 @@ const openCreateModal = () => {
     password: '',
     first_name: '',
     last_name: '',
-    role: 'student',
+    roles: ['user'],
     is_active: true
   }
   showModal.value = true
@@ -277,7 +291,7 @@ const openEditModal = (user: User) => {
     password: '',
     first_name: user.first_name || '',
     last_name: user.last_name || '',
-    role: user.role,
+    roles: user.roles?.length ? [...user.roles] : [user.role],
     is_active: user.is_active
   }
   showModal.value = true
@@ -299,7 +313,13 @@ const handleSubmit = async () => {
         is_active: formData.value.is_active
       })
     } else {
-      await userService.createUser(formData.value)
+      await userService.createUser({
+        email: formData.value.email,
+        password: formData.value.password,
+        first_name: formData.value.first_name,
+        last_name: formData.value.last_name,
+        roles: formData.value.roles,
+      })
     }
     closeModal()
     loadUsers()

@@ -103,7 +103,7 @@ router.beforeEach((to, _from, next) => {
     next('/login')
   } else if (to.meta.requiresSuperAdmin && !authStore.isSuperAdmin) {
     next('/')
-  } else if (Array.isArray(to.meta.requiresRoles) && !to.meta.requiresRoles.includes(authStore.user?.role as string)) {
+  } else if (Array.isArray(to.meta.requiresRoles) && !to.meta.requiresRoles.some(r => authStore.user?.roles?.includes(r as string) || authStore.user?.role === r)) {
     next('/')
   } else if (to.meta.requiresAdmin && !authStore.isAdmin) {
     next('/')

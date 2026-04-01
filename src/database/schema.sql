@@ -53,6 +53,15 @@ DROP INDEX IF EXISTS idx_users_role;
 CREATE INDEX idx_users_email ON users(email);
 CREATE INDEX idx_users_role ON users(role);
 
+-- User-Roles junction table (multi-role support)
+CREATE TABLE IF NOT EXISTS user_roles (
+    user_id   UUID        NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    role_name VARCHAR(50) NOT NULL REFERENCES roles(name) ON DELETE CASCADE,
+    assigned_at TIMESTAMPTZ DEFAULT NOW(),
+    PRIMARY KEY (user_id, role_name)
+);
+CREATE INDEX IF NOT EXISTS idx_user_roles_user_id ON user_roles(user_id);
+
 -- ============================================================================
 -- LIBRARY MODULE - Books, Circulation, Catalog
 -- ============================================================================

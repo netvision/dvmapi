@@ -62,7 +62,7 @@
         </div>
         <div class="flex-1 overflow-hidden">
           <p class="text-slate-200 text-sm font-medium truncate">{{ fullName }}</p>
-          <p class="text-slate-500 text-xs capitalize truncate">{{ authStore.user?.role }}</p>
+          <p class="text-slate-500 text-xs capitalize truncate">{{ (authStore.user?.roles ?? [authStore.user?.role]).join(', ') }}</p>
         </div>
         <button @click="handleLogout" title="Logout" class="text-slate-500 hover:text-red-400 transition-colors p-1 rounded">
           <LogOut :size="15" />
@@ -81,7 +81,7 @@
         </div>
         <div class="flex items-center gap-3 text-sm text-slate-500">
           <span>{{ fullName }}</span>
-          <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs font-medium capitalize">{{ authStore.user?.role }}</span>
+          <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs font-medium capitalize">{{ (authStore.user?.roles ?? [authStore.user?.role]).join(', ') }}</span>
         </div>
       </header>
 
@@ -147,13 +147,20 @@ const userInitials = computed(() => {
   return (f + l).toUpperCase() || 'U'
 })
 
-const isTeacher = computed(() => authStore.user?.role === 'teacher')
+const isTeacher = computed(() => {
+  const roles = authStore.user?.roles
+  return roles ? roles.includes('teacher') : authStore.user?.role === 'teacher'
+})
+const hasRole = (role: string) => {
+  const roles = authStore.user?.roles
+  return roles ? roles.includes(role) : authStore.user?.role === role
+}
 
-const showAcademic   = computed(() => authStore.isAdmin || isTeacher.value || authStore.user?.role === 'user')
+const showAcademic   = computed(() => authStore.isAdmin || isTeacher.value || hasRole('user'))
 const showClasses    = computed(() => authStore.isAdmin)
-const showLearning   = computed(() => authStore.isAdmin || isTeacher.value || authStore.user?.role === 'user')
+const showLearning   = computed(() => authStore.isAdmin || isTeacher.value || hasRole('user'))
 const showAttendance = computed(() => authStore.isAdmin || isTeacher.value)
-const showExams      = computed(() => authStore.isAdmin || isTeacher.value || authStore.user?.role === 'student')
+const showExams      = computed(() => authStore.isAdmin || isTeacher.value || hasRole('student'))
 
 const pageTitle = computed(() => {
   const titles: Record<string, string> = {

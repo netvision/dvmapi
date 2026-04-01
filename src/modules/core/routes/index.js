@@ -121,68 +121,13 @@ router.post('/auth/change-password', authenticate, validate(authSchemas.changePa
  *     security:
  *       - bearerAuth: []
  */
-router.get('/users', authenticate, authorize('admin'), userController.getAllUsers);
-
-/**
- * @swagger
- * /core/users/{id}:
- *   get:
- *     summary: Get user by ID
- *     tags: [Users]
- *     security:
- *       - bearerAuth: []
- */
-router.get('/users/:id', authenticate, authorize('admin'), userController.getUserById);
-
-/**
- * @swagger
- * /core/users/{id}:
- *   put:
- *     summary: Update user (admin only)
- *     tags: [Users]
- *     security:
- *       - bearerAuth: []
- */
-router.put('/users/:id', authenticate, authorize('admin'), validate(userSchemas.updateUser), userController.updateUser);
-
-/**
- * @swagger
- * /core/users/{id}:
- *   delete:
- *     summary: Delete user (admin only)
- *     tags: [Users]
- *     security:
- *       - bearerAuth: []
- */
-router.delete('/users/:id', authenticate, authorize('admin'), userController.deleteUser);
-
-/**
- * @route   POST /api/v1/users/:id/reset-password
- * @desc    Reset user password (admin only)
- * @access  Admin
- * @openapi
- * /api/v1/users/{id}/reset-password:
- *   post:
- *     summary: Reset user password (admin only)
- *     tags: [Users]
- *     security:
- *       - bearerAuth: []
- */
-router.post('/users/:id/reset-password', authenticate, authorize('admin'), userController.resetUserPassword);
-
-/**
- * @route   PATCH /api/v1/users/:id/toggle-status
- * @desc    Toggle user active status (admin only)
- * @access  Admin
- * @openapi
- * /api/v1/users/{id}/toggle-status:
- *   patch:
- *     summary: Toggle user active/suspended status (admin only)
- *     tags: [Users]
- *     security:
- *       - bearerAuth: []
- */
-router.patch('/users/:id/toggle-status', authenticate, authorize('admin'), userController.toggleUserStatus);
+router.get('/users', authenticate, authorize('admin', 'superadmin'), userController.getAllUsers);
+router.post('/users', authenticate, authorize('admin', 'superadmin'), userController.createUser);
+router.get('/users/:id', authenticate, authorize('admin', 'superadmin'), userController.getUserById);
+router.put('/users/:id', authenticate, authorize('admin', 'superadmin'), validate(userSchemas.updateUser), userController.updateUser);
+router.delete('/users/:id', authenticate, authorize('admin', 'superadmin'), userController.deleteUser);
+router.post('/users/:id/reset-password', authenticate, authorize('admin', 'superadmin'), userController.resetUserPassword);
+router.patch('/users/:id/toggle-status', authenticate, authorize('admin', 'superadmin'), userController.toggleUserStatus);
 
 // Roles Management Routes
 router.get('/roles', authenticate, authorize('admin', 'superadmin'), rolesController.getAllRoles);

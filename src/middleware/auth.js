@@ -32,8 +32,9 @@ export const authorize = (...roles) => {
       return next(new AppError('Unauthorized', 401));
     }
 
-    if (!roles.includes(req.user.role)) {
-      logger.warn('Access denied', { user: req.user.id, requiredRoles: roles });
+    const userRoles = Array.isArray(req.user.roles) ? req.user.roles : [req.user.role];
+    if (!roles.some(r => userRoles.includes(r))) {
+      logger.warn('Access denied', { user: req.user.id, requiredRoles: roles, userRoles });
       return next(new AppError('Access denied', 403));
     }
 

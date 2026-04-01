@@ -309,7 +309,7 @@ const handleSubmit = async () => {
         email: formData.value.email,
         first_name: formData.value.first_name,
         last_name: formData.value.last_name,
-        role: formData.value.role,
+        roles: formData.value.roles,
         is_active: formData.value.is_active
       })
     } else {

@@ -14,14 +14,42 @@ const __dirname = path.dirname(__filename);
 export const runMigrations = async () => {
   try {
     const pool = getPool();
-    const schemaPath = path.join(__dirname, 'schema.sql');
-    
+
     logger.info('Running database migrations...');
-    
+
+    // 1. Run schema.sql (idempotent base schema)
+    const schemaPath = path.join(__dirname, 'schema.sql');
     const schemaSql = fs.readFileSync(schemaPath, 'utf8');
-    
     await pool.query(schemaSql);
-    
+
+    // 2. Run individual migration files in order
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS schema_migrations (
+        filename VARCHAR(255) PRIMARY KEY,
+        applied_at TIMESTAMPTZ DEFAULT NOW()
+      )
+    `);
+
+    const migrationsDir = path.join(__dirname, 'migrations');
+    const files = fs.readdirSync(migrationsDir)
+      .filter(f => f.endsWith('.sql'))
+      .sort();
+
+    for (const file of files) {
+      const applied = await pool.query(
+        'SELECT 1 FROM schema_migrations WHERE filename = $1',
+        [file]
+      );
+      if (applied.rows.length > 0) {
+        logger.info(`  skipped (already applied): ${file}`);
+        continue;
+      }
+      const sql = fs.readFileSync(path.join(migrationsDir, file), 'utf8');
+      await pool.query(sql);
+      await pool.query('INSERT INTO schema_migrations (filename) VALUES ($1)', [file]);
+      logger.info(`  ✓ applied: ${file}`);
+    }
+
     logger.info('✓ Database migrations completed successfully');
   } catch (error) {
     logger.error('Migration failed:', error);

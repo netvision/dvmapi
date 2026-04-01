@@ -768,6 +768,8 @@ export const learningController = {
            lp.improvements_for_next_time,
            lp.created_at,
            lp.updated_at,
+           lp.created_by,
+           TRIM(CONCAT(u.first_name, ' ', COALESCE(u.last_name, ''))) AS teacher_name,
            kc.title  AS key_concept_title,
            kc.total_sessions_required,
            kc.difficulty_level,
@@ -784,6 +786,7 @@ export const learningController = {
          JOIN learning_chapters    ch ON ch.id = kc.chapter_id
          JOIN classes              c  ON c.id  = ch.class_id
          JOIN subjects             s  ON s.id  = ch.subject_id
+         LEFT JOIN users           u  ON u.id  = lp.created_by
          ${whereClause}
          ORDER BY c.sequence_order, s.name, ch.chapter_no, ch.title, kc.title`,
         params

@@ -5,11 +5,11 @@
     <div class="page-header">
       <div>
         <h1 class="page-title">
-          <span v-if="isAdmin">Subject Assignments</span>
+          <span v-if="isAdmin">Lesson Plans &amp; Subject Assignments</span>
           <span v-else>Lesson Plans</span>
         </h1>
         <p class="page-subtitle">
-          <span v-if="isAdmin">Assign subjects to teachers for the current academic year.</span>
+          <span v-if="isAdmin">Manage teacher-subject assignments and view or edit all lesson plans.</span>
           <span v-else>Select your assigned subject, then manage chapters, concepts and lesson plans.</span>
         </p>
       </div>
@@ -90,9 +90,9 @@
     </section>
 
     <!-- ════════════════════════════════════════════════════════════
-         TEACHER — Chapters → Key Concepts → Lesson Plan
+         TEACHER / ADMIN — Chapters → Key Concepts → Lesson Plan
     ════════════════════════════════════════════════════════════════ -->
-    <section v-if="isTeacher" class="space-y-5">
+    <section v-if="isTeacher || isAdmin" class="space-y-5">
 
       <!-- Cascading selectors card -->
       <div class="card p-5">
@@ -419,13 +419,14 @@
       <!-- ── My Lesson Plans table ───────────────────────────────────── -->
       <div v-if="myLessonPlans.length > 0" class="card overflow-hidden mt-4">
         <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
-          <h2 class="text-base font-semibold text-slate-800">My Lesson Plans</h2>
+          <h2 class="text-base font-semibold text-slate-800">{{ isAdmin ? 'All Lesson Plans' : 'My Lesson Plans' }}</h2>
           <span class="text-xs text-slate-400">{{ myLessonPlans.length }} plan{{ myLessonPlans.length === 1 ? '' : 's' }}</span>
         </div>
         <div class="overflow-x-auto">
           <table class="data-table w-full">
             <thead>
               <tr>
+                <th v-if="isAdmin">Teacher</th>
                 <th>Class</th>
                 <th>Subject</th>
                 <th>Chapter</th>
@@ -437,6 +438,7 @@
             </thead>
             <tbody>
               <tr v-for="plan in myLessonPlans" :key="plan.id">
+                <td v-if="isAdmin" class="whitespace-nowrap text-slate-700">{{ plan.teacher_name || '—' }}</td>
                 <td class="whitespace-nowrap">{{ plan.class_display_name || plan.class_name }}</td>
                 <td class="whitespace-nowrap">{{ plan.subject_name }}</td>
                 <td class="whitespace-nowrap text-slate-500">
@@ -1440,7 +1442,7 @@ async function saveLessonPlan() {
       improvementsForNextTime: lessonPlan.value.improvementsForNextTime,
     })
     alert('Lesson plan saved successfully.')
-    if (isTeacher.value) await loadMyLessonPlans()
+    if (isTeacher.value || isAdmin.value) await loadMyLessonPlans()
   } catch (err: any) {
     alert(err?.response?.data?.message || 'Failed to save lesson plan')
   }

@@ -82,6 +82,8 @@ export interface MyLessonPlan {
   class_display_name: string | null
   subject_id: string
   subject_name: string
+  created_by: string | null
+  teacher_name: string | null
   created_at: string
   updated_at: string
 }

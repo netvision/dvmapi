@@ -929,8 +929,17 @@ import { useAuthStore } from '@/stores/auth'
 
 const authStore = useAuthStore()
 
-const isAdmin   = computed(() => authStore.user?.role === 'admin')
-const isTeacher = computed(() => authStore.user?.role === 'teacher')
+const isAdmin = computed(() => {
+  const role = authStore.user?.role
+  const roles = (authStore.user?.roles as string[]) || []
+  return role === 'admin' || role === 'superadmin' || roles.includes('admin') || roles.includes('superadmin')
+})
+const isTeacher = computed(() => {
+  if (isAdmin.value) return false
+  const role = authStore.user?.role
+  const roles = (authStore.user?.roles as string[]) || []
+  return role === 'teacher' || roles.includes('teacher')
+})
 
 // ── tabs ──────────────────────────────────────────────────────────────
 const tabs     = ['Planning', 'Delivery', 'Evaluation', 'Reflection']
@@ -1093,6 +1102,7 @@ onMounted(async () => {
   if (isAdmin.value) {
     await loadAssignmentOptions()
     await loadTeacherAssignments()
+    await loadMyLessonPlans()
   }
   if (isTeacher.value) {
     await loadMyLessonPlans()

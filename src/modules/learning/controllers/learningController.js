@@ -1,8 +1,17 @@
 import { getPool } from '../../../database/connection.js';
 import { AppError } from '../../../middleware/errorHandler.js';
 
-const isAdmin = (user) => user?.role === 'admin';
-const isTeacher = (user) => user?.role === 'teacher';
+const isAdmin = (user) => {
+  const role = user?.role;
+  const roles = user?.roles || [];
+  return role === 'admin' || role === 'superadmin' || roles.includes('admin') || roles.includes('superadmin');
+};
+const isTeacher = (user) => {
+  if (isAdmin(user)) return false;
+  const role = user?.role;
+  const roles = user?.roles || [];
+  return role === 'teacher' || roles.includes('teacher');
+};
 
 const getCurrentAcademicYearId = async () => {
   const result = await getPool().query(

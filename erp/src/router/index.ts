@@ -87,7 +87,7 @@ const router = createRouter({
           path: 'learning',
           name: 'Learning',
           component: () => import('../views/LearningLessonPlans.vue'),
-          meta: { requiresRoles: ['admin', 'teacher'] }
+          meta: { requiresRoles: ['admin', 'superadmin', 'teacher'] }
         }
       ]
     }

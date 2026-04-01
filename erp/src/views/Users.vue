@@ -28,16 +28,7 @@
         </div>
         <select v-model="roleFilter" class="form-input w-40" @change="loadUsers">
           <option value="">All Roles</option>
-          <option value="admin">Admin</option>
-          <option value="principal">Principal</option>
-          <option value="teacher">Teacher</option>
-          <option value="mentor">Mentor</option>
-          <option value="class_teacher">Class Teacher</option>
-          <option value="student">Student</option>
-          <option value="librarian">Librarian</option>
-          <option value="accounts">Accounts</option>
-          <option value="front_desk">Front Desk</option>
-          <option value="user">Viewer</option>
+          <option v-for="r in availableRoles" :key="r.name" :value="r.name">{{ r.display_name }}</option>
         </select>
       </div>
     </div>
@@ -171,16 +162,7 @@
           <div>
             <label class="form-label">Role</label>
             <select v-model="formData.role" class="form-input">
-              <option value="admin">Admin</option>
-              <option value="principal">Principal</option>
-              <option value="teacher">Teacher</option>
-              <option value="mentor">Mentor</option>
-              <option value="class_teacher">Class Teacher</option>
-              <option value="student">Student</option>
-              <option value="librarian">Librarian</option>
-              <option value="accounts">Accounts</option>
-              <option value="front_desk">Front Desk</option>
-              <option value="user">Viewer</option>
+              <option v-for="r in availableRoles" :key="r.name" :value="r.name">{{ r.display_name }}</option>
             </select>
           </div>
           <div v-if="editingUser" class="flex items-center gap-2">
@@ -202,6 +184,7 @@
 import { ref, onMounted } from 'vue'
 import { Plus, Search, Pencil, KeyRound, ShieldOff, ShieldCheck, Trash2, ChevronLeft, ChevronRight, X } from 'lucide-vue-next'
 import userService from '../services/user.service'
+import { apiClient } from '../api/client'
 import type { User } from '../services/auth.service'
 
 const getRoleClass = (role: string) => {
@@ -223,12 +206,13 @@ const searchQuery = ref('')
 const roleFilter = ref('')
 const showModal = ref(false)
 const editingUser = ref<User | null>(null)
+const availableRoles = ref<{ name: string; display_name: string }[]>([])
 const formData = ref({
   email: '',
   password: '',
   first_name: '',
   last_name: '',
-  role: 'student' as 'admin' | 'teacher' | 'student' | 'parent' | 'staff' | 'user' | 'librarian',
+  role: 'student' as string,
   is_active: true
 })
 
@@ -238,8 +222,14 @@ const passwordResetUser = ref<User | null>(null)
 const newPassword = ref('')
 const confirmPassword = ref('')
 
-onMounted(() => {
+onMounted(async () => {
   loadUsers()
+  try {
+    const res = await apiClient.get('/core/roles')
+    availableRoles.value = res.data.data
+  } catch {
+    // fallback — leave empty; static options already gone
+  }
 })
 
 const loadUsers = async () => {

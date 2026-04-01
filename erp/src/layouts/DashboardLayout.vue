@@ -41,6 +41,7 @@
           <NavItem to="/students" :icon="GraduationCap"  label="Students"        :active="$route.path === '/students'" />
           <NavItem to="/staff"    :icon="Briefcase"      label="Staff"           :active="$route.path === '/staff'" />
           <NavItem to="/users"    :icon="UserCog"        label="Users"           :active="$route.path === '/users'" />
+          <NavItem v-if="authStore.isSuperAdmin" to="/roles" :icon="Shield" label="Roles" :active="$route.path === '/roles'" />
         </div>
 
         <!-- Communication -->
@@ -101,7 +102,7 @@ import { useAuthStore } from '../stores/auth'
 import {
   LayoutDashboard, BookOpen, School, CalendarCheck, FileBarChart2,
   GraduationCap, Briefcase, UserCog, Newspaper, CalendarDays,
-  Trophy, MessageSquare, LogOut
+  Trophy, MessageSquare, LogOut, Shield
 } from 'lucide-vue-next'
 
 const router = useRouter()
@@ -167,7 +168,8 @@ const pageTitle = computed(() => {
     '/staff': 'Staff',
     '/classes': 'Classes & Sections',
     '/learning': 'Lesson Plans',
-    '/contact-messages': 'Contact Messages'
+    '/contact-messages': 'Contact Messages',
+    '/roles': 'Role Management'
   }
   return titles[route.path] || 'ERP'
 })

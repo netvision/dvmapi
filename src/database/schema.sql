@@ -8,6 +8,31 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 -- CORE MODULE - Users, Authentication, Roles
 -- ============================================================================
 
+-- Roles table (dynamic role management by superadmin)
+CREATE TABLE IF NOT EXISTS roles (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    name VARCHAR(50) UNIQUE NOT NULL,
+    display_name VARCHAR(100) NOT NULL,
+    description TEXT,
+    is_system BOOLEAN DEFAULT false,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO roles (name, display_name, description, is_system) VALUES
+  ('superadmin',    'Super Admin',   'Full system access including role management', true),
+  ('admin',         'Admin',         'Full system access and user management',       true),
+  ('teacher',       'Teacher',       'Teaching staff',                               true),
+  ('student',       'Student',       'Student accounts',                             true),
+  ('librarian',     'Librarian',     'Library management access',                    true),
+  ('user',          'Viewer',        'Basic authenticated read-only access',         true),
+  ('principal',     'Principal',     'School principal',                             false),
+  ('mentor',        'Mentor',        'Student mentor',                               false),
+  ('class_teacher', 'Class Teacher', 'Class teacher with attendance access',         false),
+  ('accounts',      'Accounts',      'Accounts and finance department',              false),
+  ('front_desk',    'Front Desk',    'Reception and front desk staff',               false)
+ON CONFLICT (name) DO NOTHING;
+
 -- Users table
 CREATE TABLE IF NOT EXISTS users (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -15,7 +40,7 @@ CREATE TABLE IF NOT EXISTS users (
     password VARCHAR(255) NOT NULL,
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
-    role VARCHAR(50) NOT NULL DEFAULT 'user' CHECK (role IN ('admin', 'teacher', 'student', 'librarian', 'user', 'principal', 'mentor', 'class_teacher', 'accounts', 'front_desk')),
+    role VARCHAR(50) NOT NULL DEFAULT 'user',
     is_active BOOLEAN DEFAULT true,
     last_login TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

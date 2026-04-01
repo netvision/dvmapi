@@ -21,6 +21,12 @@ const router = createRouter({
           component: () => import('../views/Dashboard.vue')
         },
         {
+          path: 'roles',
+          name: 'Roles',
+          component: () => import('../views/Roles.vue'),
+          meta: { requiresSuperAdmin: true }
+        },
+        {
           path: 'users',
           name: 'Users',
           component: () => import('../views/Users.vue'),
@@ -95,6 +101,8 @@ router.beforeEach((to, _from, next) => {
 
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     next('/login')
+  } else if (to.meta.requiresSuperAdmin && !authStore.isSuperAdmin) {
+    next('/')
   } else if (Array.isArray(to.meta.requiresRoles) && !to.meta.requiresRoles.includes(authStore.user?.role as string)) {
     next('/')
   } else if (to.meta.requiresAdmin && !authStore.isAdmin) {

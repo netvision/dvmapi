@@ -2,9 +2,10 @@ import express from 'express';
 import { authController } from '../controllers/authController.js';
 import { userController } from '../controllers/userController.js';
 import { uploadController } from '../controllers/uploadController.js';
+import { rolesController } from '../controllers/rolesController.js';
 import { authenticate, authorize } from '../../../middleware/auth.js';
 import { validate } from '../../../middleware/validator.js';
-import { authSchemas, userSchemas } from '../validators/authValidators.js';
+import { authSchemas, userSchemas, roleSchemas } from '../validators/authValidators.js';
 
 const router = express.Router();
 
@@ -182,6 +183,12 @@ router.post('/users/:id/reset-password', authenticate, authorize('admin'), userC
  *       - bearerAuth: []
  */
 router.patch('/users/:id/toggle-status', authenticate, authorize('admin'), userController.toggleUserStatus);
+
+// Roles Management Routes
+router.get('/roles', authenticate, authorize('admin', 'superadmin'), rolesController.getAllRoles);
+router.post('/roles', authenticate, authorize('superadmin'), validate(roleSchemas.create), rolesController.createRole);
+router.put('/roles/:id', authenticate, authorize('superadmin'), validate(roleSchemas.update), rolesController.updateRole);
+router.delete('/roles/:id', authenticate, authorize('superadmin'), rolesController.deleteRole);
 
 // Upload routes (authenticated users only)
 /**
